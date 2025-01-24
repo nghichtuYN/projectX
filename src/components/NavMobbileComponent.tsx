@@ -24,10 +24,15 @@ export const NavMobbileComponent = ({ open, setOpen }: Props) => {
   };
   return (
     <>
-      <Collapsible open={open} onOpenChange={setOpen} className="w-full p-3 ">
+      <Collapsible
+        open={open}
+        onOpenChange={setOpen}
+        className={cn("w-full",open?"pt-2":"")}
+      >
         <CollapsibleContent
           className={cn(
-            " rounded-md bg-white  border-t-2 transition-all data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down"
+            " rounded-md bg-white overflow-hidden border-t-2 transition-all ml-3 mr-3 mb-3 shadow-md",
+            " data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down"
           )}
         >
           <Accordion type="single" collapsible className="w-full">

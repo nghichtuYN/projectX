@@ -18,7 +18,7 @@ export default {
         secondaryColor: "#4A47A3",
         thirdColor: "#709FB0",
         fourthColor: "#A7C5EB",
-        hoverColor: "#eb21d0",
+        hoverColor: "#F7D774",
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
@@ -89,5 +89,6 @@ export default {
       },
     },
   },
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   plugins: [require("tailwindcss-animate")],
 } satisfies Config;

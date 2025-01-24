@@ -1,7 +1,18 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**.googleusercontent.com", // Cho phép domain của Google (ảnh trên Google Drive, Google Photos)
+      },
+      {
+        protocol: "https",
+        hostname: "**.google.com", // Thêm domain khác nếu cần
+      },
+    ],
+  },
 };
 
 export default nextConfig;

@@ -10,7 +10,7 @@ import { NavMobbileComponent } from "./NavMobbileComponent";
 const Header = () => {
   const [open, setOpen] = React.useState<boolean>(false);
   return (
-    <header className="bg-white shadow-sm w-full">
+    <header className="bg-white shadow-sm w-full lg:fixed top-0 right-0 left-0 z-50">
       <div className=" mx-auto px-4 bg-secondaryColor text-white w-full ">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center space-x-8">
@@ -26,8 +26,7 @@ const Header = () => {
       </div>
       <div
         className={cn(
-          "bg-accent duration-1000  transition-all  ease-in-out",
-          open ? "block" : "hidden"
+          "bg-accent"
         )}
       >
         <NavMobbileComponent open={open} setOpen={setOpen} />

@@ -1,31 +1,37 @@
 import React from "react";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
-import { Search } from "lucide-react";
+
+import JobTypeComponent from "./JobTypeComponent";
+import LocatonComponent from "./LocatonComponent";
+import SearchPositionComponent from "./SearchPositionComponent";
+import ButtonSearchComponent from "./ButtonSearchComponent";
+import ListJobComponent from "./ListJobComponent";
+import ImageCaruelComponent from "./ImageCaruelComponent";
 const SearchFilter = () => {
   return (
-    <div className="container mx-auto px-32 py-8 bg-searchBackground">
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-        <div className="relative md:col-span-5">
-          <Input
-            type="text"
-            placeholder="Position, company name"
-            className="w-full pl-4 pr-12 h-12 rounded-lg bg-white"
-          />
-          <Button className="absolute right-0 top-0 h-full px-6 bg-red-500 hover:bg-red-600 rounded-l-none">
-            <Search className="h-5 w-5" />
-            <span className="ml-2">Search</span>
-          </Button>
+    <section className=" mx-auto py-8 px-2 bg-primaryColor h-auto place-items-center ">
+      <div className=" grid grid-cols-10 items-center  min-w-80 xl:w-[1145px]  md:min-w-[600px] bg-white  max-h-20 h-13 rounded-3xl h-14">
+        <div className="hidden lg:block p-1 lg:col-span-2">
+          <JobTypeComponent />
         </div>
-
-        <Select>
+        <div className="search-filter mr-5 col-span-8 rounded-3xl  lg:col-span-6">
+          <SearchPositionComponent />
+        </div>
+        <div className="lg:col-span-1 hidden lg:block ml-2">
+          <LocatonComponent />
+        </div>
+        <div className="ml-1 col-span-2 flex justify-end lg:col-span-1 ">
+          <ButtonSearchComponent />
+        </div>
+      </div>
+      <div className="flex gap-1 justify-start  lg:max-w-[1145px] xl:w-[1145px] pt-2 max-w-[600px]">
+        <div className="hidden lg:block">
+          <ListJobComponent />
+        </div>
+        <div className="flex justify-start w-full">
+          <ImageCaruelComponent />
+        </div>
+      </div>
+      {/* <Select>
           <SelectTrigger className="w-full bg-white">
             <SelectValue placeholder="Location" />
           </SelectTrigger>
@@ -71,9 +77,9 @@ const SearchFilter = () => {
 
         <Button variant="outline" className="w-full bg-white">
           Reset filter
-        </Button>
-      </div>
-    </div>
+        </Button> */}
+      {/* </div> */}
+    </section>
   );
 };
 
