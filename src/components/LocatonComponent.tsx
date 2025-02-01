@@ -39,7 +39,7 @@ const LocatonComponent = () => {
             size={"lg"}
             aria-expanded={open}
             className={cn(
-              "bg-accent font-semibold max-w-[145px] w-full overflow-hidden  leading-6 p-2 rounded-2xl",
+              "bg-accent font-semibold w-full overflow-hidden  leading-6 p-2 rounded-2xl",
               "focus:border-secondaryColor active:border-secondaryColor active:text-secondaryColor hover:text-secondaryColor shadow-md",
               open ? "text-secondaryColor border-secondaryColor" : ""
             )}

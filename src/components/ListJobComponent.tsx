@@ -26,7 +26,6 @@ const ListJobComponent = () => {
 
   const handleCategoryClick = (value: string) => {
     console.log(`Category clicked: ${value}`);
-    // Here you can add logic to handle the category selection
   };
 
   return (
@@ -55,7 +54,7 @@ const ListJobComponent = () => {
               variant="outline"
               size="icon"
               className={cn(
-                "h-8 w-8 rounded-full",
+                "h-8 w-8 rounded-full hover:bg-secondaryColor hover:text-white",
                 currentPage + 1 !== 1
                   ? "text-secondaryColor border-secondaryColor"
                   : ""
@@ -63,8 +62,7 @@ const ListJobComponent = () => {
               disabled={currentPage + 1 === 1}
               onClick={prevPage}
             >
-              <ChevronLeft className="h-4 w-4" />
-              <span className="sr-only">Previous page</span>
+              <ChevronLeft className="h-4 w-4 " />
             </Button>
 
             <Button
@@ -72,15 +70,14 @@ const ListJobComponent = () => {
               size="icon"
               disabled={currentPage + 1 === pageCount}
               className={cn(
-                "h-8 w-8 rounded-full",
+                "h-8 w-8 rounded-full hover:bg-secondaryColor hover:text-white",
                 currentPage + 1 !== pageCount
                   ? "text-secondaryColor border-secondaryColor"
                   : ""
               )}
               onClick={nextPage}
             >
-              <ChevronRight className="h-4 w-4" />
-              <span className="sr-only">Next page</span>
+              <ChevronRight className="h-4 w-4 " />
             </Button>
           </div>
         </div>

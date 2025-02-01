@@ -11,6 +11,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "**.google.com", // Thêm domain khác nếu cần
       },
+      {
+        protocol: "https",
+        hostname: "**.incnow.com", // Thêm domain khác nếu cần
+      },
     ],
   },
 };

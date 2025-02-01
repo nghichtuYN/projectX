@@ -7,7 +7,7 @@ const ButtonSearchComponent = () => {
     <div className="mr-3">
       <Button className="lg:p-1 bg-secondaryColor font-semibold hover:bg-white hover:border-secondaryColor hover:text-secondaryColor rounded-2xl">
         <Search className="h-5 w-5" />
-        <div className="hidden md:block ">Tìm kiếm</div>
+        <div className="hidden lg:block mr-1 ">Tìm kiếm</div>
       </Button>
     </div>
   );
