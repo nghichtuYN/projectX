@@ -52,7 +52,7 @@ const SearchFilter = () => {
       </div>
 
       {/* Content Section */}
-      <div className="flex flex-col lg:flex-row gap-4 justify-between w-4/5 mx-auto pt-4">
+      <div className="flex lg:flex-row gap-2 w-4/5 mx-auto pt-4">
         {/* List Job Component */}
         <div className="hidden lg:block lg:w-1/3">
           <ListJobComponent />

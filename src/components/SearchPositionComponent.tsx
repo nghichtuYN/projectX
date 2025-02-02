@@ -1,16 +1,17 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Command, CommandItem } from "@/components/ui/command";
+import { Command } from "@/components/ui/command";
 import { Input } from "@/components/InputComponent";
 import { CommandList } from "cmdk";
 import { cn } from "@/lib/utils";
 
 import SelectTypeSearchComponent from "./SelectTypeSearchComponent";
 import { PopularKeySearch } from "@/lib/PopularKeySearch";
-import { TrendingUp, X } from "lucide-react";
-import JobCardComponent from "./JobCardComponent";
-import { Button } from "./ui/button";
+import PopularKeySearchComponent from "./PopularKeySearchComponent";
+import RecentSearchKeyComponent from "./RecentSearchKeyComponent";
+import FilterResultComponent from "./FilterResultComponent";
+import JobInterestComponent from "./JobInterestComponent";
 
 const searchData = [
   { id: 1, name: "iPhone 15 Pro" },
@@ -110,122 +111,31 @@ export default function SearchPositionComponent() {
                   <hr />
                   {search === "" ? (
                     history?.length < 1 ? (
-                      <div className="mt-2 ml-3">
-                        <p className="text-lg">Từ khóa phổ biến</p>
-                        {PopularKeySearch?.map((keySearch, index) => (
-                          <div
-                            className="flex gap-5 pt-3 lowercase hover:bg-accent"
-                            key={index}
-                          >
-                            <TrendingUp color="brown" size={22} /> {keySearch}
-                          </div>
-                        ))}
-                      </div>
+                      <PopularKeySearchComponent
+                        PopularKeySearch={PopularKeySearch}
+                      />
                     ) : (
-                      <div>
-                        <div className="flex justify-between items-center p-2 text-sm text-gray-500">
-                          Từ khóa tìm kiếm gần đây
-                          <span
-                            onClick={() => {
-                              clearHistory();
-                              setOpen(true);
-                            }}
-                            className=" bg-white text-center text-red-500 py-2 "
-                          >
-                            Xóa tất cả
-                          </span>
-                        </div>
-                        {history.map((item) => (
-                          <CommandItem
-                            key={item}
-                            onSelect={() => {
-                              setSearch(item);
-                              inputRef.current?.focus();
-                            }}
-                            className="flex justify-between cursor-pointer px-3 py-2 hover:bg-gray-100"
-                          >
-                            {item}
-                            <Button
-                              className="bg-white border-none outline-none shadow-none text-gray-500 hover:text-red-500 hover:bg-white"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                removeHistoryItem(item);
-                              }}
-                            >
-                              <X />
-                            </Button>
-                          </CommandItem>
-                        ))}
-                      </div>
+                      <RecentSearchKeyComponent
+                        clearHistory={clearHistory}
+                        setOpen={setOpen}
+                        inputRef={inputRef}
+                        history={history}
+                        setSearch={setSearch}
+                        removeHistoryItem={removeHistoryItem}
+                      />
                     )
-                  ) : filteredResults?.length > 0 ? (
-                    filteredResults.map((item) => (
-                      <CommandItem
-                        key={item.id}
-                        onSelect={() => {
-                          setSearch(item.name);
-                          setOpen(false);
-                          inputRef.current?.focus();
-                        }}
-                        className="cursor-pointer px-3 py-2 hover:bg-gray-100"
-                      >
-                        {item.name}
-                      </CommandItem>
-                    ))
                   ) : (
-                    <CommandItem disabled className="px-3 py-2">
-                      Không tìm thấy kết quả
-                    </CommandItem>
+                    <FilterResultComponent
+                      filteredResults={filteredResults}
+                      setSearch={setSearch}
+                      setOpen={setOpen}
+                      inputRef={inputRef}
+                    />
                   )}
                 </div>
 
-                {/* Cột Kết quả tìm kiếm */}
                 <div className="lg:w-3/5 mt-2">
-                  <p className="text-lg ml-2">Việc làm có thể bạn quan tâm</p>
-                  <div className="md:h-[475px] m-3 md:overflow-y-scroll">
-                    <JobCardComponent
-                      companyImage="a"
-                      jD="aaaaaaaaaaa"
-                      jobSalary="12222222"
-                      posistion="Leader"
-                    />
-                    <JobCardComponent
-                      companyImage="a"
-                      jD="aaaaaaaaaaa"
-                      jobSalary="12222222"
-                      posistion="Leader"
-                    />
-                    <JobCardComponent
-                      companyImage="a"
-                      jD="aaaaaaaaaaa"
-                      jobSalary="12222222"
-                      posistion="Leader"
-                    />
-                    <JobCardComponent
-                      companyImage="a"
-                      jD="aaaaaaaaaaa"
-                      jobSalary="12222222"
-                      posistion="Leader"
-                    />
-                    <JobCardComponent
-                      companyImage="a"
-                      jD="aaaaaaaaaaa"
-                      jobSalary="12222222"
-                      posistion="Leader"
-                    />
-                    <JobCardComponent
-                      companyImage="a"
-                      jD="aaaaaaaaaaa"
-                      jobSalary="12222222"
-                      posistion="Leader"
-                    />
-                    <JobCardComponent
-                      companyImage="a"
-                      jD="aaaaaaaaaaa"
-                      jobSalary="12222222"
-                      posistion="Leader"
-                    />
-                  </div>
+                  <JobInterestComponent />
                 </div>
               </div>
             </CommandList>

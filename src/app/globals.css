@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  font-family: Inter,sans-serif;
+  font-family: Inter, sans-serif;
 }
 body.moving {
   transition: transform 0.3s ease-in-out;
@@ -74,7 +74,6 @@ body.moving-up {
   }
 }
 
-
 @layer base {
   * {
     @apply border-border;
@@ -82,4 +81,9 @@ body.moving-up {
   body {
     @apply bg-background text-foreground;
   }
+}
+.S9gUrf-YoZ4jf {
+  border: none;
+  padding: 0;
+  margin-left: 90px !important;
 }

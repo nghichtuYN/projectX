@@ -8,11 +8,9 @@ export default function MainLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="relative">
+    <div>
       <Header />
-      <div className="main-layout lg:mt-12">
-        {children}
-      </div>
+      <div className="main-layout lg:mt-12">{children}</div>
     </div>
   );
 }

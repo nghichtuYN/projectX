@@ -6,8 +6,8 @@ export default function AuthLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={` antialiased`}>{children}</body>
-    </html>
+    <div>
+      <div className="auth-layout ">{children}</div>
+    </div>
   );
 }

@@ -15,6 +15,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "**.incnow.com", // Thêm domain khác nếu cần
       },
+      {
+        protocol: "https",
+        hostname: "**.vercel-storage.com", // Thêm domain khác nếu cần
+      },
     ],
   },
 };

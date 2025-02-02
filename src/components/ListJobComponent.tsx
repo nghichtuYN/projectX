@@ -29,18 +29,18 @@ const ListJobComponent = () => {
   };
 
   return (
-    <Card className="w-[330px] mx-auto">
-      <CardContent className="pt-2">
+    <Card className="w-full  mx-auto">
+      <CardContent className="pt-2 w-full">
         <div className="">
           {currentJobTypes.map((category) => (
             <Button
               key={category.value}
               variant="ghost"
-              className="w-full pt-2 pr-0 font-semibold justify-between mr-4 pb-2 text-left leading-5 hover:bg-transparent hover:text-secondaryColor hover:underline"
+              className="w-full pt-2 pr-0   font-semibold justify-between mr-4 pb-2 text-left leading-5 hover:bg-transparent hover:text-secondaryColor hover:underline"
               onClick={() => handleCategoryClick(category.value)}
             >
-              {category.label}
-              <ChevronRight/>
+              <p title={category?.label} className="w-4/5 overflow-hidden text-ellipsis ">{category.label}</p>
+              <ChevronRight />
             </Button>
           ))}
         </div>

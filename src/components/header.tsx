@@ -12,10 +12,10 @@ const Header = () => {
   const [open, setOpen] = React.useState<boolean>(false);
   return (
     <header className="bg-white shadow-sm w-full lg:fixed top-0 right-0 left-0 z-50">
-      <div className=" mx-auto px-4 bg-secondaryColor text-white w-full ">
+      <div className=" mx-auto  bg-secondaryColor text-white w-full ">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center space-x-8">
-            <h1 className="text-xl font-bold">
+            <h1 className="text-xl font-bold ml-2">
               <Link href={"/"}>Project X</Link>
             </h1>
             <NavMenuComponent />
