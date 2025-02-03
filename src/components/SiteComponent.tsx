@@ -26,7 +26,7 @@ const SiteComponent = () => {
           <span className="p-0 m-0 text-xs font-normal text-fourthColor leading-4">
             Bạn là nhà tuyển dụng?
           </span>
-          <Link href={"/login"} className="p-0 m-0 text-sm font-normal flex items-center hover:text-hoverColor text-thirdColor leading-3">
+          <Link href={"/employer-login"} className="p-0 m-0 text-sm font-normal flex items-center hover:text-hoverColor text-thirdColor leading-3">
             Đăng tuyển ngay <ChevronsRight />
           </Link>
         </div>

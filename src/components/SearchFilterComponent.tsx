@@ -8,6 +8,7 @@ import ListJobComponent from "./ListJobComponent";
 import ImageCaruelComponent from "./ImageCaruelComponent";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+
 const SearchFilter = () => {
   const pathname = usePathname();
 

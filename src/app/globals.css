@@ -87,3 +87,17 @@ body.moving-up {
   padding: 0;
   margin-left: 90px !important;
 }
+.ql-editor {
+  font-family: "Arial", sans-serif;  /* Hoặc font khác bạn muốn */
+}
+
+/* Thêm các quy tắc riêng cho h1, p nếu cần */
+.ql-editor h1 {
+  font-size: 2rem;
+}
+.ql-editor h2 {
+  font-size: 1.5rem;
+}
+.ql-editor h3 {
+  font-size: 1.17rem ;
+}

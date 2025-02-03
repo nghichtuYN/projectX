@@ -36,7 +36,7 @@ const formSchema = z.object({
   }),
 });
 
-export function LoginForm({
+export function EmployerLoginForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
@@ -78,6 +78,14 @@ export function LoginForm({
         <CardContent>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              {/* <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
+                <span className="relative z-10 bg-background px-2 text-muted-foreground">
+                  Hoặc tiếp tục bằng
+                </span>
+              </div> */}
+              <div className=" space-y-4 space-x-4">
+                <GoogleLoginButton />
+              </div>
               <div className="space-y-4">
                 <FormField
                   control={form.control}
@@ -94,7 +102,7 @@ export function LoginForm({
                             errors.email &&
                               "border-red-500 focus-visible:ring-red-500"
                           )}
-                          placeholder="m@example.com"
+                          placeholder="Email"
                           {...field}
                         />
                       </FormControl>
@@ -149,23 +157,19 @@ export function LoginForm({
                     </FormItem>
                   )}
                 />
-                <Button type="submit" className="w-full font-semibold hover:bg-white hover:text-secondaryColor hover:outline-secondaryColor  text-white" disabled={isLoading}>
+                <Button
+                  type="submit"
+                  className="w-full font-semibold hover:bg-white hover:text-secondaryColor hover:outline-secondaryColor  text-white"
+                  disabled={isLoading}
+                >
                   {isLoading ? "Đang đăng nhập..." : "Đăng nhập"}
                 </Button>
-              </div>
-              <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
-                <span className="relative z-10 bg-background px-2 text-muted-foreground">
-                  Hoặc tiếp tục bằng
-                </span>
-              </div>
-              <div className=" space-y-4 space-x-4">
-                <GoogleLoginButton />
               </div>
 
               <div className="text-center text-sm">
                 Chưa có tài khoản?{" "}
                 <a
-                  href="/register"
+                  href="/employer-register"
                   className="text-secondaryColor hover:underline"
                 >
                   Đăng ký ngay
