@@ -1,10 +1,8 @@
 "use client";
-
-import { useState, useRef, useEffect } from "react";
-
+import { Search } from "lucide-react";
+import React, { useEffect, useRef, useState } from "react";
 import { Input } from "./ui/input";
 import SearchPopoverComponent from "./SearchPopoverComponent";
-
 const searchData = [
   { id: 1, name: "iPhone 15 Pro" },
   { id: 2, name: "MacBook Pro M3" },
@@ -13,7 +11,7 @@ const searchData = [
   { id: 5, name: "AirPods Pro 2" },
 ];
 
-export default function SearchPositionComponent() {
+const SearchPositonDetailPageComponent = () => {
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState(false);
   const [history, setHistory] = useState<string[]>([]);
@@ -77,16 +75,16 @@ export default function SearchPositionComponent() {
     item.name.toLowerCase().includes(search.toLowerCase())
   );
   return (
-    <div className=" pr-6">
+    <div className="w-4/6 pl-1 flex items-center border-r-2">
+      <Search className="h-4 w-4 text-muted-foreground" />
       <Input
         ref={inputRef}
         placeholder={placeHolderInput}
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         onFocus={() => setOpen(true)}
-        className="w-full  h-11 border-none focus-visible:ring-0 placeholder:font-medium rounded-3xl bg-accent md:p-2 "
+        className="border-none focus-visible:ring-0 placeholder:font-medium"
       />
-
       {open && (
         <SearchPopoverComponent
           commandRef={commandRef}
@@ -102,4 +100,6 @@ export default function SearchPositionComponent() {
       )}
     </div>
   );
-}
+};
+
+export default SearchPositonDetailPageComponent;

@@ -7,7 +7,7 @@ const SelectTypeSearchComponent = () => {
     <>
       <div className=" m-3 flex gap-4 ">
         <p className="font-semibold">Tìm kiếm theo:</p>
-        <RadioGroup className="flex gap-6 " defaultValue="jobs">
+        <RadioGroup className="grid-cols-3 gap-6 " defaultValue="jobs">
           <div className="flex items-center space-x-2 ">
             <RadioGroupItem value="jobs" id="r1" />
             <Label htmlFor="r1">Tên việc làm</Label>
