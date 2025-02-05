@@ -8,7 +8,7 @@ import GoogleLoginButton from "@/components/GoogleLoginButton";
 
 const EmployerRegisterPage = () => {
   return (
-    <div className="grid min-h-svh lg:grid-cols-3">
+    <div className="grid min-h-svh lg:grid-cols-3 overflow-hidden">
       <div className="flex flex-col w-full lg:col-span-2 overflow-y-auto h-svh">
         <div className="flex flex-col items-center justify-center w-full pt-2">
           <div className="w-2/3 flex flex-col gap-4">

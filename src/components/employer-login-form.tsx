@@ -13,19 +13,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Eye, EyeOff, Lock, Mail } from "lucide-react";
+import { Lock, Mail } from "lucide-react";
 import GoogleLoginButton from "./GoogleLoginButton";
 import { useAuthStore } from "@/store/UserStore";
 import { redirect } from "next/navigation";
+import FormFieldComponent from "./FormFieldComponent";
+import IsShowPasswordComponent from "./IsShowPasswordComponent";
 
 const formSchema = z.object({
   email: z.string().email({
@@ -78,85 +73,64 @@ export function EmployerLoginForm({
         <CardContent>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              {/* <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
-                <span className="relative z-10 bg-background px-2 text-muted-foreground">
-                  Hoặc tiếp tục bằng
-                </span>
-              </div> */}
               <div className=" space-y-4 space-x-4">
                 <GoogleLoginButton />
               </div>
+              <div
+                className={cn(
+                  "relative text-center text-sm after:absolute after:inset-0 after:top-1/2",
+                  " after:z-0 after:flex after:items-center after:border-t after:border-border"
+                )}
+              >
+                <span className="relative z-10 bg-background px-2 text-muted-foreground">
+                  Hoặc bằng email
+                </span>
+              </div>
               <div className="space-y-4">
-                <FormField
+                <FormFieldComponent
                   control={form.control}
                   name="email"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="flex items-center gap-2">
-                        <Mail size={18} className="text-secondaryColor" />
-                        Email
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          className={cn(
-                            errors.email &&
-                              "border-red-500 focus-visible:ring-red-500"
-                          )}
-                          placeholder="Email"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
+                  icon={Mail}
+                  label=" Email đăng nhập"
+                  requrie={true}
+                >
+                  {(field) => (
+                    <Input
+                      className={cn(
+                        errors.email &&
+                          "border-red-500 focus-visible:ring-red-500"
+                      )}
+                      placeholder="Nhập email"
+                      {...field}
+                    />
                   )}
-                />
-                <FormField
+                </FormFieldComponent>
+                <FormFieldComponent
                   control={form.control}
                   name="password"
-                  render={({ field }) => (
-                    <FormItem>
-                      <div className="flex items-center justify-between">
-                        <FormLabel className="flex items-center gap-2">
-                          <Lock size={18} className="text-secondaryColor" />
-                          Mật khẩu
-                        </FormLabel>
-                        <a
-                          href="#"
-                          className="text-sm text-secondaryColor hover:underline"
-                        >
-                          Quên mật khẩu?
-                        </a>
-                      </div>
-                      <FormControl>
-                        <div className="relative">
-                          <Input
-                            className={cn(
-                              errors.password &&
-                                "border-red-500 focus-visible:ring-red-500",
-                              "relative"
-                            )}
-                            type={isShowPassword ? "text" : "password"}
-                            {...field}
-                          />
-                          {!isShowPassword ? (
-                            <EyeOff
-                              size={18}
-                              className="absolute text-secondaryColor top-1/2 right-3 transform -translate-y-1/2 cursor-pointer"
-                              onClick={() => setIsShowPasswod(true)}
-                            />
-                          ) : (
-                            <Eye
-                              onClick={() => setIsShowPasswod(false)}
-                              size={18}
-                              className="absolute text-secondaryColor top-1/2 right-3 transform -translate-y-1/2 cursor-pointer"
-                            />
-                          )}
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
+                  icon={Lock}
+                  label="Mật khẩu"
+                  requrie={true}
+                >
+                  {(field) => (
+                    <div className="relative">
+                      <Input
+                        className={cn(
+                          errors.password &&
+                            "border-red-500 focus-visible:ring-red-500",
+                          "relative"
+                        )}
+                        placeholder="Nhập mật khẩu"
+                        type={isShowPassword ? "text" : "password"}
+                        {...field}
+                      />
+                      <IsShowPasswordComponent
+                        isShowPassword={isShowPassword}
+                        setIsShowPasswod={setIsShowPasswod}
+                      />
+                    </div>
                   )}
-                />
+                </FormFieldComponent>
                 <Button
                   type="submit"
                   className="w-full font-semibold hover:bg-white hover:text-secondaryColor hover:outline-secondaryColor  text-white"

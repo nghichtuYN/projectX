@@ -13,19 +13,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-  useFormField,
-} from "@/components/ui/form";
+import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Eye, EyeOff, Lock, Mail, User } from "lucide-react";
+import { Lock, Mail, User } from "lucide-react";
 import React from "react";
 import GoogleLoginButton from "./GoogleLoginButton";
+import FormFieldComponent from "./FormFieldComponent";
+import IsShowPasswordComponent from "./IsShowPasswordComponent";
 
 const formSchema = z
   .object({
@@ -44,24 +38,6 @@ const formSchema = z
     message: "Mật khẩu không khớp.",
     path: ["confirmPassword"],
   });
-
-const CustomInput = React.forwardRef<
-  HTMLInputElement,
-  React.InputHTMLAttributes<HTMLInputElement>
->((props, ref) => {
-  const { error } = useFormField();
-  return (
-    <Input
-      {...props}
-      ref={ref}
-      className={cn(
-        props.className,
-        error && "border-red-500 focus-visible:ring-red-500"
-      )}
-    />
-  );
-});
-CustomInput.displayName = "CustomInput";
 
 export function RegistrationForm({
   className,
@@ -107,132 +83,94 @@ export function RegistrationForm({
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               <div className="space-y-4">
-                <FormField
+                <FormFieldComponent
                   control={form.control}
                   name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="flex items-center gap-2">
-                        <User size={18} className="text-secondaryColor" />
-                        Họ và tên
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          className={cn(
-                            errors.name &&
-                              "border-red-500 focus-visible:ring-red-500"
-                          )}
-                          placeholder="Nhập họ tên"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
+                  icon={User}
+                  label="Họ và tên"
+                  requrie={true}
+                >
+                  {(field) => (
+                    <Input
+                      className={cn(
+                        errors.name &&
+                          "border-red-500 focus-visible:ring-red-500"
+                      )}
+                      placeholder="Nhập họ tên"
+                      {...field}
+                    />
                   )}
-                />
-                <FormField
+                </FormFieldComponent>
+                <FormFieldComponent
                   control={form.control}
                   name="email"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="flex items-center gap-2">
-                        <Mail size={18} className="text-secondaryColor" />
-                        Email
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          className={cn(
-                            errors.email &&
-                              "border-red-500 focus-visible:ring-red-500"
-                          )}
-                          placeholder="Nhập email"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
+                  icon={Mail}
+                  label=" Email đăng nhập"
+                  requrie={true}
+                >
+                  {(field) => (
+                    <Input
+                      className={cn(
+                        errors.email &&
+                          "border-red-500 focus-visible:ring-red-500"
+                      )}
+                      placeholder="Nhập email"
+                      {...field}
+                    />
                   )}
-                />
-                <FormField
+                </FormFieldComponent>
+                <FormFieldComponent
                   control={form.control}
                   name="password"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="flex items-center gap-2">
-                        <Lock size={18} className="text-secondaryColor" />
-                        Mật khẩu
-                      </FormLabel>
-                      <FormControl>
-                        <div className="relative">
-                          <Input
-                            className={cn(
-                              errors.password &&
-                                "border-red-500 focus-visible:ring-red-500",
-                              "relative"
-                            )}
-                            placeholder="Nhập mật khẩu"
-                            type={isShowPassword ? "text" : "password"}
-                            {...field}
-                          />
-                          {!isShowPassword ? (
-                            <EyeOff
-                              size={18}
-                              className="absolute text-secondaryColor top-1/2 right-3 transform -translate-y-1/2 cursor-pointer"
-                              onClick={() => setIsShowPasswod(true)}
-                            />
-                          ) : (
-                            <Eye
-                              onClick={() => setIsShowPasswod(false)}
-                              size={18}
-                              className="absolute text-secondaryColor top-1/2 right-3 transform -translate-y-1/2 cursor-pointer"
-                            />
-                          )}
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
+                  icon={Lock}
+                  label="Mật khẩu"
+                  requrie={true}
+                >
+                  {(field) => (
+                    <div className="relative">
+                      <Input
+                        className={cn(
+                          errors.password &&
+                            "border-red-500 focus-visible:ring-red-500",
+                          "relative"
+                        )}
+                        placeholder="Nhập mật khẩu"
+                        type={isShowPassword ? "text" : "password"}
+                        {...field}
+                      />
+                      <IsShowPasswordComponent
+                        isShowPassword={isShowPassword}
+                        setIsShowPasswod={setIsShowPasswod}
+                      />
+                    </div>
                   )}
-                />
-                <FormField
+                </FormFieldComponent>
+                <FormFieldComponent
                   control={form.control}
                   name="confirmPassword"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="flex items-center gap-2">
-                        <Lock size={18} className="text-secondaryColor" />
-                        Xác nhận mật khẩu
-                      </FormLabel>
-                      <FormControl>
-                        <div className="relative">
-                          <Input
-                            className={cn(
-                              errors.password &&
-                                "border-red-500 focus-visible:ring-red-500",
-                              "relative"
-                            )}
-                            type={isShowConfirmPassword ? "text" : "password"}
-                            {...field}
-                            placeholder="Nhập lại mật khẩu"
-                          />
-                          {!isShowConfirmPassword ? (
-                            <EyeOff
-                              size={18}
-                              className="absolute text-secondaryColor top-1/2 right-3 transform -translate-y-1/2 cursor-pointer"
-                              onClick={() => setIsShowConfirmPasswod(true)}
-                            />
-                          ) : (
-                            <Eye
-                              onClick={() => setIsShowConfirmPasswod(false)}
-                              size={18}
-                              className="absolute text-secondaryColor top-1/2 right-3 transform -translate-y-1/2 cursor-pointer"
-                            />
-                          )}
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
+                  icon={Lock}
+                  label="Xác nhận mật khẩu"
+                  requrie={true}
+                >
+                  {(field) => (
+                    <div className="relative">
+                      <Input
+                        className={cn(
+                          errors.password &&
+                            "border-red-500 focus-visible:ring-red-500",
+                          "relative"
+                        )}
+                        placeholder="Nhập lại mật khẩu"
+                        type={isShowConfirmPassword ? "text" : "password"}
+                        {...field}
+                      />
+                      <IsShowPasswordComponent
+                        isShowPassword={isShowConfirmPassword}
+                        setIsShowPasswod={setIsShowConfirmPasswod}
+                      />
+                    </div>
                   )}
-                />
+                </FormFieldComponent>
                 <Button type="submit" className="w-full" disabled={isLoading}>
                   {isLoading ? "Đang đăng ký..." : "Đăng ký"}
                 </Button>
