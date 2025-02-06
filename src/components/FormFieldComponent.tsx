@@ -12,10 +12,10 @@ import { ReactNode } from "react";
 type FormFieldProps = {
   control: Control<any>;
   name: string;
-  icon: React.ElementType;
+  icon: React.ElementType | null;
   children: (field: any) => ReactNode;
-  label: string;
-  requrie: boolean;
+  label?: string;
+  requrie?: boolean;
 };
 
 const FormFieldComponent: React.FC<FormFieldProps> = ({
@@ -33,9 +33,11 @@ const FormFieldComponent: React.FC<FormFieldProps> = ({
       render={({ field }) => (
         <FormItem>
           <FormLabel className="flex items-center gap-2">
-            <Icon size={18} className="text-secondaryColor" />
-            {label}
-            {requrie ? <span className="text-red-500">*</span> : null}
+            {Icon && <Icon size={18} className="text-secondaryColor" />}
+            {label && label}
+            {requrie && requrie ? (
+              <span className="text-red-500">*</span>
+            ) : null}
           </FormLabel>
           <FormControl>{children(field)}</FormControl>
           <FormMessage />
