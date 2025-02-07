@@ -1,5 +1,4 @@
 import React, { Dispatch, RefObject, SetStateAction } from "react";
-import { CommandItem } from "./ui/command";
 import { Button } from "./ui/button";
 import { X } from "lucide-react";
 
@@ -34,7 +33,7 @@ const RecentSearchKeyComponent = ({
         </span>
       </div>
       {history.map((item) => (
-        <CommandItem
+        <div
           key={item}
           onSelect={() => {
             setSearch(item);
@@ -52,7 +51,7 @@ const RecentSearchKeyComponent = ({
           >
             <X />
           </Button>
-        </CommandItem>
+        </div>
       ))}
     </div>
   );

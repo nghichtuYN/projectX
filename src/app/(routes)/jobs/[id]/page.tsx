@@ -52,7 +52,7 @@ const JobDetailPage = () => {
           <div className="col-span-2 flex flex-col items-center gap-5">
             <Card className="w-full">
               <CardHeader>
-                <CardTitle>
+                <CardTitle className="text-ellipsis line-clamp-2">
                   Nhân Viên Kế Toán Tổng Hợp (Nữ, Tối Thiểu Trên 1 Năm Kinh
                   Nghiệm) - Tại Hoàng Mai, HN (Lương 11 - 16 Triệu, Nghỉ Thứ 7 +
                   CN)

@@ -1,5 +1,4 @@
 import React, { Dispatch, RefObject, SetStateAction } from "react";
-import { CommandItem } from "./ui/command";
 
 type Props = {
   filteredResults: { id: number; name: string }[];
@@ -15,7 +14,7 @@ const FilterResultComponent = ({
 }: Props) => {
   return filteredResults?.length > 0 ? (
     filteredResults.map((item) => (
-      <CommandItem
+      <div
         key={item.id}
         onSelect={() => {
           setSearch(item.name);
@@ -25,12 +24,12 @@ const FilterResultComponent = ({
         className="cursor-pointer px-3 py-2 hover:bg-gray-100"
       >
         {item.name}
-      </CommandItem>
+      </div>
     ))
   ) : (
-    <CommandItem disabled className="px-3 py-2">
+    <div  className="px-3 py-2">
       Không tìm thấy kết quả
-    </CommandItem>
+    </div>
   );
 };
 

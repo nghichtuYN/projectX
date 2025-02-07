@@ -7,10 +7,10 @@ import {
   Medal,
   Search,
   Sparkles,
-  SquareChevronRight,
   FileUser,
   FileUp,
   SquareUserRound,
+  SquareTerminal,
 } from "lucide-react";
 type subMenu = {
   title: string;
@@ -51,7 +51,7 @@ export const Menu: Menu[] = [
       {
         title: "Việc làm IT",
         href: "/docs/primitives/scroll-area",
-        icon: SquareChevronRight,
+        icon: SquareTerminal,
       },
       {
         title: "Việc làm Senior",

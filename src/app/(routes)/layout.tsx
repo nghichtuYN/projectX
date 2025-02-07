@@ -1,3 +1,4 @@
+import Footer from "@/components/Footer";
 import "../../app/globals.css";
 import Header from "@/components/header";
 import React from "react";
@@ -10,7 +11,8 @@ export default function MainLayout({
   return (
     <div>
       <Header />
-      <div className="main-layout lg:mt-12">{children}</div>
+      <div className="main-layout lg:mt-12 mb-2 flex-1">{children}</div>
+      <Footer />
     </div>
   );
 }

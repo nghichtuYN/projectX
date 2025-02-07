@@ -62,45 +62,43 @@ const ApplicationDialogComponent = () => {
   };
 
   return (
-    <Form {...form}>
-      <form
-        id="application-form"
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-6"
+    <Dialog
+      open={open}
+      onOpenChange={() => {
+        setOpen(!open);
+        form.reset();
+        setFiles([]);
+      }}
+    >
+      <Button
+        className="flex items-center font-semibold w-full"
+        onClick={() => setOpen(true)}
       >
-        <Dialog
-          open={open}
-          onOpenChange={() => {
-            setOpen(!open);
-            form.reset();
-            setFiles([]);
-          }}
-        >
-          <Button
-            className="flex items-center font-semibold w-full"
-            onClick={() => setOpen(true)}
+        <Send />
+        <p>Ứng tuyển ngay</p>
+      </Button>
+      <DialogContent
+        className="h-[90vh] max-w-2xl"
+        onInteractOutside={(e) => {
+          e.preventDefault();
+        }}
+      >
+        <DialogHeader>
+          <DialogTitle className="text-ellipsis line-clamp-2 pt-1">
+            Ứng tuyển Nhân Viên Kế Toán Tổng Hợp (Nữ, Tối Thiểu Trên 1 Năm Kinh
+            Nghiệm) - Tại Hoàng Mai, HN (Lương 11 - 16 Triệu, Nghỉ Thứ 7 + CN)
+          </DialogTitle>
+        </DialogHeader>
+        <AlertDialogCompoent
+          openAlert={openAlert}
+          setOpenAlert={setOpenAlert}
+        />
+        <Form {...form}>
+          <form
+            id="application-form"
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-6"
           >
-            <Send />
-            <p>Ứng tuyển ngay</p>
-          </Button>
-          {/* </DialogTrigger> */}
-          <DialogContent
-            className="h-[90vh] max-w-2xl"
-            onInteractOutside={(e) => {
-              e.preventDefault();
-            }}
-          >
-            <DialogHeader>
-              <DialogTitle className="text-ellipsis line-clamp-2 pt-1">
-                Ứng tuyển Nhân Viên Kế Toán Tổng Hợp (Nữ, Tối Thiểu Trên 1 Năm
-                Kinh Nghiệm) - Tại Hoàng Mai, HN (Lương 11 - 16 Triệu, Nghỉ Thứ
-                7 + CN)
-              </DialogTitle>
-            </DialogHeader>
-            <AlertDialogCompoent
-              openAlert={openAlert}
-              setOpenAlert={setOpenAlert}
-            />
             <div className="h-4/5">
               <ScrollArea className="h-[55vh] w-full">
                 <div className="flex items-center gap-2 pb-2">
@@ -138,25 +136,25 @@ const ApplicationDialogComponent = () => {
                 </div>
               </ScrollArea>
             </div>
-            <DialogFooter className="flex gap-2">
-              <DialogClose asChild>
-                <Button type="button" variant="secondary">
-                  Hủy
-                </Button>
-              </DialogClose>
-              <Button
-                type="submit"
-                className="w-full"
-                form="application-form"
-                disabled={isLoading}
-              >
-                {isLoading ? "Đang xử lý..." : "Nộp Hồ sơ ứng tuyển"}
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
-      </form>
-    </Form>
+          </form>
+        </Form>
+        <DialogFooter className="flex gap-2">
+          <DialogClose asChild>
+            <Button type="button" variant="secondary">
+              Hủy
+            </Button>
+          </DialogClose>
+          <Button
+            type="submit"
+            className="w-full"
+            form="application-form"
+            disabled={isLoading}
+          >
+            {isLoading ? "Đang xử lý..." : "Nộp Hồ sơ ứng tuyển"}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 };
 

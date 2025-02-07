@@ -58,6 +58,7 @@ const SearchPositonDetailPageComponent = () => {
       return updatedHistory;
     });
   }, [search]);
+  console.log(search);
 
   const clearHistory = () => {
     setHistory([]);

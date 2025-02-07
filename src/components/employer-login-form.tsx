@@ -51,7 +51,7 @@ export function EmployerLoginForm({
     setIsLoading(true);
     // Simulate API call
     setUser({ name: "test", email: "test", id: "2" });
-    redirect("/");
+    redirect("/dashboard");
     setTimeout(() => {
       console.log(values);
       setIsLoading(false);

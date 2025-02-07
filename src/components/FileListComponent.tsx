@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React from "react";
 import {
   FileListActions,
@@ -12,8 +12,7 @@ import {
   FileListProgress,
   FileListSize,
 } from "./ui/file-list";
-import { X } from "lucide-react";
-import { Button } from "./ui/button";
+import { Trash2 } from "lucide-react";
 
 type Props = {
   file: File;
@@ -55,18 +54,16 @@ const FileListComponent = ({ file, setFiles }: Props) => {
             <FileListSize>{file.size}</FileListSize>
           </FileListDescription>
         </FileListInfo>
-        <FileListActions>
-          <Button
+        {progress === 100 && (
+          <FileListActions
             onClick={(e) => {
               e.stopPropagation();
               removeFileByName(file.name);
             }}
-            size={"icon"}
           >
-            <X />
-          </Button>
-          <span className="sr-only">Close</span>
-        </FileListActions>
+            <Trash2 className="h-5 w-5" />
+          </FileListActions>
+        )}
       </FileListHeader>
       <FileListContent>
         {progress !== 100 ? <FileListProgress value={progress} /> : null}

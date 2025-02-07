@@ -15,7 +15,6 @@ import { UseFormReturn } from "react-hook-form";
 import { Mail, Phone, User } from "lucide-react";
 import { Input } from "./ui/input";
 import { cn } from "@/lib/utils";
-import { Button } from "./ui/button";
 type Props = {
   files: File[];
   setFiles: React.Dispatch<React.SetStateAction<File[]>>;
@@ -44,6 +43,7 @@ const DropzoneComponent = ({ files, setFiles, form }: Props) => {
       }}
       onDropAccepted={setFiles}
       noClick
+      maxSize={5000000}
     >
       <DropzoneZone className="h-full">
         <DropzoneInput />
@@ -58,7 +58,9 @@ const DropzoneComponent = ({ files, setFiles, form }: Props) => {
             </DropzoneDescription>
           </div>
           <DropzoneTrigger asChild>
-            <Button>Chọn CV</Button>
+            <span className="h-9 px-4 py-2 bg-secondaryColor text-sm font-semibold hover:border-secondaryColor hover:border text-white rounded-md cursor-pointer hover:bg-white transition hover:text-secondaryColor">
+              Chọn CV
+            </span>
           </DropzoneTrigger>
           <FileList className="grid md:grid-cols-2 grid-cols-1 items-start justify-start w-full">
             {files.map((file, index) => (
