@@ -11,7 +11,7 @@ import CompanyCardComponent from "./CompanyCardComponent";
 
 const CompnayBoardComponent = () => {
   return (
-    <div className=" w-4/5 flex flex-col items-center mt-10 justify-center shadow-md rounded-lg min-h-[65vh] ">
+    <div className=" w-3/4 flex flex-col items-center mt-10 justify-center shadow-md rounded-lg min-h-[65vh] ">
       <div className="h-1/5 w-full flex items-center justify-start">
         <div className="flex flex-col gap-4 pl-20 text-secondaryColor">
           <p className="w-full text-2xl font-bold">Thương hiệu tiêu biểu</p>
@@ -23,7 +23,7 @@ const CompnayBoardComponent = () => {
       </div>
       <div className="h-4/5  flex flex-col pt-2">
         <div className="w-full relative flex items-center justify-center gap-2">
-          <Carousel className="w-[6/7]">
+          <Carousel className="w-full pl-3 pr-3">
             <CarouselContent className="w-full">
               <CarouselItem className="md:flex hidden gap-4 md:justify-center ml-3 md:pl-0">
                 <Button
@@ -31,24 +31,6 @@ const CompnayBoardComponent = () => {
                   className="rounded-full font-medium"
                 >
                   Ngẫu Nhiên11111111
-                </Button>
-                <Button
-                  variant="secondary"
-                  className="rounded-full font-medium"
-                >
-                  Ngẫu Nhiên
-                </Button>
-                <Button
-                  variant="secondary"
-                  className="rounded-full font-medium"
-                >
-                  Ngẫu Nhiên
-                </Button>
-                <Button
-                  variant="secondary"
-                  className="rounded-full font-medium"
-                >
-                  Ngẫu Nhiên
                 </Button>
                 <Button
                   variant="secondary"
@@ -106,32 +88,36 @@ const CompnayBoardComponent = () => {
             <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2 text-secondaryColor" />
           </Carousel>
         </div>
-        <div className="w-full">
-          <Carousel className="w-full pt-5 ">
-            <CarouselContent className="flex flex-row items-center pr-2 lg- justify-start">
-              <CarouselItem className="grid grid-cols-3 gap-5 ml-3 pr-3">
-                <CompanyCardComponent />
-                <CompanyCardComponent />
-                <CompanyCardComponent />
-                <CompanyCardComponent />
-                <CompanyCardComponent />
-                <CompanyCardComponent />
-                <CompanyCardComponent />
-                <CompanyCardComponent />
+        <div className="w-ful flex items-center justify-center">
+          <Carousel className="w-full pt-5">
+            <CarouselContent>
+              <CarouselItem>
+                <div className="grid grid-cols-3 place-items-center gap-2 mx-auto">
+                  <CompanyCardComponent />
+                  <CompanyCardComponent />
+                  <CompanyCardComponent />
+                  <CompanyCardComponent />
+                  <CompanyCardComponent />
+                  <CompanyCardComponent />
+                  <CompanyCardComponent />
+                  <CompanyCardComponent />
+                </div>
               </CarouselItem>
-              <CarouselItem className="grid grid-cols-4 gap-3">
-                <CompanyCardComponent />
-                <CompanyCardComponent />
-                <CompanyCardComponent />
-                <CompanyCardComponent />
-                <CompanyCardComponent />
-                <CompanyCardComponent />
-                <CompanyCardComponent />
-                <CompanyCardComponent />
+              <CarouselItem>
+                <div className="grid grid-cols-3 place-items-center gap-2 mx-auto">
+                  <CompanyCardComponent />
+                  <CompanyCardComponent />
+                  <CompanyCardComponent />
+                  <CompanyCardComponent />
+                  <CompanyCardComponent />
+                  <CompanyCardComponent />
+                  <CompanyCardComponent />
+                  <CompanyCardComponent />
+                </div>
               </CarouselItem>
             </CarouselContent>
-            <CarouselPrevious className="absolute -left-3 top-1/2 -translate-y-1/2" />
-            <CarouselNext className="absolute -right-3 top-1/2 -translate-y-1/2" />
+            <CarouselPrevious />
+            <CarouselNext />
           </Carousel>
         </div>
       </div>

@@ -60,47 +60,52 @@ const ImageCaruelComponent = () => {
 
   return (
     <>
-        <div className="relative  w-full mx-auto rounded-lg">
-          <Carousel setApi={setApi} className="w-full bg-primaryColorColor rounded-lg" opts={{ loop: true }}>
-            <CarouselContent className="bg-primaryColorColor rounded-lg">
-              {images.map((image, index) => (
-                <CarouselItem key={index} className="rounded-lg bg-primaryColorColor">
-                  <div className=" w-full h-[290px] rounded-lg bg-primaryColorColor">
-                    <Image
-                      src={image.src || "/placeholder.svg"}
-                      alt={image.alt}
-                      width={100}
-                      height={100}
-                      sizes="sm"
-                      className=" rounded-lg w-full h-full bg-primaryColorColor"
-                      priority={index === 0}
-                    />
-                  </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2" />
-            <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2" />
-          </Carousel>
-          <div
-            className="absolute  md:left-[250px] left-1/3  flex justify-center gap-2 top-[270px] lg:ml-20"
-            aria-label="Carousel navigation"
-          >
-            {images.map((_, index) => (
-              <button
+      <div className="relative  w-full mx-auto rounded-lg">
+        <Carousel
+          setApi={setApi}
+          className="w-full bg-primaryColorColor rounded-lg"
+          opts={{ loop: true }}
+        >
+          <CarouselContent className="bg-primaryColorColor rounded-lg">
+            {images.map((image, index) => (
+              <CarouselItem
                 key={index}
-                className={`h-1 rounded-full transition-all ${
-                  index === current
-                    ? "w-8 bg-secondaryColor"
-                    : "w-4 bg-gray-300"
-                }`}
-                onClick={() => api?.scrollTo(index)}
-                aria-label={`Go to slide ${index}`}
-                aria-current={index === current ? "true" : "false"}
-              />
+                className="rounded-lg bg-primaryColorColor"
+              >
+                <div className=" w-full h-[290px] rounded-lg bg-primaryColorColor">
+                  <Image
+                    src={image.src || "/placeholder.svg"}
+                    alt={image.alt}
+                    width={100}
+                    height={100}
+                    sizes="sm"
+                    className=" rounded-lg w-full h-full bg-primaryColorColor"
+                    priority={index === 0}
+                  />
+                </div>
+              </CarouselItem>
             ))}
-          </div>
+          </CarouselContent>
+          <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2" />
+          <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2" />
+        </Carousel>
+        <div
+          className="absolute left-1/2 -translate-x-1/2 bottom-4 flex justify-center gap-2"
+          aria-label="Carousel navigation"
+        >
+          {images.map((_, index) => (
+            <button
+              key={index}
+              className={`h-1 rounded-full transition-all ${
+                index === current ? "w-8 bg-secondaryColor" : "w-4 bg-gray-300"
+              }`}
+              onClick={() => api?.scrollTo(index)}
+              aria-label={`Go to slide ${index}`}
+              aria-current={index === current ? "true" : "false"}
+            />
+          ))}
         </div>
+      </div>
     </>
   );
 };

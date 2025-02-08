@@ -23,7 +23,9 @@ export default function Home() {
   }
   return (
     <div className="flex flex-col items-center">
-      <SearchFilter />
+      <div className="w-full bg-primaryColor">
+        <SearchFilter />
+      </div>
       <section className="w-full bg-accent flex justify-center">
         <JobBoardComponent />
       </section>

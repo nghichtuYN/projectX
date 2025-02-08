@@ -14,7 +14,7 @@ const SearchFilter = () => {
 
   return (
     <section className=" mx-auto py-8 px-4 bg-primaryColor">
-      <div className="relative grid  grid-cols-9 lg:grid-cols-12 items-center bg-white rounded-3xl max-h-20 h-14 w-4/5 mx-auto">
+      <div className="relative grid  grid-cols-9 lg:grid-cols-12 items-center bg-white rounded-3xl max-h-20 h-14 w-3/4 mx-auto">
         {/* Job Type Component */}
         <div
           className={cn(
@@ -53,7 +53,7 @@ const SearchFilter = () => {
       </div>
 
       {/* Content Section */}
-      <div className="flex lg:flex-row gap-2 w-4/5 mx-auto pt-4">
+      <div className="flex lg:flex-row gap-2 w-3/4 mx-auto pt-4">
         {/* List Job Component */}
         <div className="hidden lg:block lg:w-1/3">
           <ListJobComponent />
