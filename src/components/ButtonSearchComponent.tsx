@@ -4,12 +4,10 @@ import { Search } from "lucide-react";
 
 const ButtonSearchComponent = () => {
   return (
-    <div className="mr-3">
-      <Button className="lg:p-1 bg-secondaryColor font-semibold hover:bg-white hover:border-secondaryColor hover:text-secondaryColor rounded-2xl">
-        <Search className="h-5 w-5" />
-        <div className="hidden lg:block mr-1 ">Tìm kiếm</div>
-      </Button>
-    </div>
+    <Button className="lg:p-1 w-4/5 bg-secondaryColor font-semibold text-sm hover:bg-white hover:border-secondaryColor hover:text-secondaryColor rounded-3xl">
+      <Search className="sm:hidden block" />
+      <p className="hidden md:block">Tìm kiếm</p>
+    </Button>
   );
 };
 

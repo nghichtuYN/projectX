@@ -28,10 +28,10 @@ const EmployerRegisterPage = () => {
             <p className="text-secondaryColor font-semibold text-2xl pl-3 pt-3">
               Tài khoản:
             </p>
+          </div>
             <div className="pt-2 ">
               <GoogleLoginButton />
             </div>
-          </div>
         </div>
         <div className="flex-1 flex items-center justify-center w-full ">
           <div className="w-2/3">

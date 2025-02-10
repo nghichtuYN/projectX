@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 
 import { Input } from "./ui/input";
 import SearchPopoverComponent from "./SearchPopoverComponent";
+import { Search } from "lucide-react";
 
 const searchData = [
   { id: 1, name: "iPhone 15 Pro" },
@@ -77,15 +78,18 @@ export default function SearchPositionComponent() {
     item.name.toLowerCase().includes(search.toLowerCase())
   );
   return (
-    <div className=" pr-6">
-      <Input
-        ref={inputRef}
-        placeholder={placeHolderInput}
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        onFocus={() => setOpen(true)}
-        className="w-full  h-11 border-none focus-visible:ring-0 placeholder:font-medium rounded-3xl bg-accent md:p-2 "
-      />
+    <div className="">
+      <div className="flex items-center rounded-3xl bg-accent ">
+        <Search className="hidden md:block h-4 w-4 text-muted-foreground ml-1" />
+        <Input
+          ref={inputRef}
+          placeholder={placeHolderInput}
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          onFocus={() => setOpen(true)}
+          className="border-none h-11 focus-visible:ring-0 placeholder:font-medium rounded-3xl "
+        />
+      </div>
 
       {open && (
         <SearchPopoverComponent

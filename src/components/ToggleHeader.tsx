@@ -8,7 +8,7 @@ type Props = {
 }
 const ToggleHeader = ({open, setOpen}: Props) => {
     return (
-        <div className={"lg:hidden block pr-2"}>
+        <div className={"xl:hidden block pr-2"}>
             <Button size={"sm"} variant={"secondary"} onClick={() => setOpen(!open)}
                     className={" hover:bg-accent text-sm rounded-3xl"}>
                 {open ? <X className={"text-secondaryColor transform transition-transform duration-300 ease-in-out "} size={64} />

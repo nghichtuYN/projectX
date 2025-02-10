@@ -9,10 +9,10 @@ export default function MainLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <>
+    <div className="flex flex-col min-h-screen">
       <Header />
-      <div className="main-layout w-full lg:mt-12 mb-2 ">{children}</div>
+      <main className="flex-grow w-full mx-auto  xl:mt-16">{children}</main>
       <Footer />
-    </>
+    </div>
   );
 }

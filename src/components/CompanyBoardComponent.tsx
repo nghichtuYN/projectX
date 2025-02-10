@@ -22,7 +22,7 @@ const CompnayBoardComponent = () => {
         </div>
       </div>
       <div className="h-4/5  flex flex-col pt-2">
-        <div className="w-full relative flex items-center justify-center gap-2">
+        {/* <div className="w-full relative flex items-center justify-center gap-2">
           <Carousel className="w-full pl-3 pr-3">
             <CarouselContent className="w-full">
               <CarouselItem className="md:flex hidden gap-4 md:justify-center ml-3 md:pl-0">
@@ -119,7 +119,7 @@ const CompnayBoardComponent = () => {
             <CarouselPrevious />
             <CarouselNext />
           </Carousel>
-        </div>
+        </div> */}
       </div>
     </div>
   );

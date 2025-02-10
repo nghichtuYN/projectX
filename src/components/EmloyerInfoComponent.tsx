@@ -26,6 +26,7 @@ import {
   CommandItem,
   CommandList,
 } from "./ui/command";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 type Props = {
   openWorkLocation: boolean;
@@ -42,7 +43,7 @@ const EmloyerInfoComponent = ({
   form,
 }: Props) => {
   const errors = form.formState.errors;
-
+  const isMobile = useIsMobile();
   return (
     <>
       <div className="flex items-center w-full gap-3">
@@ -130,7 +131,12 @@ const EmloyerInfoComponent = ({
         )}
       </FormFieldComponent>
 
-      <div className="flex items-center w-full gap-3">
+      <div
+        className={cn(
+          "flex md:items-center w-full gap-3",
+          isMobile ? " flex-col items-center " : ""
+        )}
+      >
         <div className="w-full">
           <FormFieldComponent
             control={form.control}
@@ -202,7 +208,7 @@ const EmloyerInfoComponent = ({
           </FormFieldComponent>
         </div>
 
-        <div className="flex justify-end w-full">
+        <div className="flex  w-full">
           <FormFieldComponent
             control={form.control}
             name="district"

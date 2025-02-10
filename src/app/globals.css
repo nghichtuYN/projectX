@@ -101,7 +101,8 @@ body.moving-up {
 .S9gUrf-YoZ4jf {
   border: none;
   padding: 0;
-  margin-left: 90px !important;
+  display:flex;
+  justify-content:center
 }
 .ql-editor {
   font-family: "Arial", sans-serif;  /* Hoặc font khác bạn muốn */

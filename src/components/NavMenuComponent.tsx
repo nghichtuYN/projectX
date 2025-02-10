@@ -22,7 +22,7 @@ const NavMenuComponent = () => {
     " hover:bg-secondaryColor bg-secondaryColor ";
   return (
     <>
-      <NavigationMenu className={"hidden lg:block pr-2"}>
+      <NavigationMenu className={"hidden xl:block pr-2"}>
         <NavigationMenuList>
           {Menu.map((menu, index) =>
             menu?.subMenu ? (
