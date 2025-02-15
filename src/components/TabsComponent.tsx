@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/select";
 import { Button } from "./ui/button";
 import Link from "next/link";
+import * as XLSX from "xlsx";
 const TabsComponent = () => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -27,12 +28,13 @@ const TabsComponent = () => {
   const [keyWord, setKeyWord] = useState("");
   const [quickFilter, setQuickFilter] = useState("all");
   const [label, setLabel] = useState("");
-
   const activeTab = searchParams.get("active_tab") || "jobs";
 
   useEffect(() => {
     if (activeTab === "apply_cv") {
-      const newUrl = `${pathname}?active_tab=apply_cv&keyword=${keyWord}&quick_filter=${quickFilter}&label=${label}`;
+      const newUrl = `${pathname}?active_tab=apply_cv&keyword=${encodeURIComponent(
+        keyWord
+      )}&quick_filter=${quickFilter}&label=${label}`;
       router.push(newUrl, { scroll: false });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -48,6 +50,17 @@ const TabsComponent = () => {
     setLabel(value);
   };
 
+  const handleExport = () => {
+    const data = [
+      { name: "John Doe", email: "john@example.com" },
+      { name: "Jane Doe", email: "jane@example.com" },
+    ];
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "CV List");
+    XLSX.writeFile(workbook, "CV_List.xlsx");
+  };
+
   return (
     <Tabs defaultValue={activeTab}>
       <TabsList className="flex items-center gap-3 justify-start bg-white h-12">
@@ -61,7 +74,9 @@ const TabsComponent = () => {
         </Link>
 
         <Link
-          href={`${pathname}?active_tab=apply_cv&keyword=${keyWord}&quick_filter=${quickFilter}&label=${label}`}
+          href={`${pathname}?active_tab=apply_cv&keyword=${encodeURIComponent(
+            keyWord
+          )}&quick_filter=${quickFilter}&label=${label}`}
         >
           <TabsTrigger
             className="data-[state=active]:text-secondaryColor h-full text-sm font-bold"
@@ -112,7 +127,6 @@ const TabsComponent = () => {
         </Link>
       </TabsList>
 
-      {/* Nội dung các tab */}
       <TabsContent value="jobs">
         <Card>
           <CardHeader>
@@ -160,6 +174,7 @@ const TabsComponent = () => {
             <Button
               variant={"outline"}
               className="boder border-secondaryColor rounded-3xl text-secondaryColor pr-6"
+              onClick={handleExport}
             >
               Xuất danh sách CV
             </Button>

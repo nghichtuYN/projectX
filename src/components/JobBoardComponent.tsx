@@ -18,7 +18,6 @@ import {
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "./ui/hover-card";
-import DOMPurify from "dompurify";
 import { ScrollArea } from "./ui/scroll-area";
 import Link from "next/link";
 import {
@@ -198,10 +197,8 @@ const JobBoardComponent = () => {
                           </div>
                           <ScrollArea className="h-4/6 w-full">
                             <div
-                              className="ql-editor overflow-y-scroll pt-11"
-                              dangerouslySetInnerHTML={{
-                                __html: DOMPurify.sanitize(jd),
-                              }}
+                              style={{ whiteSpace: "pre-line" }}
+                              dangerouslySetInnerHTML={{ __html: jd }}
                             />
                           </ScrollArea>
                           <div className="flex w-full gap-2 mt-2 shadow-md ">

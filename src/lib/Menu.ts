@@ -23,7 +23,6 @@ export type Menu = {
   href: string;
 };
 export const Menu: Menu[] = [
-    
   {
     title: "Việc Làm",
     href: "/jobs",
@@ -73,7 +72,7 @@ export const Menu: Menu[] = [
   },
   {
     title: "Hồ sơ & CV",
-    href: "/cv",
+    href: "/manageCv",
     subMenu: [
       {
         title: "Tạo CV",

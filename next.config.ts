@@ -5,19 +5,27 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "**.googleusercontent.com", // Cho phép domain của Google (ảnh trên Google Drive, Google Photos)
+        hostname: "**.googleusercontent.com", // Allow Google domains (images on Google Drive, Google Photos)
       },
       {
         protocol: "https",
-        hostname: "**.google.com", // Thêm domain khác nếu cần
+        hostname: "**.google.com", // Add other domains if needed
       },
       {
         protocol: "https",
-        hostname: "**.incnow.com", // Thêm domain khác nếu cần
+        hostname: "**.incnow.com", // Add other domains if needed
       },
       {
         protocol: "https",
-        hostname: "**.vercel-storage.com", // Thêm domain khác nếu cần
+        hostname: "**.github.com", // Add other domains if needed
+      },
+      {
+        protocol: "https",
+        hostname: "**.vercel-storage.com", // Add other domains if needed
+      },
+      {
+        protocol: "https",
+        hostname: "github.com", // Add github.com domain
       },
     ],
   },

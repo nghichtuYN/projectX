@@ -15,12 +15,8 @@ import { redirect } from "next/navigation";
 type Props = {
   id: string;
 };
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const CampaignDetailPage = ({ id }: Props) => {
-  const aaa = async () => {
-    return await new Promise((res, rej) => {
-      res("Cặc");
-    });
-  };
   return (
     <>
       <EmployerSidebaHeaderComponent>

@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+
 import {
   Select,
   SelectContent,
@@ -20,7 +20,7 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { Eye, Plus, Search } from "lucide-react";
+import { Eye, Plus } from "lucide-react";
 import { campaigns } from "@/data/campaigns";
 import {
   Pagination,
@@ -34,6 +34,7 @@ import {
 
 import EmployerSidebaHeaderComponent from "@/components/EmployerSidebaHeaderComponent";
 import Link from "next/link";
+import SearchInputCampainComponent from "@/components/SearchInputCampainComponent";
 const RecruitmentCampaignPage = () => {
   return (
     <>
@@ -58,13 +59,9 @@ const RecruitmentCampaignPage = () => {
                 <SelectItem value="closed">Đã đóng</SelectItem>
               </SelectContent>
             </Select>
-            <div className="flex-1 relative bg-white">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 w-4 h-4" />
-              <Input
-                className="pl-10"
-                placeholder="Tìm chiến dịch (Nhấn enter để tìm kiếm)"
-              />
-            </div>
+            {/* <SearchInputCampainComponent placeholder="Tìm chiến dịch (Nhấn enter để tìm kiếm)" />
+             */}
+            <SearchInputCampainComponent placeholder="Tìm chiến dịch (Nhấn enter để tìm kiếm)" />
             <Button>
               <Plus />
               Thêm chiến dịch mới
@@ -104,7 +101,8 @@ const RecruitmentCampaignPage = () => {
                           <Switch checked={campaign.active} />
                           <div className="flex flex-col">
                             <span className="font-medium">#{campaign.id}</span>
-                            <Link className="hover:underline"
+                            <Link
+                              className="hover:underline"
                               href={`/employer/recruitment-campaigns/${campaign?.id}?active_tab=jobs`}
                             >
                               {campaign.name}
@@ -113,7 +111,6 @@ const RecruitmentCampaignPage = () => {
                               {campaign.status}
                             </div>
 
-                            {/* Hiển thị khi hover */}
                             <div className="hidden group-hover:flex group-hover:flex-col text-sm font-medium gap-1 mt-2">
                               <div className="flex items-center gap-2">
                                 <span className="after:content-['|'] after:ml-0.5 after:text-accent cursor-pointer hover:text-secondaryColor">
