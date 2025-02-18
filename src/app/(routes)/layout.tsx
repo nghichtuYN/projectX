@@ -1,7 +1,7 @@
-import Footer from "@/components/Footer";
 import "../../app/globals.css";
-import Header from "@/components/header";
+import Header from "@/app/(routes)/(components)/header";
 import React from "react";
+import Footer from "./(components)/Footer";
 
 export default function MainLayout({
   children,

@@ -1,4 +1,4 @@
-import { EmployerLoginForm } from "@/components/employer-login-form";
+import { EmployerLoginForm } from "@/app/(employer)/employer-login/(components)/employer-login-form";
 import React from "react";
 import Image from "next/image";
 import banner from "../../../../public/banner.png";

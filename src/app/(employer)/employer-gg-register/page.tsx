@@ -1,7 +1,7 @@
 import Image from "next/image";
 import banner from "../../../../public/banner.png";
 import React from "react";
-import { EmployerGoogleRegistrationForm } from "@/components/employer-gg-registration-form";
+import { EmployerGoogleRegistrationForm } from "@/app/(employer)/employer-gg-register/(components)/employer-gg-registration-form";
 
 const EmployerGoogleRegisterPage = () => {
   return (

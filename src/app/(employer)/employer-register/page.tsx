@@ -1,8 +1,8 @@
-import { EmployerRegistrationForm } from "@/components/employer-registration-form";
+import { EmployerRegistrationForm } from "@/app/(employer)/employer-register/(component)/employer-registration-form";
 import React from "react";
 import Image from "next/image";
 import banner from "../../../../public/banner.png";
-import RuleRegisterComponent from "@/components/RuleRegisterComponent";
+import RuleRegisterComponent from "@/app/(employer)/employer-register/(component)/RuleRegisterComponent";
 import { cn } from "@/lib/utils";
 import GoogleLoginButton from "@/components/GoogleLoginButton";
 

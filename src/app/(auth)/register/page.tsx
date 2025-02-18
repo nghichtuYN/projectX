@@ -1,4 +1,4 @@
-import { RegistrationForm } from "@/components/registration-form";
+import { RegistrationForm } from "@/app/(auth)/register/(components)/registration-form";
 import Image from "next/image";
 import React from "react";
 import banner from "../../../../public/banner.png";

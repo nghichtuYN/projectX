@@ -1,8 +1,8 @@
 "use client";
-import CompnayBoardComponent from "@/components/CompanyBoardComponent";
-import DraggableForm from "@/components/DraggableForm";
-import JobBoardComponent from "@/components/JobBoardComponent";
-import SearchFilter from "@/components/SearchFilterComponent";
+import CompnayBoardComponent from "@/app/(routes)/(components)/CompanyBoardComponent";
+// import DraggableForm from "@/components/DraggableForm";
+import JobBoardComponent from "@/app/(routes)/(components)/JobBoardComponent";
+import SearchFilter from "@/app/(routes)/(components)/SearchFilterComponent";
 import { useAuthStore } from "@/store/UserStore";
 import { useEffect } from "react";
 // import "react-quill-new/dist/quill.snow.css";
@@ -33,7 +33,7 @@ export default function Home() {
       <section className="w-full flex justify-center  bg-white">
         <CompnayBoardComponent />
       </section>
-      <DraggableForm />
+      {/* <DraggableForm /> */}
       {/* <section className="min-h-svh">
         <ReactQuill
           className="w-3/4 h-[300px]"
