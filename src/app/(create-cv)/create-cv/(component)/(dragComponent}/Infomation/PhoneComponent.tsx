@@ -1,25 +1,38 @@
 "use client";
+import { useEditorHook } from "@/hooks/useEditorHook";
 import { EditorContent, type Editor } from "@tiptap/react";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { CvFormContext } from "../../CvFormComponent";
+import { Phone } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 type Props = {
-  editor?: Editor | null;
-  phone?: string;
-  onFocus?: () => void;
+  handleChange: (field: string, value: string) => void;
 };
-
-const PhoneComponent = ({ editor, phone, onFocus }: Props) => {
-  if (!editor) {
-    return null;
-  }
-
+const PhoneComponent = ({ handleChange }: Props) => {
+  const content = "";
+  const { editor } = useEditorHook(
+    content,
+    "0123456789",
+    "phone",
+    handleChange
+  );
+  const context = useContext(CvFormContext);
+  const { setActiveEditor } = context;
   return (
     <>
-      <div onFocus={onFocus} className="phone-component">
-        <EditorContent style={{ whiteSpace: "pre-line" }} editor={editor} />
-        <div className="phone-preview pt-3">
-          <h3>Phone Preview</h3>
-          <p>{phone}</p>
+      <div className="flex items-center  w-full h-fit  min-h-[20px] rounded-md gap-2 hover:border-secondaryColor hover:border hover:border-dashed p-1">
+        <div className="w-1/6 pl-1">
+          <Phone className="w-4 h-4 text-secondaryColor " />
+        </div>
+        <div
+          onFocus={() => setActiveEditor(editor)}
+          className={cn(
+            " h-full w-5/6 border-2 rounded-bl-md",
+            !content && "border-2 border-dotted border-secondaryColor"
+          )}
+        >
+          <EditorContent style={{ whiteSpace: "pre-line" }} editor={editor} />
         </div>
       </div>
     </>

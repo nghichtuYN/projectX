@@ -16,7 +16,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
 type Props = {
   editor: Editor | null;
@@ -25,7 +25,6 @@ const TextToolBarComponent = ({ editor }: Props) => {
   if (!editor) {
     return null;
   }
-  console.log(editor.isActive("redo"));
   return (
     <div className="px-4 bg-white py-3 rounded-tl-md rounded-tr-md flex justify-center items-center gap-5 w-full flex-wrap border-t-2 ">
       <div className="flex justify-center items-center w-full gap-2 lg:w-10/12 flex-wrap ">
@@ -84,50 +83,42 @@ const TextToolBarComponent = ({ editor }: Props) => {
               <SelectItem value="20">20px</SelectItem>
               <SelectItem value="24">24px</SelectItem>
               <SelectItem value="30">30px</SelectItem>
+              <SelectItem value="48">48px</SelectItem>
             </SelectContent>
           </Select>
         </div>
-        <div className="flex items-center gap-3 w-fit ">
-          <span
+        <ToggleGroup type="multiple">
+          <ToggleGroupItem
             onClick={(e) => {
               e.preventDefault();
               editor.chain().focus().toggleBold().run();
             }}
-            className={cn(
-              editor.isActive("bold")
-                ? "bg-secondaryColor text-white p-2 rounded-lg"
-                : "text-secondaryColor"
-            )}
+            value={editor.isActive("bold") ? "bold" : ""}
+            aria-label="Toggle bold"
           >
-            <Bold className="w-4 h-4" />
-          </span>
-          <span
+            <Bold className="h-4 w-4" />
+          </ToggleGroupItem>
+          <ToggleGroupItem
             onClick={(e) => {
               e.preventDefault();
               editor.chain().focus().toggleItalic().run();
             }}
-            className={cn(
-              editor.isActive("italic")
-                ? "bg-secondaryColor text-white p-2 rounded-lg"
-                : "text-secondaryColor"
-            )}
+            value="italic"
+            aria-label="Toggle italic"
           >
-            <Italic className="w-4 h-4" />
-          </span>
-          <span
+            <Italic className="h-4 w-4" />
+          </ToggleGroupItem>
+          <ToggleGroupItem
+            value="strikethrough"
+            aria-label="Toggle strikethrough"
             onClick={(e) => {
               e.preventDefault();
               editor.chain().focus().toggleUnderline().run();
             }}
-            className={cn(
-              editor.isActive("underline")
-                ? "bg-secondaryColor text-white p-2 rounded-lg"
-                : "text-secondaryColor"
-            )}
           >
-            <Underline className="w-4 h-4" />
-          </span>
-        </div>
+            <Underline className="h-4 w-4" />
+          </ToggleGroupItem>
+        </ToggleGroup>
 
         <div className="w-fit flex items-center flex-wrap gap-2 bg-white  border-l-2 border-r-2 ">
           <div className="pl-2">Màu sắc</div>

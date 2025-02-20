@@ -1,6 +1,8 @@
 import React from 'react'
-
-const ActiviesComponent = () => {
+type Props = {
+  handleChange: (field: string, value: string) => void;
+};
+const ActiviesComponent = ({handleChange}:Props) => {
   return (
     <div>ActiviesComponent</div>
   )

@@ -1,6 +1,8 @@
 import React from "react";
-
-const ReferencerComponent = () => {
+type Props = {
+  handleChange: (field: string, value: string) => void;
+};
+const ReferencerComponent = ({ handleChange }: Props) => {
   return <div>ReferencerComponent</div>;
 };
 

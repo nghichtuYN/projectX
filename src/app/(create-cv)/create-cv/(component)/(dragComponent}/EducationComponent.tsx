@@ -1,6 +1,8 @@
 import React from "react";
-
-const EducationComponent = () => {
+type Props = {
+  handleChange: (field: string, value: string) => void;
+};
+const EducationComponent = ({ handleChange }: Props) => {
   return <div>EducationComponent</div>;
 };
 

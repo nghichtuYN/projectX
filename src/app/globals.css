@@ -101,20 +101,20 @@ body.moving-up {
 .S9gUrf-YoZ4jf {
   border: none;
   padding: 0;
-  display:flex;
-  justify-content:center
+  display: flex;
+  justify-content: center;
 }
 .ql-editor {
-  font-family: "Arial", sans-serif;  /* Hoặc font khác bạn muốn */
+  font-family: "Arial", sans-serif; /* Hoặc font khác bạn muốn */
 }
 
 /* Thêm các quy tắc riêng cho h1, p nếu cần */
 .ProseMirror {
   /* padding: 10px; */
-  background: transparent;
+  /* background: transparent; */
   border-radius: 0 0 5px 5px;
-  /* min-height: 20px; */
-  height:10px;
+  min-height: 20px;
+  height: 100%;
 }
 
 .ProseMirror > * + * {
@@ -147,8 +147,8 @@ body.moving-up {
 .ProseMirror pre {
   background: #0d0d0d;
   color: #fff;
-  font-family: 'JetBrainsMono', monospace;
-  /* padding: 0.75rem 1rem; */
+  font-family: "JetBrainsMono", monospace;
+  padding: 0.75rem 1rem;
   border-radius: 0.5rem;
 }
 .ProseMirror code {
@@ -168,7 +168,16 @@ body.moving-up {
   border-top: 3px solid #999999;
   margin: 2rem 0;
 }
-
+.ProseMirror p {
+  width: 100%;
+}
 .heading3 {
   font-size: 15px;
+}
+p.is-editor-empty:first-child::before {
+  color: #adb5bd;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
 }

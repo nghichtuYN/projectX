@@ -1,6 +1,8 @@
 import React from "react";
-
-const CertificateComponent = () => {
+type Props = {
+  handleChange: (field: string, value: string) => void;
+};
+const CertificateComponent = ({handleChange}:Props) => {
   return <div>CertificateComponent</div>;
 };
 

@@ -1,6 +1,8 @@
 import React from "react";
-
-const HobbiesComponent = () => {
+type Props = {
+  handleChange: (field: string, value: string) => void;
+};
+const HobbiesComponent = ({ handleChange }: Props) => {
   return <div>HobbiesComponent</div>;
 };
 

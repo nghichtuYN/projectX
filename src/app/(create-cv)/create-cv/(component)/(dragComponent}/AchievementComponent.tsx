@@ -1,6 +1,8 @@
 import React from "react";
-
-const AchievementComponent = () => {
+type Props = {
+  handleChange: (field: string, value: string) => void;
+};
+const AchievementComponent = ({handleChange}:Props) => {
   return <div>AchievementComponent</div>;
 };
 

@@ -21,14 +21,14 @@ const NavCvComponent = () => {
             key={item.title}
             variant="ghost"
             className={cn(
-              "w-20 h-20 flex flex-col items-center space-y-1 hover:bg-secondaryColor hover:text-white bg-white",
+              "w-[85px] h-[85px] flex flex-col items-center space-y-1 hover:bg-secondaryColor hover:text-white bg-white",
               "text-center px-2",
               activeContent === item.content && "bg-secondaryColor text-white"
             )}
             onClick={() => handleNavClick(item.content)}
           >
-            <item.icon className="h-6 w-6" />
-            <p className="text-xs text-center leading-tight break-normal whitespace-normal">
+            <item.icon size={1} className="w-12 h-12 text-secondaryColor" />
+            <p className="text-xs font-medium text-center leading-tight break-normal whitespace-normal">
               {item.title}
             </p>
           </Button>

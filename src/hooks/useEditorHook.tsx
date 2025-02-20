@@ -4,12 +4,12 @@ import Underline from "@tiptap/extension-underline";
 import Heading from "@tiptap/extension-heading";
 import TextStyle from "@tiptap/extension-text-style";
 import FontFamily from "@tiptap/extension-font-family";
-import History from "@tiptap/extension-history";
 import { CustomTextStyle } from "@/lib/CustomTextStyle";
 import { Color } from "@tiptap/extension-color"; // Import Color extension
-
+import Placeholder from "@tiptap/extension-placeholder";
 export const useEditorHook = (
   content: string,
+  placeHolder: string | "",
   field: string,
   onChange: (field: string, content: string) => void
 ) => {
@@ -21,24 +21,23 @@ export const useEditorHook = (
     extensions: [
       StarterKit,
       Underline,
-      TextStyle.configure({
-        mergeNestedSpanStyles: true,
+      Placeholder.configure({
+        placeholder: placeHolder,
       }),
       FontFamily.configure({
         types: ["textStyle"],
       }),
       CustomTextStyle,
-      Heading.configure({
-        levels: [1, 2, 3],
-      }),
       Color.configure({
-        types: ["textStyle"], // Make sure the types are correctly configured
+        types: ["textStyle"],
       }),
     ],
+    immediatelyRender: false,
     content: content,
     editorProps: {
       attributes: {
-        class: "",
+        class:
+          "flex flex-col  justify-start pl-1 items-start w-full gap-3 font-medium rounded-bl-md rounded-br-md outline-none",
       },
     },
     onUpdate: ({ editor }) => {

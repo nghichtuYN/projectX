@@ -1,6 +1,8 @@
 import React from 'react'
-
-const SkillComponent = () => {
+type Props = {
+  handleChange: (field: string, value: string) => void;
+};
+const SkillComponent = ({ handleChange }: Props) => {
   return (
     <div>SkillComponent</div>
   )
