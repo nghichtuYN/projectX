@@ -8,11 +8,12 @@ import BusinessCard from "./(dragComponent}/BusinessCardComponent";
 import CareerGoalsComponent from "./(dragComponent}/CareerGoalsComponent";
 import CertificateComponent from "./(dragComponent}/CertificateComponent";
 import EducationComponent from "./(dragComponent}/EducationComponent";
-import ExperienciesComponent from "./(dragComponent}/ExperienciesComponent";
+import ExperienciesComponent from "./(dragComponent}/Experiencies/ExperienciesComponent";
 import HobbiesComponent from "./(dragComponent}/HobbiesComponent";
 import ReferencerComponent from "./(dragComponent}/ReferencerComponent";
 import SkillComponent from "./(dragComponent}/SkillComponent";
-type ComponentType =
+import { FormType } from "@/types/fromCvtype";
+export type ComponentType =
   | "info"
   | "achievement"
   | "activies"
@@ -26,7 +27,12 @@ type ComponentType =
   | "referencer"
   | "skills";
 type ComponentProps = {
-  handleChange: (field: string, value: string) => void;
+  handleChange: (
+    field: keyof FormType,
+    value: any,
+    subField?: string,
+    index?: number
+  ) => void;
 };
 const componentMap: Record<ComponentType, React.FC<ComponentProps>> = {
   info: InfomationComponent,
@@ -43,10 +49,14 @@ const componentMap: Record<ComponentType, React.FC<ComponentProps>> = {
   skills: SkillComponent,
 };
 
-// Component hiển thị dựa vào key
 type RenderComponentProps = {
-  type: string;
-  handleChange: (field: string, value: string) => void;
+  type?: string;
+  handleChange: (
+    field: keyof FormType,
+    value: any,
+    subField?: string,
+    index?: number
+  ) => void;
 };
 
 export const RenderComponent: React.FC<RenderComponentProps> = ({

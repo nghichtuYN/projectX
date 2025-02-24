@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useState } from "react";
+import React, { Fragment, useContext, useEffect, useState } from "react";
 import {
   Sheet,
   SheetClose,
@@ -17,24 +17,101 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizeable";
-type Props={
-  setLayoutInstance:(layout:any)=>void
-}
-const EditLayoutComponent = ({setLayoutInstance}:Props) => {
+import { generatePlaceholderContent } from "@/lib/formater";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+type Props = {
+  setLayoutInstance: (layout: any) => void;
+};
+const EditLayoutComponent = ({ setLayoutInstance }: Props) => {
   const context = useContext(CvFormContext);
-  const { layout } = context;
-  const [layoutInstane, setLayoutInstane] = useState(layout);
-  const handleAddRow = () => {
-    const newRow = {
-      id: Date.now(),
-      columns: [{ id: Date.now(), content: [] }],
-    };
+  const { layoutInstance } = context;
+  console.log(layoutInstance);
+  const [layoutInstane, setLayoutInstane] = useState(layoutInstance);
+  useEffect(() => {
+    setLayoutInstane(layoutInstance);
+  }, [layoutInstance]);
 
-    setLayoutInstane([...layoutInstane, newRow]);
+  const handleAddRow = () => {
+    const rowid = `row-${Date.now()}`;
+    const newRow = {
+      id: rowid,
+      columns: [
+        {
+          id: `col-${Date.now()}`,
+          width: "100",
+          content: [generatePlaceholderContent({ id: rowid })],
+        },
+      ],
+    };
+    setLayoutInstane((prevLayout: any) => ({
+      ...prevLayout,
+      rows: [...prevLayout.rows, newRow],
+    }));
   };
+  const handleAddColumn = (rowId: string) => {
+    setLayoutInstane((prevLayout: any) => ({
+      ...prevLayout,
+      rows: prevLayout.rows.map((row: any) => {
+        if (row.id === rowId) {
+          const newColumnCount = row.columns.length + 1;
+          const newColumnWidth = 100 / newColumnCount;
+
+          return {
+            ...row,
+            columns: [
+              ...row.columns.map((col: any) => ({
+                ...col,
+                width: newColumnWidth.toString(),
+              })),
+              {
+                id: `col-${Date.now()}`,
+                width: newColumnWidth.toString(),
+                content: [generatePlaceholderContent({ id: rowId })],
+              },
+            ],
+          };
+        }
+        return row;
+      }),
+    }));
+  };
+
+  const handleRemoveColumn = (rowId: string) => {
+    setLayoutInstane((prevLayout: any) => ({
+      ...prevLayout,
+      rows: prevLayout.rows
+        .map((row: any) => {
+          if (row.id === rowId) {
+            if (row.columns.length === 1) {
+              return null;
+            }
+
+            const updatedColumns = row.columns.slice(0, -1);
+            const newColumnWidth = 100 / updatedColumns.length;
+
+            return {
+              ...row,
+              columns: updatedColumns.map((col: any) => ({
+                ...col,
+                width: newColumnWidth.toString(),
+              })),
+            };
+          }
+          return row;
+        })
+        .filter(Boolean),
+    }));
+  };
+
   const handleResize = (size: number, rowId: string, colId: string) => {
-    setLayoutInstane((prevLayout) =>
-      prevLayout.map((row) =>
+    setLayoutInstane((prevLayout: any) => ({
+      ...prevLayout,
+      rows: prevLayout.rows.map((row: any) =>
         row.id === rowId
           ? {
               ...row,
@@ -43,8 +120,8 @@ const EditLayoutComponent = ({setLayoutInstance}:Props) => {
               ),
             }
           : row
-      )
-    );
+      ),
+    }));
   };
 
   return (
@@ -63,13 +140,13 @@ const EditLayoutComponent = ({setLayoutInstance}:Props) => {
           <SheetTitle>Bố cục CV</SheetTitle>
           <SheetDescription>Tùy chỉnh bố cục</SheetDescription>
         </SheetHeader>
-        {layoutInstane.map((row) => (
+        {layoutInstane?.rows.map((row: any) => (
           <div
             key={row.id}
             className="rounded-lg border max-h-[68px] mb-3 group hover:border-2 hover:border-gray-500 hover:border-dashed relative"
           >
             <ResizablePanelGroup direction="horizontal">
-              {row.columns.map((col: any, index: number) => (
+              {row.columns?.map((col: any, index: number) => (
                 <Fragment key={col.id}>
                   <ResizablePanel
                     defaultSize={parseInt(col.width, 10)}
@@ -82,7 +159,7 @@ const EditLayoutComponent = ({setLayoutInstance}:Props) => {
                           key={item.id}
                           className="text-sm bg-accent h-full flex items-center justify-center w-full"
                         >
-                          <p>{item.name}</p>
+                          {!item?.FE_PlaceholderContent && <p>{item.name}</p>}
                         </div>
                       ))}
                     </div>
@@ -92,10 +169,41 @@ const EditLayoutComponent = ({setLayoutInstance}:Props) => {
                   )}
                   <div className="absolute -right-3 top-1/2  -translate-y-1/2 gap-3 p-1  group-hover:flex group-hover:flex-col hidden">
                     <div className="bg-green-600 rounded-3xl">
-                      <Plus className="w-4 h-4 z-50 text-white hover:text-black cursor-pointer" />
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger
+                            className="w-4 h-4 z-50 text-white hover:text-black cursor-pointer"
+                            onClick={() => handleAddColumn(row.id)}
+                            asChild
+                          >
+                            <Plus />
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Thêm cột</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
                     </div>
+
                     <div className="bg-red-600 rounded-3xl">
-                      <X className="w-4 h-4 z-50 text-white hover:text-black cursor-pointer" />
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger
+                            className="w-4 h-4 z-50 text-white hover:text-black cursor-pointer"
+                            onClick={() => handleRemoveColumn(row.id)}
+                            asChild
+                          >
+                            <X />
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>
+                              {row.columns.length === 1
+                                ? "Xóa hàng"
+                                : "Xóa cột ngoài cùng bên phải"}
+                            </p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
                     </div>
                   </div>
                 </Fragment>
@@ -112,7 +220,9 @@ const EditLayoutComponent = ({setLayoutInstance}:Props) => {
             <Button>Hủy</Button>
           </SheetClose>
           <SheetClose asChild>
-            <Button onClick={()=>setLayoutInstance(layoutInstane)}>Lưu</Button>
+            <Button onClick={() => setLayoutInstance(layoutInstane)}>
+              Lưu
+            </Button>
           </SheetClose>
         </SheetFooter>
       </SheetContent>

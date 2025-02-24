@@ -25,6 +25,17 @@ const TextToolBarComponent = ({ editor }: Props) => {
   if (!editor) {
     return null;
   }
+  const rgbToHex = (color: string) => {
+    if (color.startsWith("#")) return color;
+
+    const result = color.match(/\d+/g);
+    if (!result) return "#000000";
+
+    return `#${result
+      .map((x) => Number(x).toString(16).padStart(2, "0"))
+      .join("")}`;
+  };
+
   return (
     <div className="px-4 bg-white py-3 rounded-tl-md rounded-tr-md flex justify-center items-center gap-5 w-full flex-wrap border-t-2 ">
       <div className="flex justify-center items-center w-full gap-2 lg:w-10/12 flex-wrap ">
@@ -60,7 +71,6 @@ const TextToolBarComponent = ({ editor }: Props) => {
           <Select
             onValueChange={(size) => {
               if (editor) {
-                console.log("run");
                 editor
                   .chain()
                   .focus()
@@ -80,6 +90,7 @@ const TextToolBarComponent = ({ editor }: Props) => {
               <SelectItem value="12">12px</SelectItem>
               <SelectItem value="14">14px</SelectItem>
               <SelectItem value="16">16px</SelectItem>
+              <SelectItem value="18">18px</SelectItem>
               <SelectItem value="20">20px</SelectItem>
               <SelectItem value="24">24px</SelectItem>
               <SelectItem value="30">30px</SelectItem>
@@ -132,7 +143,9 @@ const TextToolBarComponent = ({ editor }: Props) => {
                 .setMark("textStyle", { color: target.value }) // Correct usage of setMark for setting color
                 .run();
             }}
-            value={editor.getAttributes("textStyle").color || "#000000"} // Get the current color value
+            value={rgbToHex(
+              editor.getAttributes("textStyle").color || "#000000"
+            )}
             data-testid="setColor"
             className="w-12 border-none focus-visible:ring-0 placeholder:font-medium rounded-3xl"
           />

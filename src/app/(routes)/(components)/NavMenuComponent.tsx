@@ -13,7 +13,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import ListItem from "@/app/(routes)/(components)/listItem";
-import { Menu } from "../../../lib/Menu";
+import { Menu } from "../../../data/Menu";
 
 const NavMenuComponent = () => {
   const pathname = usePathname();

@@ -3,7 +3,7 @@ import React from "react";
 import { Input } from "../../../../components/ui/input";
 import EditLayoutComponent from "./EditLayoutComponent";
 type Props = {
-  handleChangeColor: (field: string, value: string) => void;
+  handleChangeColor: (newColor: string) => void;
   color: string;
   setLayoutInstance: (layout: any) => void;
 };
@@ -22,7 +22,7 @@ const ToolbarCvComponent = ({
             type="color"
             onInput={(event) => {
               const target = event.target as HTMLInputElement;
-              handleChangeColor("color", target.value);
+              handleChangeColor(target.value);
             }}
             value={color}
             data-testid="setColor"

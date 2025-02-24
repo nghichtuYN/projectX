@@ -11,7 +11,7 @@ import ToggleHeader from "./ToggleHeader";
 const Header = () => {
   const [open, setOpen] = React.useState<boolean>(false);
   return (
-    <header className="bg-white shadow-sm w-full xl:fixed top-0 right-0 left-0 z-50">
+    <header className="bg-white shadow-sm w-full  z-50">
       <div className="  mx-auto px-4 sm:px-6 lg:px-8 bg-secondaryColor text-white w-full ">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center space-x-8">

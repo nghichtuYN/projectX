@@ -12,7 +12,7 @@ import {
 import { Avatar } from "@radix-ui/react-avatar";
 import { AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
-import { AccountMenu } from "@/lib/AccountMenu";
+import { AccountMenu } from "@/data/AccountMenu";
 import ListItem from "@/app/(routes)/(components)/listItem";
 const SiteComponent = () => {
   const styleNav =

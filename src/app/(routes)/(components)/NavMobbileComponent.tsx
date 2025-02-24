@@ -8,7 +8,7 @@ import { Collapsible, CollapsibleContent } from "@radix-ui/react-collapsible";
 import React from "react";
 import { cn } from "@/lib/utils";
 import AccordionAccount, { User } from "./AccordionAccount";
-import { Menu } from "../../../lib/Menu";
+import { Menu } from "../../../data/Menu";
 import ListItemMobile from "./listItemMobile";
 import Link from "next/link";
 type Props = {

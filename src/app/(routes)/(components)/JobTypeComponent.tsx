@@ -17,7 +17,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-import { JobType } from "@/lib/jobType";
+import { JobType } from "@/data/jobType";
 import React, { useState } from "react";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 

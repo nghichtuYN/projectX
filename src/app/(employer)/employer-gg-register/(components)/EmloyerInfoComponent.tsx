@@ -17,7 +17,7 @@ import { RadioGroup, RadioGroupItem } from "../../../../components/ui/radio-grou
 import { Label } from "../../../../components/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "../../../../components/ui/popover";
 import { Button } from "../../../../components/ui/button";
-import { JobType } from "@/lib/jobType";
+import { JobType } from "@/data/jobType";
 import {
   Command,
   CommandEmpty,

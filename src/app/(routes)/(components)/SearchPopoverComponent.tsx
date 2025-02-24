@@ -2,7 +2,7 @@ import React, { Dispatch, RefObject, SetStateAction } from "react";
 import { cn } from "@/lib/utils";
 
 import SelectTypeSearchComponent from "./SelectTypeSearchComponent";
-import { PopularKeySearch } from "@/lib/PopularKeySearch";
+import { PopularKeySearch } from "@/data/PopularKeySearch";
 import PopularKeySearchComponent from "./PopularKeySearchComponent";
 import RecentSearchKeyComponent from "./RecentSearchKeyComponent";
 import FilterResultComponent from "./FilterResultComponent";

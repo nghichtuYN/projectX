@@ -4,7 +4,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import React from "react";
-import { AccountMenu } from "../../../lib/AccountMenu";
+import { AccountMenu } from "../../../data/AccountMenu";
 import ListItemMobile from "./listItemMobile";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { cn } from "@/lib/utils";

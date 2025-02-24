@@ -1,7 +1,13 @@
+import { FormType } from "@/types/fromCvtype";
 import Image from "next/image";
 import React from "react";
 type Props = {
-  handleChange: (field: string, value: string) => void;
+    handleChange: (
+      field: keyof FormType,
+      value: any,
+      subField?: string,
+      index?: number
+    ) => void;
 };
 const AvatarDragComponent = ({ handleChange }: Props) => {
   return (

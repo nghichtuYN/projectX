@@ -3,52 +3,70 @@ import React, { useContext } from "react";
 import { CvFormContext } from "../CvFormComponent";
 import { cn } from "@/lib/utils";
 import { EditorContent } from "@tiptap/react";
+import { FormType } from "@/types/fromCvtype";
 type Props = {
-  handleChange: (field: string, value: string) => void;
+  handleChange: (
+    field: keyof FormType,
+    value: any,
+    subField?: string,
+    index?: number
+  ) => void;
 };
 const BusinessCard = ({ handleChange }: Props) => {
-  const contentName = `<p><span style="font-size: 48px; font-weight: bold;">Tên của bạn</span></p>`;
+  const context = useContext(CvFormContext);
+  const { setActiveEditor, form } = context;
 
-  const contentPosition = "";
   const placeholderName = "Tên của bạn";
   const placeholderPosition = "Vị trí ứng tuyển";
   const { editor: nameEditor } = useEditorHook(
-    contentName,
+    form.name,
     placeholderName,
-    "email",
-    handleChange
-  );
-  const { editor: positionEditor } = useEditorHook(
-    contentPosition,
-    placeholderPosition,
     "name",
     handleChange
   );
-
-  const context = useContext(CvFormContext);
-  const { setActiveEditor } = context;
+  const { editor: positionEditor } = useEditorHook(
+    form.position,
+    placeholderPosition,
+    "position",
+    handleChange
+  );
   return (
-    <div className="w-full min-h-40 h-fit hover:border-secondaryColor hover:border-2  rounded-md flex flex-col gap-2 p-5">
-      <div
-        className="h-full max-h-full m-3 w-full"
-        onFocus={() => setActiveEditor(nameEditor)}
-      >
-        <EditorContent style={{ whiteSpace: "pre-line" }} editor={nameEditor} />
+    <div className="w-full min-h-40 h-fit border hover:border-secondaryColor  rounded-md flex flex-col gap-2 p-5">
+      <div className="h-3/4 w-fit max-w-full">
+        <div
+          className={cn(
+            "h-full max-h-full pl-4 pr-4 pt-4 pb-1 m-3 flex items-end border",
+            !nameEditor?.isFocused &&
+              "hover:border-dashed hover:border-secondaryColor",
+
+            nameEditor?.isFocused && "border-solid border-green-500"
+          )}
+          onFocus={() => setActiveEditor(nameEditor)}
+          tabIndex={0}
+        >
+          <EditorContent
+            style={{ whiteSpace: "pre-line", height: "100%", width: "100%" }}
+            editor={nameEditor}
+          />
+        </div>
       </div>
-      {/* <div className="w-full flex items-center"> */}
+
       <div
-        onFocus={() => setActiveEditor(positionEditor)}
         className={cn(
-          "h-full m-3 w-full min-w-28  border focus-visible::border-primaryColor focus-visible::border"
+          "h-1/4 m-3 max-w-full w-fit min-w-28 border ",
+          !positionEditor?.isFocused &&
+            "hover:border-dashed hover:border-secondaryColor",
+
+          positionEditor?.isFocused && "border-solid border-green-500"
         )}
+        onFocus={() => setActiveEditor(positionEditor)}
+        tabIndex={0}
       >
         <EditorContent
           style={{ whiteSpace: "pre-line" }}
           editor={positionEditor}
         />
       </div>
-      {/* <hr className="w-[120px] border border-orange-700" />
-      </div> */}
     </div>
   );
 };

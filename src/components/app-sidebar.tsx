@@ -11,7 +11,7 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { MenuEmployer } from "@/lib/MenuEmployer";
+import { MenuEmployer } from "@/data/MenuEmployer";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (

@@ -1,4 +1,4 @@
-import { Job } from "./Jobs";
+import { Job } from "../types/Jobs";
 
 export const JobType: Job[] = [
   { label: "Kinh doanh/Bán hàng", value: "0" },
