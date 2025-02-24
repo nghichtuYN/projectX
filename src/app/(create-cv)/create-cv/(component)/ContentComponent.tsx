@@ -55,8 +55,7 @@ const ContentComponent = ({ content }: Props) => {
         <div
           style={style1}
           className="w-full h-28 flex items-center justify-center"
-        >
-        </div>
+        ></div>
       ) : (
         <RenderComponent type={content?.type} handleChange={handleChange} />
       )}

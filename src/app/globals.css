@@ -187,4 +187,5 @@ p.is-editor-empty:first-child::before {
   content: attr(data-placeholder);
   height: 0;
   pointer-events: none;
+  font-size: 14px;
 }

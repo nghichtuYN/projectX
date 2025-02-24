@@ -11,7 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Phone, Mail, Globe, Home, Linkedin, LucideIcon } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { ScrollArea } from "./ui/scroll-area";
+import { ScrollArea } from "../../../../components/ui/scroll-area";
 type Props = {
   content: { maniContent: string; icon: LucideIcon };
 };

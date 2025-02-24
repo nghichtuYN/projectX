@@ -1,13 +1,16 @@
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useEditorHook } from "@/hooks/useEditorHook";
 import { cn } from "@/lib/utils";
 import { FormType } from "@/types/fromCvtype";
 import { EditorContent } from "@tiptap/react";
-import { Minus } from "lucide-react";
+import { Minus, MoveDown, MoveUp, Plus, Trash } from "lucide-react";
 import React from "react";
+import OptionsButtonCompoent from "../OptionsButtonCompoent";
 type Props = {
   experience: any;
   index: number;
+  length: number ;
   handleChange: (
     field: keyof FormType,
     value: string,
@@ -15,12 +18,15 @@ type Props = {
     index?: number
   ) => void;
   setActiveEditor: (editor: any) => void;
+  handleAddExperience: () => void;
 };
 const ExperienceDetail = ({
   experience,
   index,
   handleChange,
   setActiveEditor,
+  handleAddExperience,
+  length,
 }: Props) => {
   const { editor: editorPosition } = useEditorHook(
     experience.position,
@@ -67,7 +73,7 @@ const ExperienceDetail = ({
     index
   );
   return (
-    <div className="border-b flex items-start w-full gap-2 border hover:border-dashed hover:border-secondaryColor p-2">
+    <div className="border-b group/detail relative flex items-start w-full gap-2 border hover:border-dashed hover:border-secondaryColor p-2">
       <div className="w-1/3 flex flex-col gap-4">
         <div className="flex items-center gap-2 justify-start w-full">
           <div
@@ -136,7 +142,7 @@ const ExperienceDetail = ({
           </div>
         </div>
       </div>
-     
+      <OptionsButtonCompoent index={index} length={length} handleAdd={handleAddExperience}/>
     </div>
   );
 };

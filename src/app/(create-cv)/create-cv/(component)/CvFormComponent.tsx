@@ -1,4 +1,4 @@
-"use client";
+`use client`;
 import React, {
   useState,
   useEffect,
@@ -12,7 +12,7 @@ import ToolbarCvComponent from "@/app/(create-cv)/create-cv/(component)/ToolbarC
 import { Editor } from "@tiptap/react";
 import TextToolBarComponent from "./TextToolBarComponent";
 import { layout } from "@/data/layout1";
-import { cloneDeep, isEmpty } from "lodash";
+import { cloneDeep, isEmpty, debounce } from "lodash";
 import {
   defaultDropAnimationSideEffects,
   DndContext,
@@ -29,11 +29,11 @@ import { FormType } from "@/types/fromCvtype";
 import CreateCvToolBarComponent from "./CreateCvToolBarComponent";
 import CvComponent from "./CvComponent";
 import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
-
 import { snapCenterToCursor } from "@dnd-kit/modifiers";
 import { generatePlaceholderContent } from "@/lib/formater";
 import { ContentType } from "@/types/content";
 import { ColumnType } from "@/types/Columns";
+import { createPortal } from "react-dom";
 type CvFormContextType = {
   setActiveEditor: Dispatch<React.SetStateAction<Editor | null>>;
   layoutInstance: any;
@@ -63,9 +63,15 @@ const CvFormComponent = () => {
   const textColor = `color-mix(in srgb, ${layoutInstance.color}, black 20%)`;
   const [activeEditor, setActiveEditor] = useState<Editor | null>(null);
   const toolbarRef = useRef<HTMLDivElement | null>(null);
+  const [activeDragContentId, setActiveDragContentId] = useState(null);
+  const [activeDrageCotentData, setActiveDrageCotentData] =
+    useState<ContentType | null>(null);
+  const [activeOldColumn, setActiveOldColumn] = useState<ColumnType | null>(
+    null
+  );
   const [form, setForm] = useState<FormType>({
     email: `<p><span style="font-size: 13 ;">hoangtroll14354@gmail.com</span></p>`,
-    phone: "0123456789",
+    phone: `<p><span style="font-size: 13 ;">0123456789</span></p>`,
     social: "",
     address: "",
     name: `<p><span style="font-size: 48px; font-weight: bold;  color: ${textColor} ;">Hoàng Đặng</span></p>`,
@@ -148,10 +154,7 @@ const CvFormComponent = () => {
       ],
     },
   });
-  const [activeDragContentId, setActiveDragContentId] = useState(null);
-  const [activeDrageCotentData, setActiveDrageCotentData] =
-    useState<ContentType | null>(null);
-  const [activeOldColumn, setActiveOldColumn] = useState<any | null>(null);
+
   const handleChange = (
     field: keyof FormType,
     value: any,
@@ -161,17 +164,14 @@ const CvFormComponent = () => {
     setForm((prevForm) => {
       const fieldData = prevForm[field];
 
-      // Nếu field không tồn tại hoặc không phải object, trả về prevForm
       if (!fieldData || typeof fieldData !== "object") {
         return prevForm;
       }
 
-      // Nếu không có subField, cập nhật giá trị trực tiếp
       if (!subField) {
         return { ...prevForm, [field]: value };
       }
 
-      // Nếu là mảng (có index), cập nhật item trong mảng
       if (Array.isArray(fieldData.details) && typeof index === "number") {
         return {
           ...prevForm,
@@ -184,7 +184,6 @@ const CvFormComponent = () => {
         };
       }
 
-      // Nếu là object (không phải mảng), cập nhật subField trong object
       return {
         ...prevForm,
         [field]: {
@@ -194,6 +193,7 @@ const CvFormComponent = () => {
       };
     });
   };
+
   const handleChangeColor = (newColor: string) => {
     setLayoutInstance((prevLayout) => ({
       ...prevLayout,
@@ -215,11 +215,13 @@ const CvFormComponent = () => {
     }
   };
   const findColumnByContentId = (contentId: string) => {
-    return layoutInstance.rows
-      .flatMap((row) => row.columns)
-      .find((column) =>
-        column.content.some((content) => content.id === contentId)
-      );
+    return (
+      layoutInstance.rows
+        .flatMap((row) => row.columns)
+        .find((column) =>
+          column.content.some((content) => content.id === contentId)
+        ) ?? null
+    );
   };
   const moveContentBetweenDifferentColumns = (
     overColumn: ColumnType,
@@ -256,7 +258,6 @@ const CvFormComponent = () => {
           .flatMap((row) => row.columns)
           .find((col) => col.id === overColumn?.id) || null;
 
-      console.log("newOverColumn", newOverColumn);
       if (newActiveColumn) {
         newActiveColumn.content = newActiveColumn.content.filter(
           (content) => content.id !== activeDragingContentId
@@ -288,9 +289,10 @@ const CvFormComponent = () => {
     setActiveDrageCotentData(event.active?.data?.current);
     setActiveOldColumn(findColumnByContentId(event.active.id) ?? null);
   };
-  const handeDragOver = (event: any) => {
+  const handeDragOver = debounce((event: any) => {
     const { active, over } = event;
     if (!over || !active) return;
+
     const {
       id: activeDragingContentId,
       data: { current: activeDraggingContentData },
@@ -311,7 +313,8 @@ const CvFormComponent = () => {
         activeDraggingContentData
       );
     }
-  };
+  }, 100);
+
   const handelDragEnd = (event: any) => {
     const { active, over } = event;
     if (!over || !active) return;
@@ -337,12 +340,11 @@ const CvFormComponent = () => {
       );
     } else {
       const oldContentIndex = activeOldColumn?.content?.findIndex(
-        (content: any) => content.id === activeDragContentId
+        (content: ContentType) => content.id === activeDragContentId
       );
-      const newContentIndex =
-        overColumn?.content?.findIndex(
-          (content) => content.id === overContentId
-        ) ?? -1;
+      const newContentIndex = overColumn?.content?.findIndex(
+        (content) => content.id === overContentId
+      );
       const orderedContents = arrayMove<ContentType>(
         activeOldColumn?.content,
         oldContentIndex,
@@ -356,7 +358,7 @@ const CvFormComponent = () => {
             .flatMap((row) => row.columns)
             .find((col) => col.id === overColumn?.id) || null;
         if (targetColum) {
-          targetColum.content = orderedContents ?? [];
+          targetColum.content = orderedContents;
         }
 
         return newLayout;
@@ -366,20 +368,22 @@ const CvFormComponent = () => {
     setActiveDrageCotentData(null);
     setActiveOldColumn(null);
   };
-  console.log()
-  useEffect(() => {
-    // console.log(form)
-  }, [layoutInstance]);
+
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [activeEditor]);
+  useEffect(() => {
+    return () => {
+      handeDragOver.cancel();
+    };
+  }, []);
   const sensors = useSensors(
     useSensor(MouseSensor, {
       activationConstraint: {
-        distance: 10,
+        distance: 25,
       },
     }),
     useSensor(TouchSensor, {
@@ -453,17 +457,20 @@ const CvFormComponent = () => {
             id={id}
           >
             <CvComponent layoutInstance={layoutInstance} />
-            <DragOverlay
-              adjustScale={false}
-              dropAnimation={dropAnimation}
-              modifiers={[snapCenterToCursor]}
-            >
-              {activeDragContentId && (
-                <div className="flex items-center justify-center w-fit h-fit p-1 border border-hoverColor text-white bg-secondaryColor">
-                  {activeDrageCotentData?.name}
-                </div>
-              )}
-            </DragOverlay>
+            {createPortal(
+              <DragOverlay
+                adjustScale={false}
+                dropAnimation={dropAnimation}
+                modifiers={[snapCenterToCursor]}
+              >
+                {activeDragContentId && (
+                  <div className="flex items-center justify-center w-fit h-fit p-1 border border-hoverColor text-white bg-secondaryColor pointer-events-none">
+                    {activeDrageCotentData?.name}
+                  </div>
+                )}
+              </DragOverlay>,
+              document.body
+            )}
           </DndContext>
         </div>
       </div>

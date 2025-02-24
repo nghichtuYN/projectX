@@ -57,27 +57,24 @@ const ExperienciesComponent = ({ handleChange }: Props) => {
           "border p-2 rounded",
           !editorName?.isFocused &&
             "hover:border-dashed hover:border-secondaryColor",
-          (form.experiences.name === "<p></p>" || !form.experiences.name) &&
+          (form?.experiences?.name === "<p></p>" || !form?.experiences?.name) &&
             "border-dashed border-secondaryColor",
           editorName?.isFocused && "border-solid border-green-500"
         )}
       >
         <EditorContent editor={editorName} />
       </div>
-      <div className="group/detail relative">
-        {form.experiences.details.map((experience: any, index: number) => (
-          <ExperienceDetail
-            key={index}
-            experience={experience}
-            index={index}
-            handleChange={handleChange}
-            setActiveEditor={setActiveEditor}
-          />
-        ))}
-        <div className="absolute -top-4 right-2 hidden group-hover/detail:block">
-          <Button onClick={handleAddExperience}>aaa</Button>
-        </div>
-      </div>
+      {form?.experiences?.details?.map((experience: any, index: number) => (
+        <ExperienceDetail
+          key={index}
+          experience={experience}
+          index={index}
+          length={form?.experiences?.details?.length}
+          handleChange={handleChange}
+          setActiveEditor={setActiveEditor}
+          handleAddExperience={handleAddExperience}
+        />
+      ))}
     </div>
   );
 };

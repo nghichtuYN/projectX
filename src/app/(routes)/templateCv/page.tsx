@@ -1,5 +1,5 @@
 "use client";
-import CVPreviewDialogComponent from "@/components/CVPreviewDialogComponent";
+import CVPreviewDialogComponent from "@/app/(create-cv)/create-cv/(component)/CVPreviewDialogComponent";
 import { templates } from "@/data/template";
 import { Eye, SquarePen } from "lucide-react";
 import Image from "next/image";
