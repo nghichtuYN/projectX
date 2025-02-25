@@ -75,7 +75,7 @@ export type FormType = {
   position: string;
   careerGoals: string;
   experiences: Experience;
-  education: Education;
+  educations: Education;
   skills: Skill;
   certificates: Certificate;
   activities: Activity;

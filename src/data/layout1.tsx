@@ -90,7 +90,7 @@ export const layout: LayoutType = {
               id: "content-4-1-1",
               column_id: "col-4-1",
               name: "Học vấn",
-              type: "education",
+              type: "educations",
             },
           ],
         },
@@ -134,7 +134,7 @@ export const layout: LayoutType = {
             {
               id: "content-5-1-1",
               column_id: "col-5-1",
-              name: "Dự án cá nhân",
+              name: "Hoạt động",
               type: "activies",
             },
           ],

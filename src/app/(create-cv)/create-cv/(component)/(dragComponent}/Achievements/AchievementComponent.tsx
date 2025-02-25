@@ -1,11 +1,10 @@
 import { useEditorHook } from "@/hooks/useEditorHook";
-import React, { useContext } from "react";
-import { CvFormContext } from "../../CvFormComponent";
+import { cn } from "@/lib/utils";
 import { FormType } from "@/types/fromCvtype";
 import { EditorContent } from "@tiptap/react";
-import { cn } from "@/lib/utils";
-import ExperienceDetail from "./ExperienceDetail";
-
+import React, { useContext } from "react";
+import { CvFormContext } from "../../CvFormComponent";
+import AchievementDetail from "./AchievementDetail";
 type Props = {
   handleChange: (
     field: keyof FormType,
@@ -14,61 +13,52 @@ type Props = {
     index?: number
   ) => void;
 };
-
-const ExperienciesComponent = ({ handleChange }: Props) => {
+const AchievementComponent = ({ handleChange }: Props) => {
   const context = useContext(CvFormContext);
   const { setActiveEditor, form, setForm } = context;
   const { editor: editorName } = useEditorHook(
-    form.experiences.name,
-    "Kinh nghiệm làm việc",
-    "experiences",
+    form.achievements.name,
+    "Danh hiệu và giải thưởng",
+    "achievements",
     handleChange,
     "name"
   );
   const handleAdd = () => {
     setForm((prevForm) => ({
       ...prevForm,
-      experiences: {
-        ...prevForm.experiences,
+      achievements: {
+        ...prevForm.achievements,
         details: [
-          ...prevForm.experiences.details,
+          ...prevForm.achievements.details,
           {
-            position: "",
-            company: "",
-            start: "",
-            end: "",
-            description: "",
+            name: "",
+            time: "",
           },
         ],
       },
     }));
   };
-
   return (
-    <div
-      id="details"
-      className="w-full min-h-full h-fit rounded-md border hover:border-secondaryColor p-2"
-    >
+    <div className="w-full min-h-full h-fit rounded-md border hover:border-secondaryColor p-2">
       <div
         onFocus={() => setActiveEditor(editorName)}
         className={cn(
           "border p-2 rounded",
           !editorName?.isFocused &&
             "hover:border-dashed hover:border-secondaryColor",
-          (form?.experiences?.name === "<p></p>" || !form?.experiences?.name) &&
+          (form.achievements.name === "<p></p>" || !form.achievements.name) &&
             "border-dashed border-secondaryColor",
           editorName?.isFocused && "border-solid border-green-500"
         )}
       >
         <EditorContent editor={editorName} />
       </div>
-
-      {form.experiences.details.map((experience: any, index: number) => (
-        <ExperienceDetail
+      {form?.achievements?.details?.map((achievement: any, index: number) => (
+        <AchievementDetail
           key={index}
-          experience={experience}
+          achievement={achievement}
           index={index}
-          length={form.experiences.details.length}
+          length={form?.achievements?.details?.length}
           handleChange={handleChange}
           handleAdd={handleAdd}
         />
@@ -77,4 +67,4 @@ const ExperienciesComponent = ({ handleChange }: Props) => {
   );
 };
 
-export default ExperienciesComponent;
+export default AchievementComponent;

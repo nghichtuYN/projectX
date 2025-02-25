@@ -1,9 +1,10 @@
 import { FormType } from "@/types/fromCvtype";
 import React, { useContext } from "react";
-import { CvFormContext } from "../CvFormComponent";
+import { CvFormContext } from "../../CvFormComponent";
 import { useEditorHook } from "@/hooks/useEditorHook";
 import { EditorContent } from "@tiptap/react";
 import { cn } from "@/lib/utils";
+import ReferencerDetailComponent from "./ReferencerDetailComponent";
 type Props = {
   handleChange: (
     field: keyof FormType,
@@ -14,7 +15,7 @@ type Props = {
 };
 const ReferencerComponent = ({ handleChange }: Props) => {
   const context = useContext(CvFormContext);
-  const { setActiveEditor, form } = context;
+  const { setActiveEditor, form, setForm } = context;
   const { editor: editorName } = useEditorHook(
     form.referencer.name,
     "Kinh nghiệm làm việc",
@@ -22,6 +23,20 @@ const ReferencerComponent = ({ handleChange }: Props) => {
     handleChange,
     "name"
   );
+  const handleAdd = () => {
+    setForm((prevForm) => ({
+      ...prevForm,
+      referencer: {
+        ...prevForm.referencer,
+        details: [
+          ...prevForm.referencer.details,
+          {
+            info: "",
+          },
+        ],
+      },
+    }));
+  };
   return (
     <div className="w-full min-h-full h-fit rounded-md border hover:border-secondaryColor p-2">
       <div
@@ -37,34 +52,16 @@ const ReferencerComponent = ({ handleChange }: Props) => {
       >
         <EditorContent editor={editorName} />
       </div>
-      {form.referencer.details.map((referencer: any, index: number) => {
-        const { editor: editorInfo } = useEditorHook(
-          referencer.position,
-          "Thông tin người tham chiếu bao gồm tên, chức vự và thông tin liên hệ",
-          "referencer",
-          handleChange,
-          "info",
-          index
-        );
-        return (
-          <div
-            key={index}
-            className="border-b flex items-start w-full gap-2 border hover:border-dashed hover:border-secondaryColor p-2"
-          >
-            <div
-              onFocus={() => setActiveEditor(editorInfo)}
-              className={cn(
-                "border rounded p-1 min-h-20 w-full",
-                !editorInfo?.isFocused &&
-                  "hover:border-dashed hover:border-secondaryColor",
-                editorInfo?.isFocused && "border-solid border-green-500"
-              )}
-            >
-              <EditorContent editor={editorInfo} />
-            </div>
-          </div>
-        );
-      })}
+      {form?.referencer?.details?.map((referencer: any, index: number) => (
+        <ReferencerDetailComponent
+          key={index}
+          referencer={referencer}
+          index={index}
+          length={form?.referencer?.details?.length}
+          handleChange={handleChange}
+          handleAdd={handleAdd}
+        />
+      ))}
     </div>
   );
 };

@@ -1,11 +1,10 @@
 import { useEditorHook } from "@/hooks/useEditorHook";
-import React, { useContext } from "react";
-import { CvFormContext } from "../../CvFormComponent";
+import { cn } from "@/lib/utils";
 import { FormType } from "@/types/fromCvtype";
 import { EditorContent } from "@tiptap/react";
-import { cn } from "@/lib/utils";
-import ExperienceDetail from "./ExperienceDetail";
-
+import React, { useContext } from "react";
+import { CvFormContext } from "../../CvFormComponent";
+import EducationDetailComponent from "./EducationDetailComponent";
 type Props = {
   handleChange: (
     field: keyof FormType,
@@ -14,27 +13,26 @@ type Props = {
     index?: number
   ) => void;
 };
-
-const ExperienciesComponent = ({ handleChange }: Props) => {
+const EducationComponent = ({ handleChange }: Props) => {
   const context = useContext(CvFormContext);
   const { setActiveEditor, form, setForm } = context;
   const { editor: editorName } = useEditorHook(
-    form.experiences.name,
-    "Kinh nghiệm làm việc",
-    "experiences",
+    form?.educations?.name,
+    "Học vấn",
+    "educations",
     handleChange,
     "name"
   );
   const handleAdd = () => {
     setForm((prevForm) => ({
       ...prevForm,
-      experiences: {
-        ...prevForm.experiences,
+      educations: {
+        ...prevForm.educations,
         details: [
-          ...prevForm.experiences.details,
+          ...prevForm.educations.details,
           {
-            position: "",
-            company: "",
+            major: "",
+            school: "",
             start: "",
             end: "",
             description: "",
@@ -45,30 +43,26 @@ const ExperienciesComponent = ({ handleChange }: Props) => {
   };
 
   return (
-    <div
-      id="details"
-      className="w-full min-h-full h-fit rounded-md border hover:border-secondaryColor p-2"
-    >
+    <div className="w-full min-h-full h-fit rounded-md border hover:border-secondaryColor p-2">
       <div
         onFocus={() => setActiveEditor(editorName)}
         className={cn(
           "border p-2 rounded",
           !editorName?.isFocused &&
             "hover:border-dashed hover:border-secondaryColor",
-          (form?.experiences?.name === "<p></p>" || !form?.experiences?.name) &&
+          (form.educations.name === "<p></p>" || !form.educations.name) &&
             "border-dashed border-secondaryColor",
           editorName?.isFocused && "border-solid border-green-500"
         )}
       >
         <EditorContent editor={editorName} />
       </div>
-
-      {form.experiences.details.map((experience: any, index: number) => (
-        <ExperienceDetail
+      {form?.educations?.details?.map((education: any, index: number) => (
+        <EducationDetailComponent
           key={index}
-          experience={experience}
+          education={education}
           index={index}
-          length={form.experiences.details.length}
+          length={form?.educations?.details?.length}
           handleChange={handleChange}
           handleAdd={handleAdd}
         />
@@ -77,4 +71,4 @@ const ExperienciesComponent = ({ handleChange }: Props) => {
   );
 };
 
-export default ExperienciesComponent;
+export default EducationComponent;

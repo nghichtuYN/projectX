@@ -89,9 +89,8 @@ const CvFormComponent = () => {
         },
       ],
     },
-    education: {
+    educations: {
       name: `<p><span style="font-size: 18px; font-weight: bold;  color: ${textColor};">Học vấn</span></p>`,
-
       details: [
         {
           major: "",
@@ -405,7 +404,6 @@ const CvFormComponent = () => {
       },
     }),
   };
-
   return (
     <CvFormContext.Provider
       value={{

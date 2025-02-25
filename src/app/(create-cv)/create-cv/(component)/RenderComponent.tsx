@@ -1,18 +1,18 @@
 import EmailComponent from "./(dragComponent}/Infomation/EmailComponent";
 import PhoneComponent from "./(dragComponent}/Infomation/PhoneComponent";
 import InfomationComponent from "./(dragComponent}/Infomation/InfomationComponent";
-import AchievementComponent from "./(dragComponent}/Achievement/AchievementComponent";
-import ActiviesComponent from "./(dragComponent}/ActiviesComponent";
+import AchievementComponent from "./(dragComponent}/Achievements/AchievementComponent";
+import ActiviesComponent from "./(dragComponent}/Activies/ActiviesComponent";
 import AvatarDragComponent from "./(dragComponent}/AvatarDragComponent";
 import BusinessCard from "./(dragComponent}/BusinessCardComponent";
 import CareerGoalsComponent from "./(dragComponent}/CareerGoalsComponent";
-import CertificateComponent from "./(dragComponent}/CertificateComponent";
-import EducationComponent from "./(dragComponent}/EducationComponent";
+import CertificateComponent from "./(dragComponent}/Certificates/CertificatesComponent";
 import ExperienciesComponent from "./(dragComponent}/Experiencies/ExperienciesComponent";
 import HobbiesComponent from "./(dragComponent}/HobbiesComponent";
-import ReferencerComponent from "./(dragComponent}/ReferencerComponent";
-import SkillComponent from "./(dragComponent}/SkillComponent";
+import ReferencerComponent from "./(dragComponent}/Referencers/ReferencerComponent";
+import SkillComponent from "./(dragComponent}/Skills/SkillComponent";
 import { FormType } from "@/types/fromCvtype";
+import EducationComponent from "./(dragComponent}/Educations/EducationsComponent";
 export type ComponentType =
   | "info"
   | "achievement"
@@ -21,7 +21,7 @@ export type ComponentType =
   | "business_card"
   | "career_goals"
   | "certificate"
-  | "education"
+  | "educations"
   | "experiencies"
   | "hobbies"
   | "referencer"
@@ -42,7 +42,7 @@ const componentMap: Record<ComponentType, React.FC<ComponentProps>> = {
   business_card: BusinessCard,
   career_goals: CareerGoalsComponent,
   certificate: CertificateComponent,
-  education: EducationComponent,
+  educations: EducationComponent,
   experiencies: ExperienciesComponent,
   hobbies: HobbiesComponent,
   referencer: ReferencerComponent,

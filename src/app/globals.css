@@ -113,8 +113,8 @@ body.moving-up {
   /* background: transparent; */
   border-radius: 0 0 5px 5px;
   min-height: 20px;
-  height: 100%;
-  height: ;
+  height: auto;
+  /* cursor: text !important */
 }
 
 .ProseMirror > * + * {
@@ -186,6 +186,6 @@ p.is-editor-empty:first-child::before {
   color: #adb5bd;
   content: attr(data-placeholder);
   height: 0;
-  pointer-events: none;
+  pointer-events: auto;
   font-size: 14px;
 }

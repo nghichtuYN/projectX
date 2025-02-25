@@ -30,7 +30,6 @@ type Props = {
 const EditLayoutComponent = ({ setLayoutInstance }: Props) => {
   const context = useContext(CvFormContext);
   const { layoutInstance } = context;
-  console.log(layoutInstance);
   const [layoutInstane, setLayoutInstane] = useState(layoutInstance);
   useEffect(() => {
     setLayoutInstane(layoutInstance);

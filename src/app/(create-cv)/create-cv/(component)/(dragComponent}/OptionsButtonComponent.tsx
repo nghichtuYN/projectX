@@ -1,23 +1,22 @@
-import { Button } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Badge, MoveDown, MoveUp, Plus, Trash } from "lucide-react";
+import { MoveDown, MoveUp, Plus, Trash } from "lucide-react";
 import React from "react";
 type Props = {
   index: number;
-  handleUp?: () => void;
-  handleDown?: () => void;
+  handleMoveUp?: () => void;
+  handleMoveDown?: () => void;
   length: number;
   handleAdd: () => void;
 };
-const OptionsButtonCompoent = ({
+const OptionsButtonComponent = ({
   index,
-  handleUp,
-  handleDown,
+  handleMoveUp,
+  handleMoveDown,
   handleAdd,
   length,
 }: Props) => {
@@ -28,7 +27,7 @@ const OptionsButtonCompoent = ({
           {index > 0 && (
             <TooltipProvider>
               <Tooltip>
-                <TooltipTrigger asChild>
+                <TooltipTrigger onClick={handleMoveUp} asChild>
                   <div className="p-1 bg-secondaryColor rounded-md">
                     <MoveUp className="w-4 h-4 text-white" />
                   </div>
@@ -43,7 +42,7 @@ const OptionsButtonCompoent = ({
           {index < length - 1 && (
             <TooltipProvider>
               <Tooltip>
-                <TooltipTrigger asChild>
+                <TooltipTrigger onClick={handleMoveDown} asChild>
                   <div className="p-1 bg-secondaryColor rounded-md">
                     <MoveDown className="w-4 h-4 text-white" />
                   </div>
@@ -88,4 +87,4 @@ const OptionsButtonCompoent = ({
   );
 };
 
-export default OptionsButtonCompoent;
+export default OptionsButtonComponent;

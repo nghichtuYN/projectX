@@ -7,6 +7,7 @@ import { CustomTextStyle } from "@/lib/CustomTextStyle";
 import { Color } from "@tiptap/extension-color"; // Import Color extension
 import Placeholder from "@tiptap/extension-placeholder";
 import { FormType } from "@/types/fromCvtype";
+import { useEffect } from "react";
 export const useEditorHook = (
   content: string,
   placeHolder: string | "",
@@ -56,6 +57,10 @@ export const useEditorHook = (
       handleChange(field, editor.getHTML(), subField, index);
     },
   });
-
+  useEffect(() => {
+    if (editor && content !== editor.getHTML()) {
+      editor.commands.setContent(content);
+    }
+  }, [content, editor]);
   return { editor };
 };
