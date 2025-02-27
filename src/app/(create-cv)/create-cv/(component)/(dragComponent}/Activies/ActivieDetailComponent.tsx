@@ -1,9 +1,9 @@
 import { useEditorHook } from "@/hooks/useEditorHook";
-import { FormType } from "@/types/fromCvtype";
+import { FormType } from "@/types/formCvtype";
 import React, { useContext } from "react";
 import { CvFormContext } from "../../CvFormComponent";
 import { EditorContent } from "@tiptap/react";
-import { cn, moveElement } from "@/lib/utils";
+import { cn, moveElement, removeElement } from "@/lib/utils";
 import { Minus } from "lucide-react";
 import OptionsButtonComponent from "../OptionsButtonComponent";
 type Props = {
@@ -93,6 +93,15 @@ const ActivieDetailComponent = ({
       },
     }));
   };
+  const handleDelete = () => {
+    setForm((prevForm: FormType) => ({
+      ...prevForm,
+      activities: {
+        ...prevForm.activities,
+        details: removeElement(prevForm.activities.details, index),
+      },
+    }));
+  };
   return (
     <div className="border-b group/detail relative flex items-start w-full gap-2 border hover:border-dashed hover:border-secondaryColor p-2">
       <div className="w-1/3 flex flex-col gap-4">
@@ -100,7 +109,7 @@ const ActivieDetailComponent = ({
           <div
             onFocus={() => setActiveEditor(editorStart)}
             className={cn(
-              "border rounded p-1",
+              "border rounded p-1 w-1/3 h-auto",
               !editorStart?.isFocused &&
                 "hover:border-dashed hover:border-secondaryColor",
 
@@ -115,7 +124,7 @@ const ActivieDetailComponent = ({
           <div
             onFocus={() => setActiveEditor(editorEnd)}
             className={cn(
-              "border rounded p-1",
+              "border rounded p-1 w-1/3 h-auto",
               !editorEnd?.isFocused &&
                 "hover:border-dashed hover:border-secondaryColor",
               editorEnd?.isFocused && "border-solid border-green-500"
@@ -175,6 +184,7 @@ const ActivieDetailComponent = ({
         handleAdd={handleAdd}
         handleMoveUp={handleMoveUp}
         handleMoveDown={handleMoveDown}
+        handleDelete={handleDelete}
       />
     </div>
   );

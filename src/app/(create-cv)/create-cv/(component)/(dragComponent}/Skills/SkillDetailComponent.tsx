@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
-import { FormType } from "@/types/fromCvtype";
+import { FormType } from "@/types/formCvtype";
 import { useEditorHook } from "@/hooks/useEditorHook";
 import { CvFormContext } from "../../CvFormComponent";
-import { cn, moveElement } from "@/lib/utils";
+import { cn, moveElement, removeElement } from "@/lib/utils";
 import { EditorContent } from "@tiptap/react";
 import OptionsButtonComponent from "../OptionsButtonComponent";
 type Props = {
@@ -64,6 +64,15 @@ const SkillDetailComponent = ({
       },
     }));
   };
+  const handleDelete = () => {
+    setForm((prevForm: FormType) => ({
+      ...prevForm,
+      skills: {
+        ...prevForm.skills,
+        details: removeElement(prevForm.skills.details, index),
+      },
+    }));
+  };
   return (
     <div className="border-b  group/detail relative flex flex-col items-start w-full gap-2 border hover:border-dashed hover:border-secondaryColor p-2">
       <div
@@ -95,6 +104,7 @@ const SkillDetailComponent = ({
         handleAdd={handleAdd}
         handleMoveUp={handleMoveUp}
         handleMoveDown={handleMoveDown}
+        handleDelete={handleDelete}
       />
     </div>
   );

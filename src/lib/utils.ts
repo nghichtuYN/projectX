@@ -16,3 +16,9 @@ export function moveElement<T>(
   newArr.splice(toIndex, 0, movedElement);
   return newArr;
 }
+export function removeElement<T>(arr: T[], index: number): T[] {
+  if (index < 0) return arr;
+  const newArr = [...arr];
+  newArr.splice(index, 1);
+  return newArr;
+}

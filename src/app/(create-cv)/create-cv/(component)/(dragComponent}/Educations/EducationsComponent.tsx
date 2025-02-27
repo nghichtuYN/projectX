@@ -1,6 +1,6 @@
 import { useEditorHook } from "@/hooks/useEditorHook";
 import { cn } from "@/lib/utils";
-import { FormType } from "@/types/fromCvtype";
+import { FormType } from "@/types/formCvtype";
 import { EditorContent } from "@tiptap/react";
 import React, { useContext } from "react";
 import { CvFormContext } from "../../CvFormComponent";
@@ -57,6 +57,10 @@ const EducationComponent = ({ handleChange }: Props) => {
       >
         <EditorContent editor={editorName} />
       </div>
+      <div className="pt-1 pb-1">
+        <hr className="w-full border border-orange-500 " />
+      </div>
+
       {form?.educations?.details?.map((education: any, index: number) => (
         <EducationDetailComponent
           key={index}

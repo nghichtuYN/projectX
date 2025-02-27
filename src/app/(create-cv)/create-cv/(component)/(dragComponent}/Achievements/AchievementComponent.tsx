@@ -1,6 +1,6 @@
 import { useEditorHook } from "@/hooks/useEditorHook";
 import { cn } from "@/lib/utils";
-import { FormType } from "@/types/fromCvtype";
+import { FormType } from "@/types/formCvtype";
 import { EditorContent } from "@tiptap/react";
 import React, { useContext } from "react";
 import { CvFormContext } from "../../CvFormComponent";
@@ -53,6 +53,10 @@ const AchievementComponent = ({ handleChange }: Props) => {
       >
         <EditorContent editor={editorName} />
       </div>
+      <div className="pt-1 pb-1">
+        <hr className="w-full border border-orange-500 " />
+      </div>
+
       {form?.achievements?.details?.map((achievement: any, index: number) => (
         <AchievementDetail
           key={index}

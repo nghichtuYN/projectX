@@ -1,8 +1,8 @@
 import { useEditorHook } from "@/hooks/useEditorHook";
-import { FormType } from "@/types/fromCvtype";
+import { FormType } from "@/types/formCvtype";
 import React, { useContext } from "react";
 import { CvFormContext } from "../../CvFormComponent";
-import { cn, moveElement } from "@/lib/utils";
+import { cn, moveElement, removeElement } from "@/lib/utils";
 import { EditorContent } from "@tiptap/react";
 import OptionsButtonComponent from "../OptionsButtonComponent";
 type Props = {
@@ -65,6 +65,15 @@ const AchievementDetail = ({
       },
     }));
   };
+  const handleDelete = () => {
+    setForm((prevForm: FormType) => ({
+      ...prevForm,
+      achievements: {
+        ...prevForm.achievements,
+        details: removeElement(prevForm.achievements.details, index),
+      },
+    }));
+  };
   return (
     <div
       key={index}
@@ -99,6 +108,7 @@ const AchievementDetail = ({
         handleAdd={handleAdd}
         handleMoveUp={handleMoveUp}
         handleMoveDown={handleMoveDown}
+        handleDelete={handleDelete}
       />
     </div>
   );

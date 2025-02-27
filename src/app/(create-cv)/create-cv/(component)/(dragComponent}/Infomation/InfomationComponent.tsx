@@ -3,8 +3,7 @@ import EmailComponent from "./EmailComponent";
 import SocialComponent from "./SocialComponent";
 import PhoneComponent from "./PhoneComponent";
 import AddressComponent from "./AddressComponent";
-import { FormType } from "@/types/fromCvtype";
-import { CvFormContext } from "../../CvFormComponent";
+import { FormType } from "@/types/formCvtype";
 
 const INFOMATION = [
   PhoneComponent,
@@ -25,12 +24,15 @@ const InfomationComponent = ({ handleChange }: Props) => {
 
   return (
     <>
-      <div
-        className="grid grid-cols-4 gap-1 h-full w-full"
-      >
+      <div className="grid grid-cols-4 gap-1 h-full w-full">
         {components.map((Component, index) => (
           <div key={index}>
-            <Component handleChange={handleChange} />
+            <Component
+              index={index}
+              length={components?.length}
+              handleChange={handleChange}
+              setComponents={setComponents}
+            />
           </div>
         ))}
       </div>

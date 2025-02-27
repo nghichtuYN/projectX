@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import { CvFormContext } from "../CvFormComponent";
 import { cn } from "@/lib/utils";
 import { EditorContent } from "@tiptap/react";
-import { FormType } from "@/types/fromCvtype";
+import { FormType } from "@/types/formCvtype";
 type Props = {
   handleChange: (
     field: keyof FormType,
@@ -32,10 +32,10 @@ const BusinessCard = ({ handleChange }: Props) => {
   );
   return (
     <div className="w-full min-h-40 h-fit border hover:border-secondaryColor  rounded-md flex flex-col gap-2 p-5">
-      <div className="h-3/4 w-fit max-w-full">
+      <div className="h-3/4 w-full max-w-full">
         <div
           className={cn(
-            "h-full max-h-full pl-4 pr-4 pt-4 pb-1 m-3 flex items-end border",
+            "h-full max-h-full pl-4 w-full pr-4 pt-4 pb-1 m-3 flex items-end border",
             !nameEditor?.isFocused &&
               "hover:border-dashed hover:border-secondaryColor",
 

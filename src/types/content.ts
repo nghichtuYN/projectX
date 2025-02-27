@@ -6,4 +6,5 @@ export type ContentType = {
   name: string;
   FE_PlaceholderContent?: boolean;
   type?: ComponentType;
+  required?: boolean;
 };

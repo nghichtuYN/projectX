@@ -1,4 +1,4 @@
-import { FormType } from "@/types/fromCvtype";
+import { FormType } from "@/types/formCvtype";
 import React, { useContext } from "react";
 import { CvFormContext } from "../CvFormComponent";
 import { useEditorHook } from "@/hooks/useEditorHook";

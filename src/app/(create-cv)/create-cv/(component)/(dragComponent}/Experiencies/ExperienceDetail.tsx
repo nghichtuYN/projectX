@@ -1,6 +1,6 @@
 import { useEditorHook } from "@/hooks/useEditorHook";
-import { cn, moveElement } from "@/lib/utils";
-import { FormType } from "@/types/fromCvtype";
+import { cn, moveElement, removeElement } from "@/lib/utils";
+import { FormType } from "@/types/formCvtype";
 import { EditorContent } from "@tiptap/react";
 import { Minus } from "lucide-react";
 import React, { useContext, useEffect } from "react";
@@ -94,7 +94,15 @@ const ExperienceDetail = ({
       },
     }));
   };
-
+  const handleDelete = () => {
+    setForm((prevForm: FormType) => ({
+      ...prevForm,
+      experiences: {
+        ...prevForm.experiences,
+        details: removeElement(prevForm.experiences.details, index),
+      },
+    }));
+  };
   return (
     <div className="border-b group/detail relative flex items-start h-auto w-full gap-2 border hover:border-dashed hover:border-secondaryColor p-2">
       <div className="w-1/3 flex flex-col gap-4">
@@ -175,6 +183,7 @@ const ExperienceDetail = ({
         handleAdd={handleAdd}
         handleMoveUp={handleMoveUp}
         handleMoveDown={handleMoveDown}
+        handleDelete={handleDelete}
       />
     </div>
   );

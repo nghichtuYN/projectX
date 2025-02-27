@@ -13,11 +13,10 @@ const ListContentsComponent = ({ contents }: Props) => {
     <SortableContext
       items={contents.map((content) => content.id)}
       strategy={verticalListSortingStrategy}
-      
     >
       <div className="flex flex-col h-full w-full rounded-md justify-center items-center gap-1">
-        {contents?.map((content) => (
-          <ContentComponent key={content.id} content={content} />
+        {contents?.map((content, index) => (
+          <ContentComponent index={index} contents={contents} length={contents?.length} key={content.id} content={content} />
         ))}
       </div>
     </SortableContext>

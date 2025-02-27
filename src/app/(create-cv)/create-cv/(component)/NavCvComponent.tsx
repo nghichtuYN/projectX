@@ -1,17 +1,91 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { navItems } from "@/data/navCvItems";
 import CvTemplateComponent from "./CvTemplateComponent";
-const NavCvComponent = () => {
-  const [activeContent, setActiveContent] = useState<string>("");
+import { LayoutType } from "@/types/layoutCv";
+import { CvFormContext } from "./CvFormComponent";
+import { ContentType } from "@/types/content";
+import {
+  horizontalListSortingStrategy,
+  SortableContext,
+  useSortable,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import RenderIconComponent from "./RenderIconComponent";
+import { allPossibleFields } from "@/data/CvElement";
 
+const NavCvComponent = () => {
+  const { layoutInstance } = useContext(CvFormContext);
+  const [activeContent, setActiveContent] = useState<string>("");
+  const getFieldsFromLayout = (
+    layoutInstance: LayoutType,
+    allFields: ContentType[]
+  ) => {
+    const usedFields: ContentType[] = [];
+    layoutInstance.rows.forEach((row) => {
+      row.columns.forEach((column) => {
+        column.content.forEach((content) => {
+          if (content.type !== "info_bonus" && content.type) {
+            usedFields.push(content);
+          }
+        });
+      });
+    });
+
+    const unusedFields = allFields.filter((field) => {
+      return !usedFields.some(
+        (usedField) =>
+          usedField.type === field.type &&
+          field.type &&
+          field.type !== "info_bonus"
+      );
+    });
+
+    return { usedFields, unusedFields };
+  };
+  const { usedFields, unusedFields } = getFieldsFromLayout(
+    layoutInstance,
+    allPossibleFields
+  );
   const handleNavClick = (content: string) => {
     setActiveContent(activeContent === content ? "" : content);
   };
 
+  const SortableField = ({ field }: { field: ContentType }) => {
+    const {
+      attributes,
+      listeners,
+      setNodeRef,
+      transform,
+      transition,
+      isDragging,
+    } = useSortable({
+      id: field.id, // Đảm bảo ID duy nhất
+      data: { ...field },
+    });
+
+    const style = {
+      transform: CSS.Transform.toString(transform),
+      transition,
+      opacity: isDragging ? 0.5 : undefined,
+      height: "100%",
+    };
+    return (
+      <div
+        ref={setNodeRef}
+        style={style}
+        {...attributes}
+        {...listeners}
+        className="p-2 flex items-center gap-2 border rounded cursor-move hover:border-hoverColor bg-gray-100 hover:bg-secondaryColor hover:text-white"
+      >
+        <RenderIconComponent keyName={field.type!} />
+        {field.name}
+      </div>
+    );
+  };
   return (
     <div className="flex h-fit">
       {/* Sidebar Navigation */}
@@ -53,7 +127,36 @@ const NavCvComponent = () => {
               <div className="p-4">
                 {activeContent === "templates" && <CvTemplateComponent />}
                 {activeContent === "sections" && (
-                  <div>Add Sections Content</div>
+                  <div className="flex flex-col">
+                    <div>
+                      <h3 className="font-medium mb-2">Mục chưa sử dụng</h3>
+                      <div className="space-y-2">
+                        <SortableContext
+                          items={unusedFields?.map((field) => field?.id)}
+                          strategy={horizontalListSortingStrategy}
+                        >
+                          {unusedFields &&
+                            unusedFields.map((field) => (
+                              <SortableField key={field.id} field={field} />
+                            ))}
+                        </SortableContext>
+                      </div>
+                    </div>
+                    <div>
+                      <h3 className="font-medium mb-2">Mục đã sử dụng</h3>
+                      <div className="space-y-2">
+                        {usedFields.map((field) => (
+                          <div
+                            key={field?.id}
+                            className="p-2 flex items-center gap-2 border rounded hover:text-black text-gray-500 bg-gray-50"
+                          >
+                            <RenderIconComponent keyName={field.type!} />
+                            {field.name}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
                 )}
                 {activeContent === "library" && <div>CV Library Content</div>}
                 {activeContent === "guide" && (

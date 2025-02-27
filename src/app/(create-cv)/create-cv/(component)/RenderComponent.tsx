@@ -1,9 +1,6 @@
-import EmailComponent from "./(dragComponent}/Infomation/EmailComponent";
-import PhoneComponent from "./(dragComponent}/Infomation/PhoneComponent";
 import InfomationComponent from "./(dragComponent}/Infomation/InfomationComponent";
 import AchievementComponent from "./(dragComponent}/Achievements/AchievementComponent";
 import ActiviesComponent from "./(dragComponent}/Activies/ActiviesComponent";
-import AvatarDragComponent from "./(dragComponent}/AvatarDragComponent";
 import BusinessCard from "./(dragComponent}/BusinessCardComponent";
 import CareerGoalsComponent from "./(dragComponent}/CareerGoalsComponent";
 import CertificateComponent from "./(dragComponent}/Certificates/CertificatesComponent";
@@ -11,8 +8,11 @@ import ExperienciesComponent from "./(dragComponent}/Experiencies/ExperienciesCo
 import HobbiesComponent from "./(dragComponent}/HobbiesComponent";
 import ReferencerComponent from "./(dragComponent}/Referencers/ReferencerComponent";
 import SkillComponent from "./(dragComponent}/Skills/SkillComponent";
-import { FormType } from "@/types/fromCvtype";
+import { FormType } from "@/types/formCvtype";
 import EducationComponent from "./(dragComponent}/Educations/EducationsComponent";
+import AvatarDragComponent from "./(dragComponent}/AvatarComponent/AvatarDragComponent";
+import ProjectsComponent from "./(dragComponent}/Projects/ProjectsComponent";
+import MoreInfosComponent from "./(dragComponent}/MoreInfos/MoreInfosComponent";
 export type ComponentType =
   | "info"
   | "achievement"
@@ -25,7 +25,9 @@ export type ComponentType =
   | "experiencies"
   | "hobbies"
   | "referencer"
-  | "skills";
+  | "skills"
+  | "projects"
+  | "info_bonus";
 type ComponentProps = {
   handleChange: (
     field: keyof FormType,
@@ -47,6 +49,8 @@ const componentMap: Record<ComponentType, React.FC<ComponentProps>> = {
   hobbies: HobbiesComponent,
   referencer: ReferencerComponent,
   skills: SkillComponent,
+  projects: ProjectsComponent,
+  info_bonus: MoreInfosComponent,
 };
 
 type RenderComponentProps = {

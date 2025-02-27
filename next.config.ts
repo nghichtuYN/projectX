@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
+    domains: ["black-absolute-damselfly-439.mypinata.cloud"],
     remotePatterns: [
       {
         protocol: "https",
@@ -27,7 +28,7 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "github.com", // Add github.com domain
       },
-    ],
+    ], // Comma added here to separate domains and remotePatterns
   },
 };
 

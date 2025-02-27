@@ -25,7 +25,7 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
-import { FormType } from "@/types/fromCvtype";
+import { FormType } from "@/types/formCvtype";
 import CreateCvToolBarComponent from "./CreateCvToolBarComponent";
 import CvComponent from "./CvComponent";
 import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
@@ -34,6 +34,9 @@ import { generatePlaceholderContent } from "@/lib/formater";
 import { ContentType } from "@/types/content";
 import { ColumnType } from "@/types/Columns";
 import { createPortal } from "react-dom";
+import { LayoutType } from "@/types/layoutCv";
+import RenderIconComponent from "./RenderIconComponent";
+
 type CvFormContextType = {
   setActiveEditor: Dispatch<React.SetStateAction<Editor | null>>;
   layoutInstance: any;
@@ -46,6 +49,7 @@ type CvFormContextType = {
     subField?: string,
     index?: number
   ) => void;
+  setLayoutInstance: React.Dispatch<React.SetStateAction<LayoutType>>;
 };
 
 export const CvFormContext = createContext<CvFormContextType>({
@@ -55,6 +59,7 @@ export const CvFormContext = createContext<CvFormContextType>({
   form: {},
   setForm: () => {},
   handleChange: () => {},
+  setLayoutInstance: () => {},
 });
 
 const CvFormComponent = () => {
@@ -63,8 +68,9 @@ const CvFormComponent = () => {
   const textColor = `color-mix(in srgb, ${layoutInstance.color}, black 20%)`;
   const [activeEditor, setActiveEditor] = useState<Editor | null>(null);
   const toolbarRef = useRef<HTMLDivElement | null>(null);
+  const printRef = useRef(null);
   const [activeDragContentId, setActiveDragContentId] = useState(null);
-  const [activeDrageCotentData, setActiveDrageCotentData] =
+  const [activeDragContentData, setActiveDragContentData] =
     useState<ContentType | null>(null);
   const [activeOldColumn, setActiveOldColumn] = useState<ColumnType | null>(
     null
@@ -74,6 +80,7 @@ const CvFormComponent = () => {
     phone: `<p><span style="font-size: 13 ;">0123456789</span></p>`,
     social: "",
     address: "",
+    avatar: "",
     name: `<p><span style="font-size: 48px; font-weight: bold;  color: ${textColor} ;">Hoàng Đặng</span></p>`,
     position: "",
     careerGoals: "",
@@ -153,7 +160,6 @@ const CvFormComponent = () => {
       ],
     },
   });
-
   const handleChange = (
     field: keyof FormType,
     value: any,
@@ -163,14 +169,13 @@ const CvFormComponent = () => {
     setForm((prevForm) => {
       const fieldData = prevForm[field];
 
+      if (!subField || subField === undefined) {
+        // console.log("run2");
+        return { ...prevForm, [field]: value };
+      }
       if (!fieldData || typeof fieldData !== "object") {
         return prevForm;
       }
-
-      if (!subField) {
-        return { ...prevForm, [field]: value };
-      }
-
       if (Array.isArray(fieldData.details) && typeof index === "number") {
         return {
           ...prevForm,
@@ -283,23 +288,119 @@ const CvFormComponent = () => {
       return newLayoutIntance;
     });
   };
-  const handelDragStart = (event: any) => {
-    setActiveDragContentId(event.active?.id);
-    setActiveDrageCotentData(event.active?.data?.current);
-    setActiveOldColumn(findColumnByContentId(event.active.id) ?? null);
+  // const handleDragStart = (event: any) => {
+  //   setActiveDragContentId(event.active?.id);
+  //   setActiveDragContentData(event.active?.data?.current);
+  //   setActiveOldColumn(findColumnByContentId(event.active.id) ?? null);
+  // };
+  const handleDragStart = (event: any) => {
+    const { id, data } = event.active;
+    if (id.startsWith("draggable-field-")) {
+      setActiveDragContentId(id);
+      setActiveDragContentData({
+        ...data.current,
+        id: `${data.current.type}-${Date.now()}`,
+      });
+      setActiveOldColumn(data.current.column_id);
+    } else {
+      // Dragging within layout
+      setActiveDragContentId(id);
+      setActiveDragContentData(data.current);
+      setActiveOldColumn(findColumnByContentId(id) ?? null);
+    }
   };
-  const handeDragOver = debounce((event: any) => {
+
+  // const handleDragOver = debounce((event: any) => {
+  //   const { active, over } = event;
+  //   if (!over || !active) return;
+
+  //   const {
+  //     id: activeDragingContentId,
+  //     data: { current: activeDraggingContentData },
+  //   } = active;
+  //   const { id: overContentId } = over;
+  //   const activeColumn = findColumnByContentId(activeDragingContentId);
+  //   const overColumn = findColumnByContentId(overContentId);
+
+  // if (!activeColumn || !overColumn) return;
+  // if (activeColumn.id !== overColumn.id) {
+  //   moveContentBetweenDifferentColumns(
+  //     overColumn,
+  //     overContentId,
+  //     active,
+  //     over,
+  //     activeColumn,
+  //     activeDragingContentId,
+  //     activeDraggingContentData
+  //   );
+  // }
+  // }, 100);
+  const handleDragOver = debounce((event: any) => {
     const { active, over } = event;
     if (!over || !active) return;
-
     const {
       id: activeDragingContentId,
       data: { current: activeDraggingContentData },
     } = active;
     const { id: overContentId } = over;
+
     const activeColumn = findColumnByContentId(activeDragingContentId);
     const overColumn = findColumnByContentId(overContentId);
 
+    if (!overColumn) return;
+
+    // Trường hợp kéo từ "Mục chưa sử dụng" vào layout
+    if (
+      !activeColumn &&
+      overColumn &&
+      activeDraggingContentData.column_id === "possible_column"
+    ) {
+      setLayoutInstance((prevLayout) => {
+        const overContentIndex = overColumn.content.findIndex(
+          (content: ContentType) => content.id === overContentId
+        );
+        let newIndex: number;
+
+        const isBelowOverItem =
+          active.rect.current.translated &&
+          active.rect.current.translated.top > over.rect.top + over.rect.height;
+
+        const modifier = isBelowOverItem ? 1 : 0;
+
+        newIndex =
+          overContentIndex >= 0
+            ? overContentIndex + modifier
+            : overColumn?.content?.length + 1;
+        const newLayout = cloneDeep(prevLayout);
+
+        const targetColumn =
+          newLayout.rows
+            .flatMap((row) => row.columns)
+            .find((col) => col.id === overColumn.id) || null;
+
+        if (targetColumn) {
+          targetColumn.content = targetColumn?.content?.filter(
+            (content) => content.id !== activeDragingContentId
+          );
+          targetColumn.content = targetColumn.content.toSpliced(newIndex, 0, {
+            ...activeDraggingContentData,
+            column_id: targetColumn.id,
+            required: true,
+          });
+
+          newLayout.rows.forEach((row) =>
+            row.columns.forEach((col) => {
+              if (isEmpty(col.content) && col.id !== targetColumn.id) {
+                col.content = [generatePlaceholderContent(col)];
+              }
+            })
+          );
+        }
+
+        return newLayout;
+      });
+    }
+    // Trường hợp di chuyển giữa các cột trong layout
     if (!activeColumn || !overColumn) return;
     if (activeColumn.id !== overColumn.id) {
       moveContentBetweenDifferentColumns(
@@ -313,8 +414,61 @@ const CvFormComponent = () => {
       );
     }
   }, 100);
+  // const handleDragEnd = (event: any) => {
+  //   console.log(event);
+  //   const { active, over } = event;
+  //   if (!over || !active) return;
 
-  const handelDragEnd = (event: any) => {
+  //   const {
+  //     id: activeDragingContentId,
+  //     data: { current: activeDraggingContentData },
+  //   } = active;
+
+  //   const { id: overContentId } = over;
+  //   const activeColumn = findColumnByContentId(activeDragingContentId);
+  //   const overColumn = findColumnByContentId(overContentId);
+  // if (!activeColumn || !overColumn) return;
+  // if (activeOldColumn?.id !== overColumn?.id) {
+  //   moveContentBetweenDifferentColumns(
+  //     overColumn,
+  //     overContentId,
+  //     active,
+  //     over,
+  //     activeColumn,
+  //     activeDragingContentId,
+  //     activeDraggingContentData
+  //   );
+  // } else {
+  //   const oldContentIndex = activeOldColumn?.content?.findIndex(
+  //     (content: ContentType) => content.id === activeDragContentId
+  //   );
+  //   const newContentIndex = overColumn?.content?.findIndex(
+  //     (content) => content.id === overContentId
+  //   );
+  //   const orderedContents = arrayMove<ContentType>(
+  //     activeOldColumn?.content,
+  //     oldContentIndex,
+  //     newContentIndex
+  //   );
+
+  //   setLayoutInstance((prevLayout) => {
+  //     const newLayout = cloneDeep(prevLayout);
+  //     const targetColum =
+  //       newLayout.rows
+  //         .flatMap((row) => row.columns)
+  //         .find((col) => col.id === overColumn?.id) || null;
+  //     if (targetColum) {
+  //       targetColum.content = orderedContents;
+  //     }
+
+  //     return newLayout;
+  //   });
+  // }
+  //   setActiveDragContentId(null);
+  //   setActiveDragContentData(null);
+  //   setActiveOldColumn(null);
+  // };
+  const handleDragEnd = (event: any) => {
     const { active, over } = event;
     if (!over || !active) return;
 
@@ -322,10 +476,19 @@ const CvFormComponent = () => {
       id: activeDragingContentId,
       data: { current: activeDraggingContentData },
     } = active;
-
     const { id: overContentId } = over;
+
     const activeColumn = findColumnByContentId(activeDragingContentId);
     const overColumn = findColumnByContentId(overContentId);
+
+    // Trường hợp kéo từ "Mục chưa sử dụng" (activeOldColumn là null)
+    if (
+      !activeOldColumn &&
+      overColumn &&
+      activeDraggingContentData.column_id === "possible_column"
+    )
+      return;
+    // Trường hợp di chuyển giữa các cột trong layout
     if (!activeColumn || !overColumn) return;
     if (activeOldColumn?.id !== overColumn?.id) {
       moveContentBetweenDifferentColumns(
@@ -363,10 +526,13 @@ const CvFormComponent = () => {
         return newLayout;
       });
     }
+
+    // Dọn dẹp state sau khi kéo thả
     setActiveDragContentId(null);
-    setActiveDrageCotentData(null);
+    setActiveDragContentData(null);
     setActiveOldColumn(null);
   };
+  console.log(layoutInstance);
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -376,7 +542,7 @@ const CvFormComponent = () => {
   }, [activeEditor]);
   useEffect(() => {
     return () => {
-      handeDragOver.cancel();
+      handleDragOver.cancel();
     };
   }, []);
   const sensors = useSensors(
@@ -413,11 +579,12 @@ const CvFormComponent = () => {
         form,
         setForm,
         handleChange,
+        setLayoutInstance,
       }}
     >
       <div>
         <div className="sticky top-0 z-30">
-          <CreateCvToolBarComponent />
+          <CreateCvToolBarComponent printRef={printRef} />
 
           {activeEditor !== null ? (
             <div
@@ -440,37 +607,41 @@ const CvFormComponent = () => {
             />
           )}
         </div>
-        <div className="flex w-full ">
-          <div className="w-1/4 ">
-            <div className="w-fit">
-              <NavCvComponent />
+        <DndContext
+          onDragStart={handleDragStart}
+          onDragOver={handleDragOver}
+          onDragEnd={handleDragEnd}
+          sensors={sensors}
+          collisionDetection={pointerWithin}
+          id={id}
+        >
+          <div className="flex w-full ">
+            <div className="w-1/4 ">
+              <div className="w-fit">
+                <NavCvComponent />
+              </div>
             </div>
-          </div>
-          <DndContext
-            onDragStart={handelDragStart}
-            onDragOver={handeDragOver}
-            onDragEnd={handelDragEnd}
-            sensors={sensors}
-            collisionDetection={pointerWithin}
-            id={id}
-          >
-            <CvComponent layoutInstance={layoutInstance} />
+
+            <CvComponent ref={printRef} layoutInstance={layoutInstance} />
             {createPortal(
               <DragOverlay
                 adjustScale={false}
                 dropAnimation={dropAnimation}
                 modifiers={[snapCenterToCursor]}
               >
-                {activeDragContentId && (
-                  <div className="flex items-center justify-center w-fit h-fit p-1 border border-hoverColor text-white bg-secondaryColor pointer-events-none">
-                    {activeDrageCotentData?.name}
+                {activeDragContentId && activeDragContentData && (
+                  <div className="flex items-center gap-2 rounded-md justify-center w-fit h-fit p-2 border border-hoverColor font-medium text-white bg-secondaryColor pointer-events-none">
+                    <RenderIconComponent
+                      keyName={activeDragContentData?.type!}
+                    />
+                    {activeDragContentData?.name}
                   </div>
                 )}
               </DragOverlay>,
               document.body
             )}
-          </DndContext>
-        </div>
+          </div>
+        </DndContext>
       </div>
     </CvFormContext.Provider>
   );

@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import { CvFormContext } from "../CvFormComponent";
 import { cn } from "@/lib/utils";
 import { EditorContent } from "@tiptap/react";
-import { FormType } from "@/types/fromCvtype";
+import { FormType } from "@/types/formCvtype";
 type Props = {
   handleChange: (
     field: keyof FormType,

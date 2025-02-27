@@ -27,7 +27,21 @@ export type Skill = {
     description: string;
   }[];
 };
+export type Projects = {
+  name: string;
+  details: {
+    position: string;
+    name: string;
 
+    company: string;
+    start: string;
+    end: string;
+    description_position: string;
+    description_stacks: string;
+    stacks: string;
+    quantity: string;
+  }[];
+};
 export type Certificate = {
   name: string;
   details: {
@@ -72,6 +86,7 @@ export type FormType = {
   social: string;
   address: string;
   name: string;
+  avatar?: string;
   position: string;
   careerGoals: string;
   experiences: Experience;

@@ -18,7 +18,6 @@ body.moving-up {
   transform: translateY(0);
 }
 
-
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -114,7 +113,7 @@ body.moving-up {
   border-radius: 0 0 5px 5px;
   min-height: 20px;
   height: auto;
-  /* cursor: text !important */
+  cursor: text !important;
 }
 
 .ProseMirror > * + * {
@@ -171,6 +170,8 @@ body.moving-up {
 .ProseMirror p {
   width: 100%;
   height: 100%;
+  white-space: wrap;
+  word-wrap: break-word;
 }
 .ProseMirror p:focus {
   width: 100%;

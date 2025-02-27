@@ -178,10 +178,7 @@ const CVPreviewDialogComponent = ({ content }: Props) => {
                 </div>
               </div>
             </ScrollArea>
-            {/* Contact Info */}
-          {/* </div> */}
-
-          {/* Right side - Create CV Options */}
+        
           <div className="p-6">
             <h3 className="text-xl font-bold text-green-600 mb-6">
               Bạn muốn tạo CV từ?

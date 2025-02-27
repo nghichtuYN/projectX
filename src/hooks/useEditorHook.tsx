@@ -6,7 +6,7 @@ import FontFamily from "@tiptap/extension-font-family";
 import { CustomTextStyle } from "@/lib/CustomTextStyle";
 import { Color } from "@tiptap/extension-color"; // Import Color extension
 import Placeholder from "@tiptap/extension-placeholder";
-import { FormType } from "@/types/fromCvtype";
+import { FormType } from "@/types/formCvtype";
 import { useEffect } from "react";
 export const useEditorHook = (
   content: string,

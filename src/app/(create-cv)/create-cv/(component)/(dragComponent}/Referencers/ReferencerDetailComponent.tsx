@@ -1,6 +1,6 @@
 import { useEditorHook } from "@/hooks/useEditorHook";
-import { cn, moveElement } from "@/lib/utils";
-import { FormType } from "@/types/fromCvtype";
+import { cn, moveElement, removeElement } from "@/lib/utils";
+import { FormType } from "@/types/formCvtype";
 import { EditorContent } from "@tiptap/react";
 import React, { useContext } from "react";
 import { CvFormContext } from "../../CvFormComponent";
@@ -55,6 +55,15 @@ const ReferencerDetailComponent = ({
       },
     }));
   };
+  const handleDelete = () => {
+    setForm((prevForm: FormType) => ({
+      ...prevForm,
+      referencer: {
+        ...prevForm.referencer,
+        details: removeElement(prevForm.referencer.details, index),
+      },
+    }));
+  };
   return (
     <div className="border-b group/detail relative flex items-start w-full gap-2 border hover:border-dashed hover:border-secondaryColor p-2">
       <div
@@ -74,6 +83,7 @@ const ReferencerDetailComponent = ({
         handleAdd={handleAdd}
         handleMoveUp={handleMoveUp}
         handleMoveDown={handleMoveDown}
+        handleDelete={handleDelete}
       />
     </div>
   );

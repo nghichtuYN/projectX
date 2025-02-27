@@ -17,6 +17,7 @@ export const layout: LayoutType = {
               column_id: "col-1-1",
               name: "Thông tin cá nhân",
               type: "info",
+              required: false
             },
           ],
         },
@@ -35,12 +36,14 @@ export const layout: LayoutType = {
               column_id: "col-2-1",
               name: "Danh thiếp",
               type: "business_card",
+              required: false
             },
             {
               id: "content-2-1-1",
               column_id: "col-2-1",
               name: "Mục tiêu nghề nghiệp",
               type: "career_goals",
+              required: true
             },
           ],
         },
@@ -54,6 +57,7 @@ export const layout: LayoutType = {
               column_id: "col-2-2",
               name: "Ảnh đại diện",
               type: "avatar",
+              required: true
             },
           ],
         },
@@ -73,6 +77,7 @@ export const layout: LayoutType = {
               column_id: "col-3-1",
               name: "Kinh nghiệm làm việc",
               type: "experiencies",
+              required: true
             },
           ],
         },
@@ -91,6 +96,7 @@ export const layout: LayoutType = {
               column_id: "col-4-1",
               name: "Học vấn",
               type: "educations",
+              required: true
             },
           ],
         },
@@ -104,6 +110,7 @@ export const layout: LayoutType = {
               column_id: "col-4-2",
               name: "Kỹ năng",
               type: "skills",
+              required: true
             },
           ],
         },
@@ -117,6 +124,7 @@ export const layout: LayoutType = {
               column_id: "col-4-3",
               name: "Chứng chỉ",
               type: "certificate",
+              required: true
             },
           ],
         },
@@ -136,6 +144,7 @@ export const layout: LayoutType = {
               column_id: "col-5-1",
               name: "Hoạt động",
               type: "activies",
+              required: true
             },
           ],
         },
@@ -154,6 +163,7 @@ export const layout: LayoutType = {
               column_id: "col-6-1",
               name: "Sở thích",
               type: "hobbies",
+              required: true
             },
           ],
         },
@@ -167,6 +177,7 @@ export const layout: LayoutType = {
               column_id: "col-6-2",
               name: "Người tham chiếu",
               type: "referencer",
+              required: true
             },
           ],
         },
@@ -180,10 +191,10 @@ export const layout: LayoutType = {
               column_id: "col-6-3",
               name: "Giải thưởng",
               type: "achievement",
+              required: true
             },
           ],
         },
-
       ],
     },
   ],

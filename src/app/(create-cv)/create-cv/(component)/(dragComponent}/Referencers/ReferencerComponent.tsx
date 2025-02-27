@@ -1,4 +1,4 @@
-import { FormType } from "@/types/fromCvtype";
+import { FormType } from "@/types/formCvtype";
 import React, { useContext } from "react";
 import { CvFormContext } from "../../CvFormComponent";
 import { useEditorHook } from "@/hooks/useEditorHook";
@@ -52,6 +52,10 @@ const ReferencerComponent = ({ handleChange }: Props) => {
       >
         <EditorContent editor={editorName} />
       </div>
+      <div className="pt-1 pb-1">
+        <hr className="w-full border border-orange-500 " />
+      </div>
+
       {form?.referencer?.details?.map((referencer: any, index: number) => (
         <ReferencerDetailComponent
           key={index}
