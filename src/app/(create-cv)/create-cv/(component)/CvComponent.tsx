@@ -8,8 +8,11 @@ type Props = {
 };
 const CvComponent = ({ layoutInstance, ref }: Props) => {
   return (
-    <div  className="md:w-[800px] pt-5 mb-8">
-      <div ref={ref} className="ml-28 w-full p-3 flex flex-col justify-center bg-white ">
+    <div className="w-full ml-6 md:ml-28  pt-5 mb-8">
+      <div
+        ref={ref}
+        className="md:scale-[0.5] lg:scale-100 scale-[0.4] origin-top-left w-[800px] p-4 flex flex-col justify-center bg-white"
+      >
         <ListRowsComponent rows={layoutInstance?.rows} />
       </div>
     </div>

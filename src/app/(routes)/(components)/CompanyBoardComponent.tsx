@@ -22,7 +22,7 @@ const CompnayBoardComponent = () => {
         </div>
       </div>
       <div className="h-4/5  flex flex-col pt-2">
-        {/* <div className="w-full relative flex items-center justify-center gap-2">
+        <div className="w-full relative flex items-center justify-center gap-2">
           <Carousel className="w-full pl-3 pr-3">
             <CarouselContent className="w-full">
               <CarouselItem className="md:flex hidden gap-4 md:justify-center ml-3 md:pl-0">
@@ -89,10 +89,10 @@ const CompnayBoardComponent = () => {
           </Carousel>
         </div>
         <div className="w-ful flex items-center justify-center">
-          <Carousel className="w-full pt-5">
-            <CarouselContent>
+          <Carousel className="w-full pt-5 h-fit">
+            <CarouselContent className="h-fit">
               <CarouselItem>
-                <div className="grid grid-cols-3 place-items-center gap-2 mx-auto">
+                <div className="grid grid-cols-1 md:grid-cols-3 p-5 place-items-center gap-2 mx-auto">
                   <CompanyCardComponent />
                   <CompanyCardComponent />
                   <CompanyCardComponent />
@@ -104,7 +104,7 @@ const CompnayBoardComponent = () => {
                 </div>
               </CarouselItem>
               <CarouselItem>
-                <div className="grid grid-cols-3 place-items-center gap-2 mx-auto">
+                <div className="grid grid-cols-1 md:grid-cols-3 place-items-center gap-2 mx-auto">
                   <CompanyCardComponent />
                   <CompanyCardComponent />
                   <CompanyCardComponent />
@@ -119,7 +119,7 @@ const CompnayBoardComponent = () => {
             <CarouselPrevious />
             <CarouselNext />
           </Carousel>
-        </div> */}
+        </div>
       </div>
     </div>
   );

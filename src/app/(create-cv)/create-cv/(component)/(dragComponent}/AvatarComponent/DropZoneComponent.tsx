@@ -16,11 +16,11 @@ type Props = {
     subField?: string,
     index?: number
   ) => void;
+  setData: React.Dispatch<React.SetStateAction<null>>;
 };
-const DropZoneComponent = ({ handleChange }: Props) => {
+const DropZoneComponent = ({ handleChange, setData }: Props) => {
   const [uploading, setUploading] = useState(false); // Trạng thái đang upload
   const [error, setError] = useState<string | null>(null); // Lưu lỗi nếu có
-  
   const handleDrop = async (acceptedFiles: File[]) => {
     setUploading(true);
     setError(null);
@@ -35,8 +35,7 @@ const DropZoneComponent = ({ handleChange }: Props) => {
       });
 
       const data = await response.json();
-      console.log(data);
-      handleChange("avatar", data);
+      setData(data);
     } catch (err) {
       setError("Có lỗi xảy ra khi upload ảnh. Vui lòng thử lại.");
       console.error(err);

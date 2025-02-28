@@ -9,7 +9,7 @@ const CreateCvLayout = ({
   return (
     <div className="min-h-screen">
       <Header />
-      <div className=" scale-[0.9] sm:scale-[1] md:scale-[1] ">{children}</div>
+      <div className="">{children}</div>
     </div>
   );
 };

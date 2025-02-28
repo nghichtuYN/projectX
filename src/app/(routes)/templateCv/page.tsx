@@ -1,5 +1,4 @@
 "use client";
-import CVPreviewDialogComponent from "@/app/(create-cv)/create-cv/(component)/CVPreviewDialogComponent";
 import { templates } from "@/data/template";
 import { Eye, SquarePen } from "lucide-react";
 import Image from "next/image";
@@ -29,12 +28,12 @@ const TemplateCvPage = () => {
 
               <div className=" absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <div className="absolute z-50 bottom-0 left-0 right-0 flex justify-center gap-4 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out">
-                  <CVPreviewDialogComponent
+                  {/* <CVPreviewDialogComponent
                     content={{ maniContent: "Xem mẫu", icon: Eye }}
                   />
                   <CVPreviewDialogComponent
                     content={{ maniContent: "Dùng mẫu này", icon: SquarePen }}
-                  />
+                  /> */}
                 </div>
               </div>
             </div>

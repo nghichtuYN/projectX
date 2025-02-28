@@ -23,8 +23,7 @@ const CompanyCardComponent = ({
             <Image
               src={logoUrl || "/placeholder.svg"}
               alt={companyName}
-              width={48}
-              height={48}
+              fill
               className="rounded-sm object-contain"
             />
           </div>

@@ -12,7 +12,6 @@ type Job = {
 };
 
 const JobCardComponent = ({ companyImage, posistion, jobSalary, jD }: Job) => {
-  console.log(companyImage);
   return (
     <Card className="group hover:bg-accent mb-3 border-none">
       <Link href="/" className="flex items-center p-3">

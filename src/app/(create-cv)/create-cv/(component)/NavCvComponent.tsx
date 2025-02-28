@@ -28,7 +28,7 @@ const NavCvComponent = () => {
     layoutInstance.rows.forEach((row) => {
       row.columns.forEach((column) => {
         column.content.forEach((content) => {
-          if (content.type !== "info_bonus" && content.type) {
+          if (content.type) {
             usedFields.push(content);
           }
         });
@@ -37,10 +37,7 @@ const NavCvComponent = () => {
 
     const unusedFields = allFields.filter((field) => {
       return !usedFields.some(
-        (usedField) =>
-          usedField.type === field.type &&
-          field.type &&
-          field.type !== "info_bonus"
+        (usedField) => usedField.type === field.type && field.type
       );
     });
 
@@ -63,7 +60,7 @@ const NavCvComponent = () => {
       transition,
       isDragging,
     } = useSortable({
-      id: field.id, // Đảm bảo ID duy nhất
+      id: field.id,
       data: { ...field },
     });
 
@@ -79,7 +76,7 @@ const NavCvComponent = () => {
         style={style}
         {...attributes}
         {...listeners}
-        className="p-2 flex items-center gap-2 border rounded cursor-move hover:border-hoverColor bg-gray-100 hover:bg-secondaryColor hover:text-white"
+        className="p-2  flex items-center gap-2 border rounded cursor-move hover:border-hoverColor bg-gray-100 hover:bg-secondaryColor hover:text-white"
       >
         <RenderIconComponent keyName={field.type!} />
         {field.name}
@@ -87,25 +84,25 @@ const NavCvComponent = () => {
     );
   };
   return (
-    <div className="flex h-fit">
+    <div className="flex h-fit md:scale-[0.5] lg:scale-100 scale-[0.4]  origin-top-left ">
       {/* Sidebar Navigation */}
       <div className="w-[92px] flex flex-col items-center justify-start py-4 gap-2">
         {navItems.map((item) => (
-          <Button
+          <div
             key={item.title}
-            variant="ghost"
+            // variant="ghost"
             className={cn(
-              "w-[85px] h-[85px] flex flex-col items-center space-y-1 hover:bg-secondaryColor hover:text-white bg-white",
+              "w-[85px] h-[85px] flex flex-col justify-center rounded-lg items-center space-y-1 hover:bg-secondaryColor hover:text-white bg-white",
               "text-center px-2",
               activeContent === item.content && "bg-secondaryColor text-white"
             )}
             onClick={() => handleNavClick(item.content)}
           >
-            <item.icon size={1} className="w-12 h-12 text-secondaryColor" />
+            <item.icon size={24} className="" />
             <p className="text-xs font-medium text-center leading-tight break-normal whitespace-normal">
               {item.title}
             </p>
-          </Button>
+          </div>
         ))}
       </div>
 

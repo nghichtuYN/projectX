@@ -9,7 +9,7 @@ import {
   CardDescription,
 } from "@/components/ui/card";
 import { Search } from "lucide-react";
-import { Input } from "./ui/input";
+import { Input } from "../../../../../../components/ui/input";
 import { ChangeEvent, useEffect, useState } from "react";
 import {
   Select,
@@ -18,7 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Button } from "./ui/button";
+import { Button } from "../../../../../../components/ui/button";
 import Link from "next/link";
 import * as XLSX from "xlsx";
 const TabsComponent = () => {

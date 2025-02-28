@@ -30,16 +30,18 @@ export type Skill = {
 export type Projects = {
   name: string;
   details: {
+    name_project: string;
     position: string;
-    name: string;
-
-    company: string;
+    position_person: string;
+    description_position: string;
+    consumer: string;
+    consumer_name: string;
     start: string;
     end: string;
-    description_position: string;
     description_stacks: string;
     stacks: string;
     quantity: string;
+    quantity_persons: string;
   }[];
 };
 export type Certificate = {
@@ -61,6 +63,10 @@ export type Activity = {
 };
 
 export type Hobby = {
+  name: string;
+  details: string;
+};
+export type InfoBonus = {
   name: string;
   details: string;
 };
@@ -97,4 +103,6 @@ export type FormType = {
   hobbies: Hobby;
   referencer: Referencer;
   achievements: Achievement;
+  projects: Projects;
+  info_bonus: InfoBonus;
 };

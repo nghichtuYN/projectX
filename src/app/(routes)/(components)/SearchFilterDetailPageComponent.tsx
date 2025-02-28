@@ -7,7 +7,7 @@ import { Button } from "../../../components/ui/button";
 const SearchFilterDetailPage = () => {
 
   return (
-    <section className="w-full mx-auto py-2 px-4 h-[72px] justify-center flex items-center bg-primaryColor">
+    <section className="w-full mx-auto py-2 px-4 h-[72px] justify-center sticky top-0 z-10 flex items-center bg-primaryColor">
       <div className="flex items-center w-3/4 gap-2">
         <div className="grid grid-cols-5 items-center  justify-center w-full  h-11  mx-auto bg-white rounded-md">
           <JobTypeDetailPageComponent />

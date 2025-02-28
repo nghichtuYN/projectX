@@ -23,7 +23,7 @@ export default function Home() {
     return <p>Đang tải thông tin người dùng...</p>;
   }
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center pb-8">
       <div className="w-full bg-primaryColor">
         <SearchFilter />
       </div>

@@ -1,31 +1,31 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Input } from "../../../../components/ui/input";
 import { Button } from "../../../../components/ui/button";
-import { ArrowDownToLine, Eye, Save } from "lucide-react";
+import { ArrowDownToLine, Eye } from "lucide-react";
 import html2canvas from "html2canvas-pro";
 import jsPDF from "jspdf";
-const CreateCvToolBarComponent = ({ printRef }) => {
+type Props = {
+  printRef: any;
+};
+const CreateCvToolBarComponent = ({ printRef }: Props) => {
+  const [nameCv, setNameCv] = useState("");
+
   const handleDownloadPdf = async () => {
     const element = printRef.current;
     if (!element) return;
 
-    // Cập nhật tất cả các thẻ <img> trong element để bypass cache
     const images = element.querySelectorAll("img");
-    console.log(images);
-    images.forEach((img) => {
+    images.forEach((img: any) => {
       const src = img.src;
       if (src) img.src = `${src}?date=${Date.now()}`;
     });
 
-    // Đợi một chút để ảnh tải lại trước khi chụp
     await new Promise((resolve) => setTimeout(resolve, 500));
 
-    // Chụp element thành canvas sau khi ảnh đã tải lại
     const canvas = await html2canvas(element, { scale: 2 });
     const data = canvas.toDataURL("image/png");
 
-    // Khởi tạo jsPDF
     const pdf = new jsPDF({
       orientation: "portrait",
       unit: "px",
@@ -48,7 +48,7 @@ const CreateCvToolBarComponent = ({ printRef }) => {
       pdf.addImage(data, "PNG", 0, -offsetY, pdfWidth, scaledHeight);
     }
 
-    pdf.save("examplepdf.pdf");
+    pdf.save(`${nameCv ? nameCv : "exampleCV"}.pdf`);
   };
 
   return (
@@ -56,30 +56,17 @@ const CreateCvToolBarComponent = ({ printRef }) => {
       <Input
         placeholder="CV chưa đặt tên"
         className="placeholder:text-sm w-[300px]"
+        onChange={(e) => setNameCv(e.target.value)}
       />
-      <div className="flex items-center gap-2 shrink-0">
-        <Button
-          variant="outline"
-          size="sm"
-          className="text-xs sm:text-sm sm:px-4 px-2"
-        >
-          <Eye className="w-4 h-4 mr-2" />
-          Xem trước
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          className="text-xs sm:text-sm sm:px-4 px-2"
-          onClick={handleDownloadPdf}
-        >
-          <ArrowDownToLine className="w-4 h-4 mr-2" />
-          Lưu và tải xuống
-        </Button>
-        <Button size="sm" className="text-xs sm:text-sm sm:px-4 px-2">
-          <Save className="w-4 h-4 mr-2" />
-          Lưu lại
-        </Button>
-      </div>
+      <Button
+        variant="outline"
+        size="sm"
+        className="text-xs sm:text-sm sm:px-4 px-2"
+        onClick={handleDownloadPdf}
+      >
+        <ArrowDownToLine className="w-4 h-4 mr-2" />
+        Lưu và tải xuống
+      </Button>
     </div>
   );
 };

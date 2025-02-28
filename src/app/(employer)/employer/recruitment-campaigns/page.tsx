@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 
 import {
@@ -20,7 +20,7 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { Eye, Plus } from "lucide-react";
+import { Eye, FolderPlus, Plus } from "lucide-react";
 import { campaigns } from "@/data/campaigns";
 import {
   Pagination,
@@ -35,7 +35,40 @@ import {
 import EmployerSidebaHeaderComponent from "@/components/EmployerSidebaHeaderComponent";
 import Link from "next/link";
 import SearchInputCampainComponent from "@/components/SearchInputCampainComponent";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import DialogAddCampaignComponent from "./(components)/DialogAddCampaignComponent";
 const RecruitmentCampaignPage = () => {
+  const pathname = usePathname();
+  const [filterBy, setFilterBy] = useState("");
+  const router = useRouter();
+  const [searchValue, setSearchValue] = useState("");
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const searchParams = useSearchParams();
+  console.log(searchParams.get("search"));
+  useEffect(() => {
+    const searchFromUrl = searchParams.get("search") || "";
+    const filterFromUrl = searchParams.get("filter_by") || "all";
+    const pageFromUrl = parseInt(searchParams.get("page") || "1", 10);
+    setSearchValue(searchFromUrl);
+    setFilterBy(filterFromUrl);
+    setCurrentPage(pageFromUrl);
+  }, []);
+  useEffect(() => {
+    const query = new URLSearchParams();
+    if (searchValue) query.set("search", searchValue);
+    if (filterBy !== "all") query.set("filter_by", filterBy);
+    if (currentPage >= 1) query.set("page", currentPage.toString());
+
+    const newUrl = query.toString()
+      ? `${pathname}?${query.toString()}`
+      : pathname;
+    router.push(newUrl, { scroll: false });
+  }, [filterBy, currentPage, pathname, router]);
+  const onChangeFilterByValue = (value: string) => {
+    setFilterBy(value);
+  };
+
   return (
     <>
       <EmployerSidebaHeaderComponent>
@@ -49,23 +82,40 @@ const RecruitmentCampaignPage = () => {
         <div className="container  mx-auto p-4 space-y-4  bg-accent">
           {/* Search Bar */}
           <div className=" flex gap-4 items-center">
-            <Select defaultValue="all">
+            <Select onValueChange={onChangeFilterByValue} value={filterBy}>
               <SelectTrigger className="w-[180px] bg-white">
                 <SelectValue placeholder="Tất cả chiến dịch" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">Tất cả chiến dịch</SelectItem>
-                <SelectItem value="active">Đang hoạt động</SelectItem>
-                <SelectItem value="closed">Đã đóng</SelectItem>
+                <SelectItem value="only_open">
+                  Chỉ chiến dịch đang mở
+                </SelectItem>
+                <SelectItem value="has_new_cv">
+                  Có CV ứng viên mới cần xem
+                </SelectItem>
+                <SelectItem value="has_publishing_job">
+                  Tin tuyển dụng đang hiển thị
+                </SelectItem>
+                <SelectItem value="has_running_service">
+                  Có dịch vụ đang chạy
+                </SelectItem>
+                <SelectItem value="expired_job">
+                  Tin tuyển dụng hết hạn hiển thị
+                </SelectItem>
+                <SelectItem value="waitting_approve_job">
+                  Tin tuyển dụng đang xét duyệt
+                </SelectItem>
               </SelectContent>
             </Select>
-            {/* <SearchInputCampainComponent placeholder="Tìm chiến dịch (Nhấn enter để tìm kiếm)" />
-             */}
-            <SearchInputCampainComponent placeholder="Tìm chiến dịch (Nhấn enter để tìm kiếm)" />
-            <Button>
-              <Plus />
-              Thêm chiến dịch mới
-            </Button>
+            <SearchInputCampainComponent
+              page={currentPage}
+              filterBy={filterBy}
+              searchValue={searchValue}
+              setSearchValue={setSearchValue}
+              placeholder="Tìm chiến dịch (Nhấn enter để tìm kiếm)"
+            />
+            <DialogAddCampaignComponent />
           </div>
 
           {/* Table */}
@@ -77,7 +127,6 @@ const RecruitmentCampaignPage = () => {
                     <TableHead className="w-[300px] border border-r-2">
                       Chiến dịch tuyển dụng
                     </TableHead>
-                    <TableHead className="border border-r-2">Tối ưu</TableHead>
                     <TableHead className="border border-r-2">
                       Tin tuyển dụng
                     </TableHead>
@@ -127,7 +176,7 @@ const RecruitmentCampaignPage = () => {
                           </div>
                         </div>
                       </TableCell>
-                      <TableCell className="border border-r-2">
+                      {/* <TableCell className="border border-r-2">
                         <div className="space-y-1">
                           <div className="text-sm">{campaign.progress}%</div>
                           <Progress
@@ -135,7 +184,7 @@ const RecruitmentCampaignPage = () => {
                             className="w-[60px]"
                           />
                         </div>
-                      </TableCell>
+                      </TableCell> */}
                       <TableCell className="border border-r-2">
                         <Badge
                           variant="outline"

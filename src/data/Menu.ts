@@ -76,17 +76,17 @@ export const Menu: Menu[] = [
     subMenu: [
       {
         title: "Tạo CV",
-        href: "/docs/primitives/tooltip",
+        href: "/create-cv",
         icon: FileUser,
       },
       {
         title: "Tải CV lên",
-        href: "/docs/primitives/tooltip",
+        href: "/uploadCv",
         icon: FileUp,
       },
       {
         title: "Quản lý CV",
-        href: "/docs/primitives/tooltip",
+        href: "/manageCv",
         icon: FileUser,
       },
       {

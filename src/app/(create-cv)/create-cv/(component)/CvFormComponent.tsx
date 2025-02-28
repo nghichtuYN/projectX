@@ -159,6 +159,29 @@ const CvFormComponent = () => {
         },
       ],
     },
+    projects: {
+      name: `<p><span style="font-size: 18px; font-weight: bold; color:${textColor};">Dự án</span></p>`,
+      details: [
+        {
+          name_project: "",
+          position: "",
+          position_person: "",
+          consumer: "",
+          consumer_name: "",
+          start: "",
+          end: "",
+          description_position: "",
+          description_stacks: "",
+          stacks: "",
+          quantity: "",
+          quantity_persons: "",
+        },
+      ],
+    },
+    info_bonus: {
+      name: `<p><span style="font-size: 18px; font-weight: bold; color:${textColor};">Thông tin thêm</span></p>`,
+      details: "",
+    },
   });
   const handleChange = (
     field: keyof FormType,
@@ -296,6 +319,7 @@ const CvFormComponent = () => {
   const handleDragStart = (event: any) => {
     const { id, data } = event.active;
     if (id.startsWith("draggable-field-")) {
+      console.log("run here");
       setActiveDragContentId(id);
       setActiveDragContentData({
         ...data.current,
@@ -582,8 +606,8 @@ const CvFormComponent = () => {
         setLayoutInstance,
       }}
     >
-      <div>
-        <div className="sticky top-0 z-30">
+      <div className="z-10">
+        <div className="sticky top-0 z-10">
           <CreateCvToolBarComponent printRef={printRef} />
 
           {activeEditor !== null ? (
@@ -615,7 +639,7 @@ const CvFormComponent = () => {
           collisionDetection={pointerWithin}
           id={id}
         >
-          <div className="flex w-full ">
+          <div className="flex w-full">
             <div className="w-1/4 ">
               <div className="w-fit">
                 <NavCvComponent />

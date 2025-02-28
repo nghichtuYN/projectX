@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/card";
 import { MoveLeft } from "lucide-react";
 import React from "react";
-import TabsComponent from "@/components/TabsComponent";
+import TabsComponent from "@/app/(employer)/employer/recruitment-campaigns/[id]/(components)/TabsComponent";
 import { redirect } from "next/navigation";
 type Props = {
   id: string;

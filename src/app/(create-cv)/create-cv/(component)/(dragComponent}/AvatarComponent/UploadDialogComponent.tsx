@@ -12,6 +12,7 @@ import { Upload } from "lucide-react";
 import React, { useState } from "react";
 import DropZoneComponent from "./DropZoneComponent";
 import { FormType } from "@/types/formCvtype";
+import Image from "next/image";
 type Props = {
   handleChange: (
     field: keyof FormType,
@@ -23,6 +24,8 @@ type Props = {
 const UploadDialogComponent = ({ handleChange }: Props) => {
   const [isUpLoading, setIsUpLoading] = useState(false);
   const [open, setOpen] = useState<boolean>(false);
+  const [data, setData] = useState(null);
+
   return (
     <Dialog
       open={open}
@@ -44,13 +47,23 @@ const UploadDialogComponent = ({ handleChange }: Props) => {
             Cập nhật ảnh đại diện
           </DialogTitle>
         </DialogHeader>
-        <div className="flex items-center">
-          <div className="flex flex-col items-center justify-center w-3/4">
+        <div className="flex items-center gap-4">
+          <div className="flex flex-col items-center justify-center w-2/3">
             <p>Ảnh gốc</p>
-            <DropZoneComponent handleChange={handleChange} />
+            <DropZoneComponent  handleChange={handleChange} setData={setData} />
           </div>
-          <div className="flex flex-col items-center justify-center w-1/4">
+          <div className="flex flex-col items-center w-1/3">
             Ảnh hiển thị trên CV
+            <div className="w-32 h-32 relative">
+              {" "}
+              {/* Kích thước cố định + position */}
+              <Image
+                src={data || "https://github.com/shadcn.png"}
+                alt="Avatar CV"
+                fill
+                className="object-cover "
+              />
+            </div>
           </div>
         </div>
         <DialogFooter className="flex gap-2 justify-center w-full">
@@ -59,7 +72,15 @@ const UploadDialogComponent = ({ handleChange }: Props) => {
               Hủy
             </Button>
           </DialogClose>
-          <Button type="submit" form="application-form" disabled={isUpLoading}>
+          <Button
+            onClick={() => {
+              setIsUpLoading(true)
+              handleChange("avatar", data);
+              setIsUpLoading(false)
+              setOpen(false);
+            }}
+            disabled={isUpLoading}
+          >
             {isUpLoading ? "Đang xử lý..." : "Hoàn tất"}
           </Button>
         </DialogFooter>
