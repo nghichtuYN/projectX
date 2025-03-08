@@ -13,12 +13,12 @@ import Placeholder from "@tiptap/extension-placeholder";
 import { FormType } from "@/types/formCvtype";
 import OrderedList from "@tiptap/extension-ordered-list";
 import { useEffect } from "react";
-export const useEditorHook = (
+export const useEditorHook = <T,>(
   content: string,
   placeHolder: string | "",
-  field: keyof FormType,
+  field: keyof T,
   onChange: (
-    field: keyof FormType,
+    field: keyof T,
     content: string,
     subField?: string,
     index?: number
@@ -27,7 +27,7 @@ export const useEditorHook = (
   index?: number
 ) => {
   const handleChange = (
-    field: keyof FormType,
+    field: keyof T,
     newContent: string,
     subField?: string,
     index?: number
