@@ -24,7 +24,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavProjects projects={MenuEmployer.projects} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={MenuEmployer.user} />
+        <NavUser  />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

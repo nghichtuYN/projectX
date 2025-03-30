@@ -1,10 +1,5 @@
 "use client";
-import {
-  Check,
-  ChevronDown,
-  ChevronUp,
-  MapPin,
-} from "lucide-react";
+import { Check, ChevronDown, ChevronUp, MapPin } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -32,25 +27,27 @@ const LocatonComponent = () => {
   return (
     <>
       <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger className="p-5" asChild>
+        <PopoverTrigger className="p-5 " asChild>
           <Button
             variant="outline"
             role="combobox"
             size={"lg"}
             aria-expanded={open}
             className={cn(
-              "bg-accent font-semibold w-full overflow-hidden  leading-6 p-2 rounded-2xl",
-              "focus:border-secondaryColor active:border-secondaryColor active:text-secondaryColor hover:text-secondaryColor shadow-md",
-              open ? "text-secondaryColor border-secondaryColor" : ""
+              "hover:bg-accent bg-white font-medium w-full overflow-hidden justify-between leading-6 p-2 rounded-2xl",
+              " active:text-secondaryColor hover:text-secondaryColor ",
+              open ? "text-secondaryColor" : ""
             )}
           >
-            {value ? (
-              JobType.find((framework) => framework.value === value)?.label
-            ) : (
-              <>
-                <MapPin/> Địa điểm
-              </>
-            )}
+            <div className="flex items-center gap-2">
+              {value ? (
+                JobType.find((framework) => framework.value === value)?.label
+              ) : (
+                <>
+                  <MapPin /> Địa điểm
+                </>
+              )}
+            </div>
             {open ? (
               <ChevronUp className="opacity-50" />
             ) : (

@@ -5,7 +5,10 @@ import { useState, useRef, useEffect } from "react";
 import { Input } from "../../../components/ui/input";
 import SearchPopoverComponent from "./SearchPopoverComponent";
 import { Search } from "lucide-react";
-
+type Props = {
+  search: string;
+  setSearch: React.Dispatch<React.SetStateAction<string>>;
+};
 const searchData = [
   { id: 1, name: "iPhone 15 Pro" },
   { id: 2, name: "MacBook Pro M3" },
@@ -14,8 +17,7 @@ const searchData = [
   { id: 5, name: "AirPods Pro 2" },
 ];
 
-export default function SearchPositionComponent() {
-  const [search, setSearch] = useState("");
+export default function SearchPositionComponent({ search, setSearch }: Props) {
   const [open, setOpen] = useState(false);
   const [history, setHistory] = useState<string[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -78,16 +80,16 @@ export default function SearchPositionComponent() {
     item.name.toLowerCase().includes(search.toLowerCase())
   );
   return (
-    <div className="">
-      <div className="flex items-center rounded-3xl bg-accent ">
-        <Search className="hidden md:block h-4 w-4 text-muted-foreground ml-1" />
+    <>
+      <div className="flex items-center rounded-3xl bg-white ">
+        <Search className="h-4 w-4 text-muted-foreground block xl:hidden" />
         <Input
           ref={inputRef}
           placeholder={placeHolderInput}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           onFocus={() => setOpen(true)}
-          className="border-none h-11 focus-visible:ring-0 placeholder:font-medium rounded-3xl "
+          className="border-none h-11 focus-visible:ring-0 placeholder:font-medium rounded-3xl placeholder:overflow-hidden placeholder:text-ellipsis"
         />
       </div>
 
@@ -104,6 +106,6 @@ export default function SearchPositionComponent() {
           filteredResults={filteredResults}
         />
       )}
-    </div>
+    </>
   );
 }

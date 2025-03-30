@@ -5,7 +5,7 @@ import { Label } from "../../../components/ui/label";
 const SelectTypeSearchComponent = () => {
   return (
     <>
-      <div className=" m-3 flex gap-4 ">
+      <div className=" p-3 flex gap-3 items-center ">
         <p className="font-semibold">Tìm kiếm theo:</p>
         <RadioGroup className="grid-cols-3 gap-6 " defaultValue="jobs">
           <div className="flex items-center space-x-2 ">

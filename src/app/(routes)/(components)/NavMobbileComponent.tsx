@@ -5,29 +5,25 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Collapsible, CollapsibleContent } from "@radix-ui/react-collapsible";
-import React from "react";
+import React, { use } from "react";
 import { cn } from "@/lib/utils";
-import AccordionAccount, { User } from "./AccordionAccount";
+import AccordionAccount from "./AccordionAccount";
 import { Menu } from "../../../data/Menu";
 import ListItemMobile from "./listItemMobile";
 import Link from "next/link";
+import { useAuthStore } from "@/store/UserStore";
 type Props = {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 export const NavMobbileComponent = ({ open, setOpen }: Props) => {
-  const user: User = {
-    avatar: "https://github.com/shadcn.png",
-    name: "Hoàng Đặng",
-    email: "hoangtroll14354@gmail.com",
-    id: "12312311",
-  };
+  const user = useAuthStore((state) => state.user);
   return (
     <>
       <Collapsible
         open={open}
         onOpenChange={setOpen}
-        className={cn("w-full",open?"pt-2":"")}
+        className={cn("w-full", open ? "pt-2" : "")}
       >
         <CollapsibleContent
           className={cn(

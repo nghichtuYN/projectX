@@ -34,7 +34,7 @@ const FormFieldComponent: React.FC<FormFieldProps> = ({
         <FormItem>
           <FormLabel className="flex items-center gap-2">
             {Icon && <Icon size={18} className="text-secondaryColor" />}
-            {label && label}
+            <p className="font-semibold">{label && label}</p>
             {requrie && requrie ? (
               <span className="text-red-500">*</span>
             ) : null}

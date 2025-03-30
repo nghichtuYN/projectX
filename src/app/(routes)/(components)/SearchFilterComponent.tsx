@@ -1,65 +1,70 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import JobTypeComponent from "./JobTypeComponent";
 import LocatonComponent from "./LocatonComponent";
 import SearchPositionComponent from "./SearchPositionComponent";
 import ButtonSearchComponent from "./ButtonSearchComponent";
 import ListJobComponent from "./ListJobComponent";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import ImageCaruelComponent from "./ImageCaruelComponent";
-
+import slugify from "slugify";
 const SearchFilter = () => {
   const pathname = usePathname();
-
+  const router = useRouter();
+  const [search, setSearch] = useState("");
+  const handleClick = () => {
+    const slug = slugify(search, { lower: true, locale: "vi" });
+    if (search) router.push(`tim-kiem-viec-lam-${slug}`);
+    console.log(slug);
+  };
   return (
-    <section className=" mx-auto py-8 px-4 bg-primaryColor">
-      <div className="relative grid  grid-cols-6 xl:grid-cols-12 items-center bg-white rounded-3xl max-h-20 h-14 md:w-3/4 w-5/6  mx-auto">
+    <section className=" mx-auto py-8  bg-primaryColor">
+      <div className="relative flex items-center gap-1 bg-white rounded-3xl  h-12 lg:w-3/4 w-5/6  mx-auto">
         {/* Job Type Component */}
-        <div
-          className={cn(
-            pathname === "/" ? "hidden" : "hidden xl:block xl:col-span-2 p-2"
-          )}
-        >
-          <JobTypeComponent />
-        </div>
 
         {/* Search Filter */}
-        <div
-          className={cn(
-            "text-sm ml-2  ",
-            pathname === "/" ? "xl:col-span-8 col-span-5 " : " xl:col-span-6 pr-2"
-          )}
-        >
-          <SearchPositionComponent />
+        <div className="flex gap-1 items-center xl:basis-[60%] basis-full">
+          <div
+            className={cn(
+              "relative after:content-[''] w-full overflow-hidden after:h-9 after:w-[1px] after:absolute after:-right-1 after: after:top-1 after:bg-[#2d2d2d] after:opacity-10 p-1",
+              pathname === "/" ? "hidden" : "hidden xl:block  xl:basis-1/4"
+            )}
+          >
+            <JobTypeComponent />
+          </div>
+          <div
+            className={cn(
+              "text-sm  after:content-['']  basis-full pl-2 after:h-9 after:w-[1px] after:bg-[#2d2d2d] after:opacity-10",
+              pathname === "/" && " xl:basis-3/4"
+            )}
+          >
+            <SearchPositionComponent search={search} setSearch={setSearch} />
+          </div>
         </div>
 
         {/* Location Component */}
         <div
           className={cn(
-            "hidden xl:block xl:mr-12",
-            pathname === "/"
-              ? " xl:col-span-3  ml-2  "
-              : "   xl:col-span-3 mr-2"
+            "relative after:content-[''] after:h-9 after:w-[1px] after:absolute after:-right-1 after: after:top-1 after:bg-[#2d2d2d] after:opacity-10",
+            "hidden xl:block  ",
+            pathname === "/" ? " xl:basis-[27%]" : "xl:basis-[27%] "
           )}
         >
           <LocatonComponent />
         </div>
 
         {/* Search Button */}
-        <div className="col-span-1 flex items-center justify-center  xl:col-span-1 pr-2">
-          <ButtonSearchComponent />
+        <div className="col-span-1 flex items-center justify-center    xl:basis-[13%] pr-2">
+          <ButtonSearchComponent handleClick={handleClick} />
         </div>
       </div>
 
       {/* Content Section */}
-      <div className="flex xl:flex-row gap-2 md:w-3/4 w-5/6 mx-auto pt-4">
-        {/* List Job Component */}
+      <div className="flex xl:flex-row gap-2 lg:w-3/4 w-5/6 mx-auto pt-4">
         <div className="hidden xl:block xl:w-1/3">
           <ListJobComponent />
         </div>
-
-        {/* Image Carousel */}
         <div className="flex w-full xl:w-2/3">
           <ImageCaruelComponent />
         </div>

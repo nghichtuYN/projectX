@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Input } from "../../../../components/ui/input";
 import { Button } from "../../../../components/ui/button";
-import { ArrowDownToLine, Eye } from "lucide-react";
+import { ArrowDownToLine } from "lucide-react";
 import html2canvas from "html2canvas-pro";
 import jsPDF from "jspdf";
 type Props = {

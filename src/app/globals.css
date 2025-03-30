@@ -6,17 +6,6 @@ body {
   font-family: Inter, sans-serif;
   box-sizing: border-box;
 }
-body.moving {
-  transition: transform 0.3s ease-in-out;
-}
-
-body.moving-down {
-  transform: translateY(200px); /* Điều chỉnh khoảng trôi xuống */
-}
-
-body.moving-up {
-  transform: translateY(0);
-}
 
 @layer base {
   :root {

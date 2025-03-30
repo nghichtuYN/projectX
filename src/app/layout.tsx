@@ -3,7 +3,9 @@ import { Geist } from "next/font/google";
 import "./globals.css";
 import React from "react";
 import Providers from "./(routes)/providers";
-
+import QueryProvider from "./(routes)/(components)/QueryProvider";
+import { Toaster } from "@/components/ui/sonner";
+import AuthWrapper from "./(routes)/(components)/AuthWraper";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -23,7 +25,12 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable}  antialiased `}>
         <main>
-          <Providers>{children}</Providers>
+          <QueryProvider>
+            <Providers>
+              <AuthWrapper>{children}</AuthWrapper>
+              <Toaster position="top-right" richColors closeButton />
+            </Providers>
+          </QueryProvider>
         </main>
       </body>
     </html>

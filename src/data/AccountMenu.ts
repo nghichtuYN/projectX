@@ -26,9 +26,4 @@ export const AccountMenu: {
     href: "/docs/primitives/tooltip",
     icon: Lock,
   },
-  {
-    title: "Đăng xuất",
-    href: "/login",
-    icon: LogOut,
-  },
 ];

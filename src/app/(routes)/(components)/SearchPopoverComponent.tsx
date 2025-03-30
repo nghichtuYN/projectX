@@ -36,13 +36,13 @@ const SearchPopoverComponent = ({
         ref={commandRef}
         className={cn(
           "absolute top-full left-0 w-full mt-2 ",
-          " bg-white border shadow-lg rounded-2xl z-30 h-[475px] overflow-y-visible"
+          " bg-white border shadow-xl rounded-2xl z-30 h-[475px] overflow-y-visible"
         )}
       >
         <div className="rounded-3xl">
           <ScrollArea>
-            <div className="lg:flex h-[475px] overflow-y-scroll lg:overflow-y-hidden">
-              <div className="lg:w-2/5 flex flex-col border-r">
+            <div className="xl:flex h-[475px]">
+              <div className="xl:basis-1/2 flex flex-col border-r">
                 <SelectTypeSearchComponent />
                 <hr />
                 {search === "" ? (
@@ -70,7 +70,7 @@ const SearchPopoverComponent = ({
                 )}
               </div>
 
-              <div className="lg:w-3/5 mt-2">
+              <div className="xl:basis-1/2 mt-2">
                 <JobInterestComponent />
               </div>
             </div>

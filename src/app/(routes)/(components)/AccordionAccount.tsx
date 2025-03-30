@@ -8,15 +8,10 @@ import { AccountMenu } from "../../../data/AccountMenu";
 import ListItemMobile from "./listItemMobile";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { cn } from "@/lib/utils";
+import { User } from "@/store/UserStore";
 
-export type User = {
-  avatar: string;
-  name: string;
-  email: string;
-  id:string;
-};
 type Props = {
-  user: User;
+  user: User | null;
 };
 const AccordionAccount = ({ user }: Props) => {
   return (
@@ -29,16 +24,20 @@ const AccordionAccount = ({ user }: Props) => {
         >
           <Avatar className="pt-1">
             <AvatarImage
-              className="rounded-3xl "
-              src={"https://github.com/shadcn.png"}
-              alt="@shadcn"
+              className="rounded-3xl border-solid"
+              src={
+                user?.profilePicture
+                  ? user.profilePicture
+                  : "https://github.com/shadcn.png"
+              }
+              alt="avatar"
               width={50}
               height={50}
             />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
           <div className={cn("text-sm block  font-semibold leading-5 mt-0 ")}>
-            <div className={"text-secondaryColor"}>{user?.name}</div>
+            <div className={"text-secondaryColor"}>{user?.fullName}</div>
             <div>{user?.id}</div>
             <div>{user?.email}</div>
           </div>

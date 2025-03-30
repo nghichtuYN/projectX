@@ -49,15 +49,6 @@ const AddressComponent = ({
     if (index === length - 1) return;
     setComponents((prev) => (prev = moveElement(prev, index, index + 1)));
   };
-  // const handleDelete = () => {
-  //   setForm((prevForm: FormType) => ({
-  //     ...prevForm,
-  //     skills: {
-  //       ...prevForm.skills,
-  //       details: removeElement(prevForm.skills.details, index),
-  //     },
-  //   }));
-  // };
   return (
     <div className="flex items-center group/detail relative w-full h-fit  min-h-[20px] rounded-md gap-2 hover:border-secondaryColor hover:border hover:border-dashed p-1">
       <div className="w-1/6 pl-1">

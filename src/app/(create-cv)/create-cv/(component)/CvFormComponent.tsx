@@ -193,7 +193,6 @@ const CvFormComponent = () => {
       const fieldData = prevForm[field];
 
       if (!subField || subField === undefined) {
-        // console.log("run2");
         return { ...prevForm, [field]: value };
       }
       if (!fieldData || typeof fieldData !== "object") {
@@ -311,15 +310,10 @@ const CvFormComponent = () => {
       return newLayoutIntance;
     });
   };
-  // const handleDragStart = (event: any) => {
-  //   setActiveDragContentId(event.active?.id);
-  //   setActiveDragContentData(event.active?.data?.current);
-  //   setActiveOldColumn(findColumnByContentId(event.active.id) ?? null);
-  // };
+
   const handleDragStart = (event: any) => {
     const { id, data } = event.active;
     if (id.startsWith("draggable-field-")) {
-      console.log("run here");
       setActiveDragContentId(id);
       setActiveDragContentData({
         ...data.current,
@@ -334,31 +328,6 @@ const CvFormComponent = () => {
     }
   };
 
-  // const handleDragOver = debounce((event: any) => {
-  //   const { active, over } = event;
-  //   if (!over || !active) return;
-
-  //   const {
-  //     id: activeDragingContentId,
-  //     data: { current: activeDraggingContentData },
-  //   } = active;
-  //   const { id: overContentId } = over;
-  //   const activeColumn = findColumnByContentId(activeDragingContentId);
-  //   const overColumn = findColumnByContentId(overContentId);
-
-  // if (!activeColumn || !overColumn) return;
-  // if (activeColumn.id !== overColumn.id) {
-  //   moveContentBetweenDifferentColumns(
-  //     overColumn,
-  //     overContentId,
-  //     active,
-  //     over,
-  //     activeColumn,
-  //     activeDragingContentId,
-  //     activeDraggingContentData
-  //   );
-  // }
-  // }, 100);
   const handleDragOver = debounce((event: any) => {
     const { active, over } = event;
     if (!over || !active) return;
@@ -373,7 +342,6 @@ const CvFormComponent = () => {
 
     if (!overColumn) return;
 
-    // Trường hợp kéo từ "Mục chưa sử dụng" vào layout
     if (
       !activeColumn &&
       overColumn &&
@@ -424,7 +392,6 @@ const CvFormComponent = () => {
         return newLayout;
       });
     }
-    // Trường hợp di chuyển giữa các cột trong layout
     if (!activeColumn || !overColumn) return;
     if (activeColumn.id !== overColumn.id) {
       moveContentBetweenDifferentColumns(
@@ -438,60 +405,7 @@ const CvFormComponent = () => {
       );
     }
   }, 100);
-  // const handleDragEnd = (event: any) => {
-  //   console.log(event);
-  //   const { active, over } = event;
-  //   if (!over || !active) return;
 
-  //   const {
-  //     id: activeDragingContentId,
-  //     data: { current: activeDraggingContentData },
-  //   } = active;
-
-  //   const { id: overContentId } = over;
-  //   const activeColumn = findColumnByContentId(activeDragingContentId);
-  //   const overColumn = findColumnByContentId(overContentId);
-  // if (!activeColumn || !overColumn) return;
-  // if (activeOldColumn?.id !== overColumn?.id) {
-  //   moveContentBetweenDifferentColumns(
-  //     overColumn,
-  //     overContentId,
-  //     active,
-  //     over,
-  //     activeColumn,
-  //     activeDragingContentId,
-  //     activeDraggingContentData
-  //   );
-  // } else {
-  //   const oldContentIndex = activeOldColumn?.content?.findIndex(
-  //     (content: ContentType) => content.id === activeDragContentId
-  //   );
-  //   const newContentIndex = overColumn?.content?.findIndex(
-  //     (content) => content.id === overContentId
-  //   );
-  //   const orderedContents = arrayMove<ContentType>(
-  //     activeOldColumn?.content,
-  //     oldContentIndex,
-  //     newContentIndex
-  //   );
-
-  //   setLayoutInstance((prevLayout) => {
-  //     const newLayout = cloneDeep(prevLayout);
-  //     const targetColum =
-  //       newLayout.rows
-  //         .flatMap((row) => row.columns)
-  //         .find((col) => col.id === overColumn?.id) || null;
-  //     if (targetColum) {
-  //       targetColum.content = orderedContents;
-  //     }
-
-  //     return newLayout;
-  //   });
-  // }
-  //   setActiveDragContentId(null);
-  //   setActiveDragContentData(null);
-  //   setActiveOldColumn(null);
-  // };
   const handleDragEnd = (event: any) => {
     const { active, over } = event;
     if (!over || !active) return;
@@ -505,14 +419,12 @@ const CvFormComponent = () => {
     const activeColumn = findColumnByContentId(activeDragingContentId);
     const overColumn = findColumnByContentId(overContentId);
 
-    // Trường hợp kéo từ "Mục chưa sử dụng" (activeOldColumn là null)
     if (
       !activeOldColumn &&
       overColumn &&
       activeDraggingContentData.column_id === "possible_column"
     )
       return;
-    // Trường hợp di chuyển giữa các cột trong layout
     if (!activeColumn || !overColumn) return;
     if (activeOldColumn?.id !== overColumn?.id) {
       moveContentBetweenDifferentColumns(
@@ -551,12 +463,10 @@ const CvFormComponent = () => {
       });
     }
 
-    // Dọn dẹp state sau khi kéo thả
     setActiveDragContentId(null);
     setActiveDragContentData(null);
     setActiveOldColumn(null);
   };
-  console.log(layoutInstance);
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);

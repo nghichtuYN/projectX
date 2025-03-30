@@ -1,32 +1,39 @@
+import { getUser, signOut } from "@/services/user";
 import { create } from "zustand";
-import axios from "@/lib/axios";
-
+export type User = {
+  fullName: string;
+  email: string;
+  id: string | "1111111111111";
+  phoneNumber: string;
+  profilePicture: string;
+  role?: string;
+};
 type AuthState = {
-  user?: { name: string; email: string; id: string } | null;
-  isAuthenticated: boolean;
-  fetchUser: () => Promise<void>;
+  user: User | null;
+  setUser: (user: User | null) => void;
+  loadUser: () => Promise<void>;
   logout: () => Promise<void>;
-  setUser: (user: { name: string; email: string; id: string } | null) => void;
 };
 
 export const useAuthStore = create<AuthState>((set) => ({
   user: null,
-  isAuthenticated: false,
   setUser: (user) => {
-    console.log(user)
     set({ user: user });
   },
-  fetchUser: async () => {
+  loadUser: async () => {
     try {
-      const res = await axios.get("/me"); // 🔹 Gọi API lấy thông tin user
-      set({ user: res.data, isAuthenticated: true });
-    } catch {
-      set({ user: null, isAuthenticated: false });
+      const res = await getUser();
+      set({ user: res });
+    } catch (error) {
+      set({ user: null });
     }
   },
-
   logout: async () => {
-    await axios.post("/logout");
-    set({ user: null, isAuthenticated: false });
+    try {
+      const res = await signOut();
+      set({ user: null });
+    } catch (error) {
+      set({ user: null });
+    }
   },
 }));

@@ -18,9 +18,12 @@ import { Input } from "@/components/ui/input";
 import { Lock, Mail } from "lucide-react";
 import GoogleLoginButton from "../../../../components/GoogleLoginButton";
 import { useAuthStore } from "@/store/UserStore";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import FormFieldComponent from "../../../(auth)/(components)/FormFieldComponent";
 import IsShowPasswordComponent from "@/app/(auth)/(components)/IsShowPasswordComponent";
+import { toast } from "sonner";
+import { useMutationHook } from "@/hooks/useMutationHook";
+import { signIn } from "@/services/user";
 
 const formSchema = z.object({
   email: z.string().email({
@@ -44,19 +47,49 @@ export function EmployerLoginForm({
     },
   });
   const [isShowPassword, setIsShowPasswod] = useState<boolean>(false);
-  const setUser = useAuthStore((state) => state.setUser);
-
+  const loadUser = useAuthStore((state) => state.loadUser);
+  const router = useRouter();
   const errors = form.formState.errors;
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  const onSuccess = (data: any) => {
+    toast.success("Đăng nhập thành công🚀");
+    loadUser();
+    setIsLoading(false);
+    router.push("/employer/dashboard");
+  };
+  const onError = (error: any) => {
+    toast.error("Đăng nhập thất bại🚀");
+    const errorMessage = error.response?.data?.message || "Có lỗi xảy ra";
+    if (error.response?.status === 400 || error.response?.status === 401) {
+      if (errorMessage.toLowerCase().includes("email")) {
+        form.setError("email", {
+          type: "manual",
+          message: "Tài khoản hoặc mật khẩu không đúng",
+        });
+      } else if (errorMessage.toLowerCase().includes("password")) {
+        form.setError("password", {
+          type: "manual",
+          message: errorMessage || "Mật khẩu không đúng",
+        });
+      } else {
+        // Nếu lỗi không cụ thể, gán vào cả hai trường hoặc hiển thị thông báo chung
+        form.setError("email", { type: "manual", message: errorMessage });
+        form.setError("password", { type: "manual", message: errorMessage });
+      }
+    } else {
+      toast.error(errorMessage); // Lỗi khác (500, mạng, etc.)
+    }
+    setIsLoading(false);
+  };
+  const mutaionLogin = useMutationHook(
+    (data: { email: string; password: string }) => signIn(data),
+    (data: any) => onSuccess(data),
+    onError
+  );
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
     setIsLoading(true);
-    // Simulate API call
-    setUser({ name: "test", email: "test", id: "2" });
-    redirect("/employer/dashboard");
-    setTimeout(() => {
-      console.log(values);
-      setIsLoading(false);
-    }, 2000);
-  }
+    mutaionLogin.mutate(values);
+    setIsLoading(false);
+  };
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>

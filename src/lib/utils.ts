@@ -1,3 +1,5 @@
+import { getUser } from "@/services/user";
+import { useAuthStore } from "@/store/UserStore";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -22,3 +24,14 @@ export function removeElement<T>(arr: T[], index: number): T[] {
   newArr.splice(index, 1);
   return newArr;
 }
+export const handleSelect = (
+  field: any,
+  isSelected: boolean,
+  fieldId: string
+) => {
+  const currentValues = field.value || [];
+  const newValues = isSelected
+    ? currentValues.filter((id: string) => id !== fieldId)
+    : [...currentValues, fieldId];
+  field.onChange(newValues);
+};

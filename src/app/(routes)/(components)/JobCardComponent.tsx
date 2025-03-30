@@ -21,13 +21,13 @@ const JobCardComponent = ({ companyImage, posistion, jobSalary, jD }: Job) => {
               "https://www.incnow.com/wp-content/uploads/2023/08/Shutterstock_1059255266-scaled.jpg"
             }
             alt={`logo`}
-            width={64}
-            height={64}
+            width={62}
+            height={62}
             className="rounded-lg object-contain"
           />
         </div>
         <CardHeader className="flex-1 min-w-0 p-0">
-          <CardTitle className="font-semibold text-gray-900 truncate">
+          <CardTitle className="font-semibold text-sm text-gray-900 truncate">
             {posistion}
           </CardTitle>
           <CardDescription className="text-sm text-gray-500 truncate">

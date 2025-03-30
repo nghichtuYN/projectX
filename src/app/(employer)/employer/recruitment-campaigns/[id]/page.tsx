@@ -11,25 +11,37 @@ import {
 import { MoveLeft } from "lucide-react";
 import React from "react";
 import TabsComponent from "@/app/(employer)/employer/recruitment-campaigns/[id]/(components)/TabsComponent";
-import { redirect } from "next/navigation";
-type Props = {
-  id: string;
-};
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const CampaignDetailPage = ({ id }: Props) => {
+import { useParams, useRouter } from "next/navigation";
+import { useQueryHook } from "@/hooks/useQueryHook";
+import { campaignType } from "../page";
+import { getDetailsCampaign } from "@/services/campaign";
+
+const CampaignDetailPage = () => {
+  const param = useParams();
+  const router = useRouter();
+  const id = param.id as string | undefined;
+  if (!id) {
+    return <div>Campaign ID không hợp lệ</div>;
+  }
+  const { data: campaign } = useQueryHook<campaignType>(
+    ["campaign", id],
+    () => getDetailsCampaign(id),
+    { enabled: !!id }
+  );
+
   return (
     <>
       <EmployerSidebaHeaderComponent>
         <div className="flex w-full items-center gap-4">
           <Button
-            onClick={() => redirect("/employer/recruitment-campaigns")}
+            onClick={() => router.push("/employer/recruitment-campaigns")}
             size={"sm"}
           >
             <MoveLeft />
             Quay lại
           </Button>
           <p className="text-sm font-semibold text-secondaryColor">
-            Tên chiến dịch
+            {campaign?.name}
           </p>
         </div>
       </EmployerSidebaHeaderComponent>

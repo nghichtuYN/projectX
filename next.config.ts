@@ -2,7 +2,6 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    domains: ["black-absolute-damselfly-439.mypinata.cloud"],
     remotePatterns: [
       {
         protocol: "https",
@@ -10,7 +9,15 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
+        hostname: "**.black-absolute-damselfly-439.mypinata.cloud", // Allow Google domains (images on Google Drive, Google Photos)
+      },
+      {
+        protocol: "https",
         hostname: "**.google.com", // Add other domains if needed
+      },
+      {
+        protocol: "https",
+        hostname: "**.googleusercontent.com", // Add other domains if needed
       },
       {
         protocol: "https",
