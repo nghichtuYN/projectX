@@ -6,13 +6,12 @@ type Props = {
 };
 const SalaryComponent = ({ form }: Props) => {
   return (
-    <div className="flex items-center">
+    <div className="flex items-center gap-3">
       <div className="w-1/2">
         <FormFieldComponent
           control={form.control}
           name="minSalary"
           label="Mức lương tối thiểu"
-          requrie
           icon={null}
         >
           {(field) => (
@@ -30,7 +29,6 @@ const SalaryComponent = ({ form }: Props) => {
           control={form.control}
           name="maxSalary"
           label="Mức lương tối đa"
-          requrie
           icon={null}
         >
           {(field) => (

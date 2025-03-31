@@ -61,7 +61,7 @@ const ContractsTypeComponent = ({ form, addItem, removeItem }: Props) => {
                 <CommandInput
                   value={search}
                   onValueChange={setSearch}
-                  placeholder="Tìm loại công việc"
+                  placeholder="Tìm loại hợp đồng"
                   className="h-9"
                 />
                 <ListContractTypes

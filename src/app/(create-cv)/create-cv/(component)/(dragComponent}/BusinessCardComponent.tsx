@@ -35,7 +35,7 @@ const BusinessCard = ({ handleChange }: Props) => {
       <div className="h-3/4 w-full max-w-full">
         <div
           className={cn(
-            "h-full max-h-full pl-4 w-full pr-4 pt-4 pb-1 m-3 flex items-end border",
+            "h-full max-h-full w-full pt-4 pr-4 min-h-16 pb-1 m-3 flex items-end border",
             !nameEditor?.isFocused &&
               "hover:border-dashed hover:border-secondaryColor",
 

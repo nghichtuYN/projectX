@@ -5,6 +5,15 @@ import { Button } from "@/components/ui/button";
 import { Bold, Italic, List, ListOrdered } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { EditorContent } from "@tiptap/react";
+import FormFieldComponent from "@/app/(auth)/(components)/FormFieldComponent";
+import TextToolBarComponent from "@/app/(create-cv)/create-cv/(component)/TextToolBarComponent";
+import FontFamilyComponent from "@/app/(create-cv)/create-cv/(component)/FontFamilyComponent";
+import FontSizeComponent from "@/app/(create-cv)/create-cv/(component)/FontSizeComponent";
+import AlignTextComponent from "@/app/(create-cv)/create-cv/(component)/AlignTextComponent";
+import BoldItalicUnderLine from "@/app/(create-cv)/create-cv/(component)/BoldItalicUnderLine";
+import OrderTextComponent from "@/app/(create-cv)/create-cv/(component)/OrderTextComponent";
+import ColorTextComponent from "@/app/(create-cv)/create-cv/(component)/ColorTextComponent";
+import UndoRedoComponent from "@/app/(create-cv)/create-cv/(component)/UndoRedoComponent";
 type Props = {
   form: any;
 };
@@ -15,64 +24,50 @@ const DescriptionComponent = ({ form }: Props) => {
     "description",
     (field, content) => form.setValue(field as keyof JobFormValues, content)
   );
+
   return (
-    <div className="">
-      <label className="text-sm font-medium">Mô tả công việc *</label>
-      <div className="border rounded-md">
-        {/* Toolbar */}
-        {editor && (
-          <div className="flex gap-2 p-2 border-b bg-gray-50">
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              onClick={() => editor.chain().focus().toggleBold().run()}
+    <FormFieldComponent
+      control={form.control}
+      name="description"
+      label="Chức vụ công việc"
+      requrie
+      icon={null}
+    >
+      {(field) => (
+        <div>
+          <div className="border rounded-md">
+            {editor && (
+              <div className="grid grid-cols-3 ">
+                <BoldItalicUnderLine editor={editor} />
+                <FontSizeComponent editor={editor} />
+                <AlignTextComponent editor={editor} />
+                <div className="col-span-3 flex">
+                  <div className="flex items-center w-1/2 justify-between">
+                    <FontFamilyComponent editor={editor} />
+                    <OrderTextComponent editor={editor} />
+                  </div>
+
+                  <div className="flex items-center w-1/2 justify-around">
+                    <ColorTextComponent editor={editor} />
+                    <UndoRedoComponent editor={editor} />
+                  </div>
+                </div>
+              </div>
+            )}
+            <div
+              className={cn(
+                "border rounded p-1 w-full h-32 overflow-y-scroll ",
+                !editor?.isFocused &&
+                  "hover:border-dashed hover:border-secondaryColor",
+                editor?.isFocused && "border-solid border-green-500"
+              )}
             >
-              <Bold size={18} />
-            </Button>
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              onClick={() => editor.chain().focus().toggleItalic().run()}
-            >
-              <Italic size={18} />
-            </Button>
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              onClick={() => editor.chain().focus().toggleBulletList().run()}
-            >
-              <List size={18} />
-            </Button>
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              onClick={() => editor.chain().focus().toggleOrderedList().run()}
-            >
-              <ListOrdered size={18} />
-            </Button>
+              <EditorContent editor={editor} {...field} />
+            </div>
           </div>
-        )}
-        <div
-          className={cn(
-            "border rounded p-1 w-full h-32 overflow-y-scroll ",
-            !editor?.isFocused &&
-              "hover:border-dashed hover:border-secondaryColor",
-            editor?.isFocused && "border-solid border-green-500"
-          )}
-        >
-          <EditorContent editor={editor} />
         </div>
-      </div>
-      {form.formState.errors.description && (
-        <p className="text-sm text-red-500">
-          {form.formState.errors.description.message}
-        </p>
       )}
-    </div>
+    </FormFieldComponent>
   );
 };
 

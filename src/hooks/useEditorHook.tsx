@@ -62,8 +62,7 @@ export const useEditorHook = <T,>(
     content: content,
     editorProps: {
       attributes: {
-        class:
-          "flex flex-col focus:border pl-1 gap-0  justify-start  items-start w-full h-full truncate  font-medium  rounded-md outline-none",
+        class: "pl-1  h-full font-medium  rounded-md outline-none",
       },
     },
     onUpdate: ({ editor }) => {

@@ -8,7 +8,7 @@ const AddressComponent = ({ form }: Props) => {
   return (
     <FormFieldComponent
       control={form.control}
-      name="locationId"
+      name="officeAddress"
       label="Địa điểm"
       requrie
       icon={null}

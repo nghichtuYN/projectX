@@ -63,7 +63,7 @@ const JobLevelsComponent = ({ form, addItem, removeItem }: Props) => {
                 <CommandInput
                   value={search}
                   onValueChange={setSearch}
-                  placeholder="Tìm loại công việc"
+                  placeholder="Tìm chức vụ công việc"
                   className="h-9"
                 />
                 <ListJobLevelsComponent

@@ -41,7 +41,7 @@ const LocationsComponent = ({ form }: Props) => {
   return (
     <FormFieldComponent
       control={form.control}
-      name="majorId"
+      name="locationId"
       label="Thành phố"
       requrie
       icon={null}

@@ -161,6 +161,7 @@ body {
   height: 100%;
   white-space: wrap;
   word-wrap: break-word;
+  line-height: auto;
 }
 
 .heading3 {
@@ -180,7 +181,7 @@ body {
 .tiptap ul li p,
 .tiptap ol li p {
   margin-top: 0.25em;
-  margin-bottom: 0.25em;
+  /* margin-bottom: 0.25em; */
 }
 
 /* Heading styles */

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
@@ -22,19 +22,20 @@ import LocationsComponent from "./Location/LocationsComponent";
 
 // Zod schema for validation
 const jobSchema = z.object({
+  title: z.string().min(1, "Tiêu đề tin là bắt buộc"),
   description: z.string().min(1, "Mô tả là bắt buộc"),
-  majorId: z.string().min(1, " chuyên ngành là bắt buộc"),
-  locationId: z.string().min(1, " địa điểm là bắt buộc"),
-  position: z.string().min(1, "Vị trí là bắt buộc"),
-  schoolLevel: z.enum(["HighSchool", "Bachelor", "Master", "PhD"]),
-  status: z.string().min(1, "Trạng thái là bắt buộc"),
+  majorId: z.string().min(1, "Chuyên ngành là bắt buộc"),
+  locationId: z.string().min(1, "Thành phố là bắt buộc"),
+  schoolLevel: z.number().min(0, "Trình độ học vấn là bắt buộc"),
   officeAddress: z.string().min(1, "Địa chỉ văn phòng là bắt buộc"),
   minSalary: z.number().min(0, "Mức lương tối thiểu phải là số dương"),
   maxSalary: z.number().min(0, "Mức lương tối đa phải là số dương"),
   minYearOfExperience: z.number().min(0, "Kinh nghiệm phải là số dương"),
   skills: z.array(z.string()).min(1, "Phải có ít nhất một kỹ năng"),
   jobTypes: z.array(z.string()).min(1, "Phải có ít nhất một loại công việc"),
-  jobLevels: z.array(z.string()).min(1, "Phải có ít nhất một cấp độ công việc"),
+  jobLevels: z
+    .array(z.string())
+    .min(1, "Phải có ít nhất một chức vụ công việc"),
   contractTypes: z
     .array(z.string())
     .min(1, "Phải có ít nhất một loại hợp đồng"),
@@ -49,12 +50,11 @@ const FormCreateJobComponent = () => {
   const form = useForm<JobFormValues>({
     resolver: zodResolver(jobSchema),
     defaultValues: {
+      title: "",
       description: "",
       majorId: "",
       locationId: "",
-      position: "",
-      schoolLevel: "Bachelor",
-      status: "",
+      schoolLevel: -1,
       officeAddress: "",
       minSalary: 0,
       maxSalary: 0,
@@ -66,12 +66,13 @@ const FormCreateJobComponent = () => {
     },
   });
 
-  const [skillInput, setSkillInput] = useState("");
-
-  const onSubmit = (data: JobFormValues) => {
-    console.log(data);
+  const onSubmit = (values: z.infer<typeof jobSchema>) => {
+    console.log("run")
+    console.log(values);
   };
-
+  const onError = (errors: any) => {
+    console.log("Form validation errors:", errors);
+  };
   // Multi-select handlers
   const addItem = (field: keyof JobFormValues, value: string) => {
     const current = form.getValues(field) as string[];
@@ -87,85 +88,51 @@ const FormCreateJobComponent = () => {
       current.filter((item) => item !== value)
     );
   };
-
-  const addSkill = () => {
-    if (skillInput && !form.getValues("skills").includes(skillInput)) {
-      form.setValue("skills", [...form.getValues("skills"), skillInput]);
-      setSkillInput("");
-    }
-  };
-
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(onSubmit)}
+        onSubmit={form.handleSubmit(onSubmit,onError)}
         className="grid grid-cols-2 gap-3"
       >
-        {/* Title */}
-        <TittleComponent form={form} />
-        {/* Major */}
-        <div className="col-span-1 flex gap-3">
-          <div className="w-1/2">
-            <MajorsComponent form={form} />
-          </div>
-          <div className="w-1/2">
-            <LocationsComponent form={form} />
+        <div className="flex flex-col gap-3">
+          <TittleComponent form={form} />
+          <AddressComponent form={form} />
+          <DescriptionComponent form={form} />
+          <JDComponent form={form} />
+        </div>
+
+        <div className=" grid grid-cols-2 gap-3">
+          <LocationsComponent form={form} />
+
+          <MajorsComponent form={form} />
+
+          <JobTypeComponent
+            form={form}
+            addItem={addItem}
+            removeItem={removeItem}
+          />
+          <JobLevelComponent
+            form={form}
+            addItem={addItem}
+            removeItem={removeItem}
+          />
+          <SkillComponent
+            form={form}
+            addItem={addItem}
+            removeItem={removeItem}
+          />
+          <ContractTypeComponent
+            form={form}
+            addItem={addItem}
+            removeItem={removeItem}
+          />
+          <EducationLevelComponent form={form} />
+          <ExperienceComponent form={form} />
+          <div className="col-span-2">
+            <SalaryComponent form={form} />
           </div>
         </div>
-        <AddressComponent form={form} />
 
-        <div className="col-span-1 flex gap-3">
-          <div className="w-1/2">
-            <JobTypeComponent
-              form={form}
-              addItem={addItem}
-              removeItem={removeItem}
-            />
-          </div>
-          <div className="w-1/2">
-            <JobLevelComponent
-              form={form}
-              addItem={addItem}
-              removeItem={removeItem}
-            />
-          </div>
-        </div>
-        <DescriptionComponent form={form} />
-
-        <div className="col-span-1 flex gap-3">
-          <div className="w-1/2">
-            <SkillComponent
-              form={form}
-              addItem={addItem}
-              removeItem={removeItem}
-            />
-          </div>
-          <div className="w-1/2">
-            <ContractTypeComponent
-              form={form}
-              addItem={addItem}
-              removeItem={removeItem}
-            />
-          </div>
-        </div>
-        <EducationLevelComponent form={form} />
-
-        {/* Location */}
-        {/* School Level */}
-
-        {/* Job Types */}
-
-        {/* Job Levels */}
-
-        {/*Contract Types*/}
-
-        {/* Add Skills */}
-
-        {/* Numeric Fields */}
-        <ExperienceComponent form={form} />
-        <SalaryComponent form={form} />
-
-        <JDComponent form={form} />
         <Button type="submit">Tạo công việc</Button>
       </form>
     </Form>

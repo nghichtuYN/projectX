@@ -27,7 +27,7 @@ const SkillsComponent = ({ form, addItem, removeItem }: Props) => {
     data: skills,
     isLoading,
     isFetching,
-  } = getAllSkills(debouncedSearchTerm, 10, 1, open);
+  } = getAllSkills(debouncedSearchTerm, 0, 1, open);
 
   return (
     <FormFieldComponent
@@ -60,7 +60,7 @@ const SkillsComponent = ({ form, addItem, removeItem }: Props) => {
                 <CommandInput
                   value={search}
                   onValueChange={setSearch}
-                  placeholder="Tìm loại công việc"
+                  placeholder="Tìm yêu cầu kỹ năng"
                   className="h-9"
                 />
                 <ListSkillsComponent
