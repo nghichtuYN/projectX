@@ -6,7 +6,7 @@ type Props = {
 };
 const AlignTextComponent = ({ editor }: Props) => {
   return (
-    <ToggleGroup type="multiple" className="flex gap-2 border-r-2 pr-2">
+    <ToggleGroup type="multiple" className="flex gap-2 bg-white p-1">
       <ToggleGroupItem
         onClick={(e) => {
           e.preventDefault();

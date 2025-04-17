@@ -6,14 +6,12 @@ import React from "react";
 type Props = {
   location: Location;
   value: string;
-  setValue: React.Dispatch<React.SetStateAction<string>>;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   field: any;
 };
 const LocationComponent = ({
   location,
   value,
-  setValue,
   setOpen,
   field,
 }: Props) => {
@@ -23,7 +21,6 @@ const LocationComponent = ({
       value={location.id}
       onSelect={(currentValue) => {
         const newValue = currentValue === value ? "" : currentValue;
-        setValue(newValue);
         field.onChange(newValue);
         setOpen(false);
       }}

@@ -3,82 +3,97 @@ import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
-import { Button } from "@/components/ui/button";
-import { Form } from "@/components/ui/form";
 
-import TittleComponent from "./TittleComponent";
-import AddressComponent from "./AddressComponent";
-import EducationLevelComponent from "./EducationLevelComponent";
-import JobTypeComponent from "./JobTypes/JobTypesComponent";
-import JobLevelComponent from "./JobLevels/JobLevelsComponent";
-import ContractTypeComponent from "./ContractType/ContractsTypeComponent";
-import SkillComponent from "./Skill/SkillsComponent";
-import SalaryComponent from "./SalaryComponent";
-import DescriptionComponent from "./DescriptionComponent";
-import ExperienceComponent from "./ExperienceComponent";
-import JDComponent from "./JDComponent";
-import MajorsComponent from "./Major/MajorsComponent";
-import LocationsComponent from "./Location/LocationsComponent";
+import { useParams } from "next/navigation";
+import { toast } from "sonner";
+import { useMutationHook } from "@/hooks/useMutationHook";
+import { createJob } from "@/services/jobs";
+import FormJob from "./FormJob";
 
 // Zod schema for validation
-const jobSchema = z.object({
-  title: z.string().min(1, "Tiêu đề tin là bắt buộc"),
-  description: z.string().min(1, "Mô tả là bắt buộc"),
+export const jobSchema = z.object({
+  Title: z.string().nonempty( "Tiêu đề tin là bắt buộc"),
+  Description: z.string().min(1, "Mô tả là bắt buộc"),
   majorId: z.string().min(1, "Chuyên ngành là bắt buộc"),
-  locationId: z.string().min(1, "Thành phố là bắt buộc"),
-  schoolLevel: z.number().min(0, "Trình độ học vấn là bắt buộc"),
-  officeAddress: z.string().min(1, "Địa chỉ văn phòng là bắt buộc"),
+  LocationId: z.string().nonempty("Thành phố là bắt buộc"),
+  educationLevelRequire: z.string().nonempty( "Trình độ học vấn là bắt buộc"),
+  OfficeAddress: z.string().min(1, "Địa chỉ văn phòng là bắt buộc"),
   minSalary: z.number().min(0, "Mức lương tối thiểu phải là số dương"),
   maxSalary: z.number().min(0, "Mức lương tối đa phải là số dương"),
-  minYearOfExperience: z.number().min(0, "Kinh nghiệm phải là số dương"),
-  skills: z.array(z.string()).min(1, "Phải có ít nhất một kỹ năng"),
-  jobTypes: z.array(z.string()).min(1, "Phải có ít nhất một loại công việc"),
+  yearOfExperience: z.number().min(0, "Kinh nghiệm phải là số dương"),
+  skills: z.array(z.string()).nonempty( "Phải có ít nhất một kỹ năng"),
+  jobTypes: z.array(z.string()).nonempty( "Phải có ít nhất một loại công việc"),
   jobLevels: z
     .array(z.string())
     .min(1, "Phải có ít nhất một chức vụ công việc"),
   contractTypes: z
     .array(z.string())
     .min(1, "Phải có ít nhất một loại hợp đồng"),
+  quantity: z.number().min(1, "Số lượng không được để trống"),
 });
 
-// Type definition
 export type JobFormValues = z.infer<typeof jobSchema>;
 
-// Options for multi-select fields (translated)
-
 const FormCreateJobComponent = () => {
+  const params = useParams();
+  const id = Array.isArray(params.id) ? params.id[0] : params.id;
+
+  if (!id) {
+    throw new Error("Campaign ID is required");
+  }
   const form = useForm<JobFormValues>({
     resolver: zodResolver(jobSchema),
     defaultValues: {
-      title: "",
-      description: "",
+      Title: "",
+      Description: "",
       majorId: "",
-      locationId: "",
-      schoolLevel: -1,
-      officeAddress: "",
+      LocationId: "",
+      educationLevelRequire: "",
+      OfficeAddress: "",
       minSalary: 0,
       maxSalary: 0,
-      minYearOfExperience: 0,
+      yearOfExperience: 0,
       skills: [],
       jobTypes: [],
       jobLevels: [],
       contractTypes: [],
+      quantity: 0,
     },
   });
-
-  const onSubmit = (values: z.infer<typeof jobSchema>) => {
-    console.log("run")
-    console.log(values);
+  const onSucces = (data: any) => {
+    toast.success("Tạo tin thành công");
   };
   const onError = (errors: any) => {
-    console.log("Form validation errors:", errors);
+    console.log(errors);
   };
-  // Multi-select handlers
-  const addItem = (field: keyof JobFormValues, value: string) => {
-    const current = form.getValues(field) as string[];
-    if (value && !current.includes(value)) {
-      form.setValue(field, [...current, value]);
-    }
+  const mutationPost = useMutationHook(createJob, onSucces, onError);
+  const onSubmit = (values: z.infer<typeof jobSchema>) => {
+    const formData = new FormData();
+    formData.append("CampaignId", id);
+    formData.append("Title", values.Title);
+    formData.append("Description", values.Description);
+    formData.append("majorId", values.majorId);
+    formData.append("LocationId", values.LocationId);
+    formData.append(
+      "educationLevelRequire",
+      values.educationLevelRequire.toString()
+    );
+    formData.append("OfficeAddress", values.OfficeAddress);
+    formData.append("minSalary", values.minSalary.toString());
+    formData.append("maxSalary", values.maxSalary.toString());
+    formData.append("yearOfExperience", values.yearOfExperience.toString());
+    formData.append("quantity", values.quantity.toString());
+    values.skills.forEach((skill) => formData.append("skills[]", skill));
+    values.jobTypes.forEach((jobType) =>
+      formData.append("jobTypes[]", jobType)
+    );
+    values.jobLevels.forEach((jobLevel) =>
+      formData.append("jobLevels[]", jobLevel)
+    );
+    values.contractTypes.forEach((contractType) =>
+      formData.append("contractTypes[]", contractType)
+    );
+    mutationPost.mutate(formData);
   };
 
   const removeItem = (field: keyof JobFormValues, value: string) => {
@@ -89,53 +104,14 @@ const FormCreateJobComponent = () => {
     );
   };
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit,onError)}
-        className="grid grid-cols-2 gap-3"
-      >
-        <div className="flex flex-col gap-3">
-          <TittleComponent form={form} />
-          <AddressComponent form={form} />
-          <DescriptionComponent form={form} />
-          <JDComponent form={form} />
-        </div>
-
-        <div className=" grid grid-cols-2 gap-3">
-          <LocationsComponent form={form} />
-
-          <MajorsComponent form={form} />
-
-          <JobTypeComponent
-            form={form}
-            addItem={addItem}
-            removeItem={removeItem}
-          />
-          <JobLevelComponent
-            form={form}
-            addItem={addItem}
-            removeItem={removeItem}
-          />
-          <SkillComponent
-            form={form}
-            addItem={addItem}
-            removeItem={removeItem}
-          />
-          <ContractTypeComponent
-            form={form}
-            addItem={addItem}
-            removeItem={removeItem}
-          />
-          <EducationLevelComponent form={form} />
-          <ExperienceComponent form={form} />
-          <div className="col-span-2">
-            <SalaryComponent form={form} />
-          </div>
-        </div>
-
-        <Button type="submit">Tạo công việc</Button>
-      </form>
-    </Form>
+    <FormJob
+      removeItem={removeItem}
+      onSubmit={onSubmit}
+      form={form}
+      mutation={mutationPost}
+      title={" Tạo Tin Tuyển Dụng Mới"}
+      content="Tạo tin"
+    />
   );
 };
 

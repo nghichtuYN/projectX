@@ -3,9 +3,7 @@ import React from "react";
 import EmployerSidebaHeaderComponent from "@/components/EmployerSidebaHeaderComponent";
 import FormCreateJobComponent from "./(components)/FormCreateJobComponent";
 import { useParams } from "next/navigation";
-import { useQueryHook } from "@/hooks/useQueryHook";
-import { campaignType } from "../../page";
-import { getDetailsCampaign } from "@/services/campaign";
+import { getDetailCampaigns } from "@/queries/queries";
 
 const CreateJobPage = () => {
   const param = useParams();
@@ -13,11 +11,7 @@ const CreateJobPage = () => {
   if (!id) {
     return <div>Campaign ID không hợp lệ</div>;
   }
-  const { data: campaign } = useQueryHook<campaignType>(
-    ["campaign", id],
-    () => getDetailsCampaign(id),
-    { enabled: !!id }
-  );
+  const { data: campaign } = getDetailCampaigns(id);
   return (
     <>
       <EmployerSidebaHeaderComponent>
@@ -27,7 +21,7 @@ const CreateJobPage = () => {
           </p>
         </div>
       </EmployerSidebaHeaderComponent>
-      <div className="mt-14 pl-8 pr-8">
+      <div className="mt-14 pl-8 pr-8 w-full">
         <p className="text-lg font-semibold p-3">Điền thông tin tuyển dụng </p>
         <div className="p-3">
           <FormCreateJobComponent />

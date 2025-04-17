@@ -10,7 +10,6 @@ import { Form } from "@/components/ui/form";
 
 import React from "react";
 
-import EmloyerInfoComponent from "./EmloyerInfoComponent";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -74,13 +73,13 @@ export function EmployerGoogleRegistrationForm({
             <p className="text-secondaryColor font-semibold text-2xl pl-3 pt-3">
               Thông tin nhà tuyển dụng
             </p>
-            <EmloyerInfoComponent
+            {/* <EmloyerInfoComponent
               openWorkLocation={openWorkLocation}
               setOpenWorkLocation={setOpenWorkLocation}
               open={open}
               setOpen={setOpen}
               form={form}
-            />
+            /> */}
             <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? "Đang đăng ký..." : "Đăng ký"}
             </Button>

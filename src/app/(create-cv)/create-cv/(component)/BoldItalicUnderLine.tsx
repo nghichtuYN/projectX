@@ -6,7 +6,7 @@ type Props = {
 };
 const BoldItalicUnderLine = ({ editor }: Props) => {
   return (
-    <ToggleGroup type="multiple" className="flex gap-2 border-r-2 pr-2">
+    <ToggleGroup type="multiple" className="flex gap-4 p-1 bg-white">
       <ToggleGroupItem
         onClick={(e) => {
           e.preventDefault();

@@ -16,7 +16,9 @@ const JDComponent = ({ form }: Props) => {
         <Input
           type="file"
           onChange={(e) => field.onChange(e.target.files?.[0])}
+          className="bg-white"
         />
+        
       )}
     </FormFieldComponent>
   );

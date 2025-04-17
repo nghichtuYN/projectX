@@ -1,12 +1,9 @@
 import { useEditorHook } from "@/hooks/useEditorHook";
 import React from "react";
 import { JobFormValues } from "./FormCreateJobComponent";
-import { Button } from "@/components/ui/button";
-import { Bold, Italic, List, ListOrdered } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { EditorContent } from "@tiptap/react";
 import FormFieldComponent from "@/app/(auth)/(components)/FormFieldComponent";
-import TextToolBarComponent from "@/app/(create-cv)/create-cv/(component)/TextToolBarComponent";
 import FontFamilyComponent from "@/app/(create-cv)/create-cv/(component)/FontFamilyComponent";
 import FontSizeComponent from "@/app/(create-cv)/create-cv/(component)/FontSizeComponent";
 import AlignTextComponent from "@/app/(create-cv)/create-cv/(component)/AlignTextComponent";
@@ -19,17 +16,17 @@ type Props = {
 };
 const DescriptionComponent = ({ form }: Props) => {
   const { editor } = useEditorHook(
-    form.getValues("description"),
+    form.getValues("Description"),
     "Nhập mô tả công việc...",
-    "description",
+    "Description",
     (field, content) => form.setValue(field as keyof JobFormValues, content)
   );
 
   return (
     <FormFieldComponent
       control={form.control}
-      name="description"
-      label="Chức vụ công việc"
+      name="Description"
+      label="Mô tả công việc"
       requrie
       icon={null}
     >
@@ -37,21 +34,12 @@ const DescriptionComponent = ({ form }: Props) => {
         <div>
           <div className="border rounded-md">
             {editor && (
-              <div className="grid grid-cols-3 ">
-                <BoldItalicUnderLine editor={editor} />
-                <FontSizeComponent editor={editor} />
-                <AlignTextComponent editor={editor} />
-                <div className="col-span-3 flex">
-                  <div className="flex items-center w-1/2 justify-between">
-                    <FontFamilyComponent editor={editor} />
-                    <OrderTextComponent editor={editor} />
-                  </div>
+              <div className="flex items-center gap-2 ">
+                <UndoRedoComponent editor={editor} />
 
-                  <div className="flex items-center w-1/2 justify-around">
-                    <ColorTextComponent editor={editor} />
-                    <UndoRedoComponent editor={editor} />
-                  </div>
-                </div>
+                <BoldItalicUnderLine editor={editor} />
+                  <OrderTextComponent editor={editor} />
+                <AlignTextComponent editor={editor} />
               </div>
             )}
             <div

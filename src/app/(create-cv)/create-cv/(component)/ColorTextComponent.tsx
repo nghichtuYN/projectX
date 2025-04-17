@@ -13,7 +13,7 @@ const ColorTextComponent = ({ editor }: Props) => {
       .join("")}`;
   };
   return (
-    <div className="w-fit flex items-center flex-wrap gap-2 bg-white border-l-2 border-r-2">
+    <div className="w-fit flex items-center flex-wrap gap-2 bg-white ">
       <div className="pl-2">Màu sắc</div>
       <Input
         type="color"

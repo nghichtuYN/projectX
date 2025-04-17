@@ -17,6 +17,7 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
+import Link from "next/link";
 
 export function NavMain({
   items,
@@ -63,7 +64,7 @@ export function NavMain({
                         className="hover:text-secondaryColor"
                         asChild
                       >
-                        <a
+                        <Link
                           href={subItem.url}
                           className="flex items-center gap-2 "
                         >
@@ -78,7 +79,7 @@ export function NavMain({
                           >
                             {subItem.title}
                           </span>
-                        </a>
+                        </Link>
                       </SidebarMenuSubButton>
                     </SidebarMenuSubItem>
                   ))}

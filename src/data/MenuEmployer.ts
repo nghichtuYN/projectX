@@ -1,5 +1,6 @@
 import {
   AlignJustify,
+  AppWindow,
   AudioWaveform,
   BadgeInfo,
   BriefcaseBusiness,
@@ -10,8 +11,6 @@ import {
   FileClock,
   FileText,
   FileUser,
-  FolderPlus,
-  GalleryVerticalEnd,
   Heart,
   LayoutDashboard,
   Megaphone,
@@ -30,12 +29,12 @@ export const MenuEmployer = {
   },
   teams: [
     {
-      name: "Acme Inc",
-      logo: GalleryVerticalEnd,
-      plan: "Enterprise",
+      name: "ProjectX",
+      logo: AppWindow ,
+      plan: "Dành cho nhà tuyển dụng",
     },
     {
-      name: "Acme Corp.",
+      name: "",
       logo: AudioWaveform,
       plan: "Startup",
     },
@@ -54,12 +53,12 @@ export const MenuEmployer = {
       items: [
         {
           title: "Bảng tin",
-          url: "#",
+          url: "/employer/dashboard",
           icon: LayoutDashboard,
         },
         {
           title: "Liên hệ",
-          url: "#",
+          url: "/employer/message",
           icon: MessageCircle,
         },
       ],
@@ -78,7 +77,7 @@ export const MenuEmployer = {
         },
         {
           title: "Tin tuyển dụng",
-          url: "/employer/recruitment-campaigns",
+          url: "/employer/jobs",
           icon: FileText,
         },
       ],
@@ -136,20 +135,20 @@ export const MenuEmployer = {
         },
       ],
     },
-    {
-      title: "Quảng bá thương hiệu",
-      url: "#",
-      icon: Megaphone,
-      isActive: true,
+    // {
+    //   title: "Quảng bá thương hiệu",
+    //   url: "#",
+    //   icon: Megaphone,
+    //   isActive: true,
 
-      items: [
-        {
-          title: "Giới thiệu về công ty",
-          url: "#",
-          icon: AlignJustify,
-        },
-      ],
-    },
+    //   items: [
+    //     {
+    //       title: "Giới thiệu về công ty",
+    //       url: "#",
+    //       icon: AlignJustify,
+    //     },
+    //   ],
+    // },
   ],
   projects: [
     {

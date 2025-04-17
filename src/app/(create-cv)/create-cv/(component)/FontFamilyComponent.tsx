@@ -18,7 +18,7 @@ const FontFamilyComponent = ({ editor }: Props) => {
       }}
       value={editor.getAttributes("textStyle")?.fontFamily || "Inter"}
     >
-      <SelectTrigger className="w-44 truncate">
+      <SelectTrigger className="w-full truncate">
         <SelectValue placeholder="Chọn font chữ" />
       </SelectTrigger>
       <SelectContent onCloseAutoFocus={(event) => event.preventDefault()}>

@@ -18,11 +18,10 @@ import { useDebounce } from "use-debounce";
 
 type Props = {
   form: any;
-  addItem: (field: keyof JobFormValues, value: string) => void;
   removeItem: (field: keyof JobFormValues, value: string) => void;
 };
 
-const JobLevelsComponent = ({ form, addItem, removeItem }: Props) => {
+const JobLevelsComponent = ({ form, removeItem }: Props) => {
   const [open, setOpen] = React.useState(false);
   const [search, setSearch] = React.useState("");
   const [debouncedSearchTerm] = useDebounce(search, 500);

@@ -15,19 +15,22 @@ import { Textarea } from "@/components/ui/textarea";
 import { useMutationHook } from "@/hooks/useMutationHook";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FolderPlus } from "lucide-react";
 import { useRouter } from "next/navigation";
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, useContext } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-import { createCampaign, getDetailsCampaign } from "@/services/campaign";
+import {
+  createCampaign,
+  getDetailsCampaign,
+  updateCampaign,
+} from "@/services/campaign";
 import { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { useQueryHook } from "@/hooks/useQueryHook";
-import { campaigns } from "@/data/campaigns";
-import { campaignType } from "../page";
+import { CampaignContext } from "../page";
+import { campaignType } from "@/types/campaign";
 
 // Cập nhật schema để thêm trường status
 export const formSchema = z
@@ -58,7 +61,7 @@ export const formSchema = z
       }),
     status: z.enum(["0", "1", "2"], {
       required_error: "Vui lòng chọn trạng thái chiến dịch",
-    }), // Thêm trường status với giá trị "0" (Nháp), "1" (Mở), "2" (Đóng)
+    }),
   })
   .refine((data) => data.start && data.end && data.start <= data.end, {
     message: "Ngày kết thúc phải sau ngày bắt đầu",
@@ -66,22 +69,20 @@ export const formSchema = z
   });
 
 type Props = {
-  refetch: (
-    options?: RefetchOptions
-  ) => Promise<QueryObserverResult<any, Error>>;
   id: string;
 };
 
-const DialogEditCampaignComponent = ({ refetch, id }: Props) => {
+const DialogEditCampaignComponent = ({ id }: Props) => {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
+  const context = useContext(CampaignContext);
+  const { refetch } = context;
   const { data } = useQueryHook<campaignType>(
     ["campaign", id],
     () => getDetailsCampaign(id),
     { enabled: !!open }
   );
-  console.log(data);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -117,7 +118,7 @@ const DialogEditCampaignComponent = ({ refetch, id }: Props) => {
 
   const onSuccess = useCallback(
     (data: any) => {
-      toast.success("Tạo chiến dịch thành công 🚀");
+      toast.success("Cập nhật chiến dịch thành công 🚀");
       setIsLoading(false);
       form.reset();
       setOpen(false);
@@ -130,9 +131,10 @@ const DialogEditCampaignComponent = ({ refetch, id }: Props) => {
     (error: any) => {
       setIsLoading(false);
       const errorMessage =
-        error.response?.data?.message || "Có lỗi xảy ra khi tạo chiến dịch";
+        error.response?.data?.message ||
+        "Có lỗi xảy ra khi cập nhật chiến dịch";
       toast.error(errorMessage);
-
+      console.log(error);
       if (error.response?.status === 400) {
         form.setError("name", {
           type: "manual",
@@ -152,12 +154,13 @@ const DialogEditCampaignComponent = ({ refetch, id }: Props) => {
   );
 
   const mutation = useMutationHook(
-    (data: z.infer<typeof formSchema>) =>
-      createCampaign({
-        ...data,
-        open: data.start, // Ánh xạ start thành open
-        close: data.end, // Ánh xạ end thành close
-        status: parseInt(data.status), // Đảm bảo status là số
+    (dataUpdate: z.infer<typeof formSchema>) =>
+      updateCampaign(id, {
+        name: dataUpdate?.name,
+        description: dataUpdate?.description,
+        open: dataUpdate.start,
+        close: dataUpdate.end,
+        status: parseInt(dataUpdate.status),
       }),
     onSuccess,
     onError
@@ -178,11 +181,13 @@ const DialogEditCampaignComponent = ({ refetch, id }: Props) => {
   const formatDateForInput = (date: Date | undefined) => {
     return date ? date.toISOString().split("T")[0] : "";
   };
-
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <span
-        onClick={() => setOpen(true)}
+        onClick={(e: React.MouseEvent) => {
+          e.stopPropagation();
+          setOpen(true);
+        }}
         className="after:content-['|'] after:ml-0.5 after:text-accent cursor-pointer hover:text-secondaryColor"
       >
         Sửa chiến dịch

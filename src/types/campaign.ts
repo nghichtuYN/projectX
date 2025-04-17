@@ -1,17 +1,18 @@
-export type Campaign = {
+export type campaignType = {
   id: string;
+  close: Date;
+  countJobs: number;
+  description: string;
   name: string;
-  status: string;
-  active: boolean;
-  progress: number;
-  postStatus: string;
-  systemCV?: {
-    status: string;
-    isActive: boolean;
-  };
-  actions?: {
-    canEdit: boolean;
-    canDelete: boolean;
-    canViewReport: boolean;
-  };
+  open: Date;
+  status: number;
+};
+export type ListCampaign = {
+  first: boolean;
+  last: boolean;
+  items: campaignType[];
+  totalItems: number;
+  totalPages: number;
+  pageNumber: number;
+  pageSize: number;
 };

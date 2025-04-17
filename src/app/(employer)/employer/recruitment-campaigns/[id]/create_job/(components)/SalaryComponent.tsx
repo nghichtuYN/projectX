@@ -20,6 +20,7 @@ const SalaryComponent = ({ form }: Props) => {
               {...field}
               onChange={(e) => field.onChange(parseFloat(e.target.value))}
               placeholder="Nhập mức lương tối thiểu"
+              className="bg-white"
             />
           )}
         </FormFieldComponent>
@@ -37,6 +38,7 @@ const SalaryComponent = ({ form }: Props) => {
               {...field}
               onChange={(e) => field.onChange(parseFloat(e.target.value))}
               placeholder="Nhập mức lương tối đa"
+              className="bg-white"
             />
           )}
         </FormFieldComponent>

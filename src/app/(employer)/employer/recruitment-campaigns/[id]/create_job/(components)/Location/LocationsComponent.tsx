@@ -1,7 +1,7 @@
 import FormFieldComponent from "@/app/(auth)/(components)/FormFieldComponent";
 import { useQueryHook } from "@/hooks/useQueryHook";
 
-import React from "react";
+import React, { useEffect } from "react";
 type Props = {
   form: any;
 };
@@ -19,7 +19,6 @@ import { ListLocations } from "@/types/locations";
 import { ChevronsUpDown } from "lucide-react";
 const LocationsComponent = ({ form }: Props) => {
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState("");
   const [search, setSearch] = React.useState("");
   const [debouncedSearchTerm] = useDebounce(search, 500);
   const {
@@ -27,13 +26,13 @@ const LocationsComponent = ({ form }: Props) => {
     isLoading,
     isFetching,
   } = useQueryHook<ListLocations>(
-    ["locations", debouncedSearchTerm],
-    () => getAllLocation(debouncedSearchTerm),
-    {
-      enabled: !!open,
-    }
+    ["LocationId", debouncedSearchTerm],
+    () => getAllLocation(debouncedSearchTerm)
+    // {
+    //   enabled: !!open,
+    // }
   );
-  React.useEffect(() => {
+  useEffect(() => {
     if (!open) {
       setSearch("");
     }
@@ -41,7 +40,7 @@ const LocationsComponent = ({ form }: Props) => {
   return (
     <FormFieldComponent
       control={form.control}
-      name="locationId"
+      name="LocationId"
       label="Thành phố"
       requrie
       icon={null}
@@ -55,8 +54,8 @@ const LocationsComponent = ({ form }: Props) => {
               aria-expanded={open}
               className="w-full justify-between"
             >
-              {value
-                ? locations?.items.find((major) => major.id === value)?.name
+              {field.value
+                ? locations?.items.find((major) => major.id === field.value)?.name
                 : "Chọn thành phố..."}
               <ChevronsUpDown className="opacity-50" />
             </Button>
@@ -70,9 +69,8 @@ const LocationsComponent = ({ form }: Props) => {
                 className="h-9"
               />
               <ListLocationsComponent
-                setValue={setValue}
                 setOpen={setOpen}
-                value={value}
+                value={field.value}
                 locations={locations?.items}
                 field={field}
                 isLoading={isLoading}

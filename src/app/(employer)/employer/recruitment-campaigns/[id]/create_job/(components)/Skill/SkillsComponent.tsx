@@ -15,10 +15,9 @@ import ListSkillsComponent from "./ListSkillsComponent";
 import SelectedSkillsComponent from "./SelectedSkillsComponent";
 type Props = {
   form: any;
-  addItem: (field: keyof JobFormValues, value: string) => void;
   removeItem: (field: keyof JobFormValues, value: string) => void;
 };
-const SkillsComponent = ({ form, addItem, removeItem }: Props) => {
+const SkillsComponent = ({ form, removeItem }: Props) => {
   const [open, setOpen] = React.useState(false);
   const [search, setSearch] = React.useState("");
   const [debouncedSearchTerm] = useDebounce(search, 500);

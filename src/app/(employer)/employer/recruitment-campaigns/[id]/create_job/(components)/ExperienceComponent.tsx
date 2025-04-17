@@ -8,7 +8,7 @@ const ExperienceComponent = ({ form }: Props) => {
   return (
     <FormFieldComponent
       control={form.control}
-      name="minYearOfExperience"
+      name="yearOfExperience"
       label="Số năm kinh nghiệm tối thiểu"
       requrie
       icon={null}
@@ -19,6 +19,7 @@ const ExperienceComponent = ({ form }: Props) => {
           {...field}
           onChange={(e) => field.onChange(parseFloat(e.target.value))}
           placeholder="Nhập số năm kinh nghiệm tối thiểu"
+          className="bg-white"
         />
       )}
     </FormFieldComponent>

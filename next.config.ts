@@ -9,6 +9,10 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
+        hostname: "**.example.com", // Allow Google domains (images on Google Drive, Google Photos)
+      },
+      {
+        protocol: "https",
         hostname: "**.black-absolute-damselfly-439.mypinata.cloud", // Allow Google domains (images on Google Drive, Google Photos)
       },
       {

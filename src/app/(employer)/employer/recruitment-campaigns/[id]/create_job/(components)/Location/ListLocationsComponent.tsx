@@ -9,7 +9,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 import LocationComponent from "./LocationComponent";
 import { Location } from "@/types/locations";
 type Props = {
-  setValue: React.Dispatch<React.SetStateAction<string>>;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   value: string;
   locations: Location[] | undefined;
@@ -18,7 +17,6 @@ type Props = {
   field: any;
 };
 const ListLocationsComponent = ({
-  setValue,
   setOpen,
   value,
   locations,
@@ -54,7 +52,6 @@ const ListLocationsComponent = ({
               setOpen={setOpen}
               value={value}
               field={field}
-              setValue={setValue}
             />
           ))}
         </CommandGroup>

@@ -1,5 +1,5 @@
 import EmployerSidebaHeaderComponent from "@/components/EmployerSidebaHeaderComponent";
-import NavAccountSettingComponent from "./(components)/NavAccountSettingComponent";
+import NavAccountSettingComponent from "./components/NavAccountSettingComponent";
 
 const SettingLayout = ({
   children,
@@ -15,7 +15,7 @@ const SettingLayout = ({
           </p>
         </div>
       </EmployerSidebaHeaderComponent>
-      <div className="grid grid-cols-5 p-20 rounded-md ">
+      <div className="grid grid-cols-5 mt-20 mr-3 ml-3 w-5/6 rounded-md ">
         <div className="col-span-1 bg-white">
           <NavAccountSettingComponent />
         </div>

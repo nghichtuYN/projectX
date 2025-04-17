@@ -5,7 +5,6 @@ import LocationDetailPageComponent from "./LocationDetailPageComponent";
 import { Button } from "../../../components/ui/button";
 
 const SearchFilterDetailPage = () => {
-
   return (
     <section className="w-full mx-auto py-2 px-4 h-[72px] justify-center sticky top-0 z-10 flex items-center bg-primaryColor">
       <div className="flex items-center w-3/4 gap-2">

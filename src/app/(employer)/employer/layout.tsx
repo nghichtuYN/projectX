@@ -10,7 +10,7 @@ export default function DashBoardEmployerLayout({
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset className="relative bg-accent">
-        <div>{children}</div>
+        <div className="grid-cols-1 place-items-center">{children}</div>
       </SidebarInset>
     </SidebarProvider>
   );

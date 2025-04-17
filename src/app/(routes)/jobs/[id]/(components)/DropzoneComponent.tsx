@@ -18,17 +18,7 @@ import { cn } from "@/lib/utils";
 type Props = {
   files: File[];
   setFiles: React.Dispatch<React.SetStateAction<File[]>>;
-  form: UseFormReturn<
-    {
-      name: string;
-      email: string;
-      phone: string;
-      decription: string;
-    },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    any,
-    undefined
-  >;
+  form: any;
 };
 const DropzoneComponent = ({ files, setFiles, form }: Props) => {
   const errors = form.formState.errors;

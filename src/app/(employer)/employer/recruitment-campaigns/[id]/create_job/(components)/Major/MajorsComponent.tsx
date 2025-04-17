@@ -6,37 +6,29 @@ import React from "react";
 type Props = {
   form: any;
 };
-import { Check, ChevronsUpDown } from "lucide-react";
+import { ChevronsUpDown } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command";
+import { Command, CommandInput } from "@/components/ui/command";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
 import ListMajorsComponent from "./ListMajorsComponent";
-import { useDebounce } from 'use-debounce';
+import { useDebounce } from "use-debounce";
 const MajorsComponent = ({ form }: Props) => {
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState("");
   const [search, setSearch] = React.useState("");
   const [debouncedSearchTerm] = useDebounce(search, 500);
   const {
     data: majors,
     isLoading,
     isFetching,
-  } = useQueryHook<ListMajors>(["majors", debouncedSearchTerm], () => getMajor(debouncedSearchTerm), {
-    enabled: !!open,
-  });
+  } = useQueryHook<ListMajors>(["majors", debouncedSearchTerm], () =>
+    getMajor(debouncedSearchTerm)
+  );
   React.useEffect(() => {
     if (!open) {
       setSearch("");
@@ -57,10 +49,10 @@ const MajorsComponent = ({ form }: Props) => {
               variant="outline"
               role="combobox"
               aria-expanded={open}
-              className="w-full justify-between"
+              className={cn("w-full justify-between")}
             >
-              {value
-                ? majors?.items.find((major) => major.id === value)?.name
+              {field.value
+                ? majors?.items.find((major) => major.id === field.value)?.name
                 : "Chọn chuyên ngành..."}
               <ChevronsUpDown className="opacity-50" />
             </Button>
@@ -74,9 +66,8 @@ const MajorsComponent = ({ form }: Props) => {
                 className="h-9"
               />
               <ListMajorsComponent
-                setValue={setValue}
                 setOpen={setOpen}
-                value={value}
+                value={field.value}
                 majors={majors?.items}
                 field={field}
                 isLoading={isLoading}

@@ -2,40 +2,40 @@
 import { Search } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { Input } from "./ui/input";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 type Props = {
   placeholder?: string;
   searchValue: string;
   filterBy: string;
-  setSearchValue: React.Dispatch<React.SetStateAction<string>>;
   page: any;
 };
 const SearchInputCampainComponent = ({
   placeholder,
   searchValue,
-  setSearchValue,
   page,
   filterBy,
 }: Props) => {
   const router = useRouter();
   const pathname = usePathname();
-
+  const searchParam=useSearchParams()
   const [search, setSearch] = useState("");
   useEffect(() => {
     setSearch(searchValue);
   }, [searchValue]);
   const handleSearchEnter = () => {
-    const query = new URLSearchParams();
-    query.set("search", search);
-    query.set("page", page);
-    if (filterBy !== "all") {
-      query.set("filter_by", filterBy);
+    const query = new URLSearchParams(searchParam);
+    if (search !== searchValue || searchValue === "") {
+      query.set("search", search);
+      query.set("page", "1");
+    } else {
+      query.set("search", search);
+      query.set("page", page);
     }
+
     const newUrl = query.toString()
       ? `${pathname}?${query.toString()}`
       : pathname;
-    router.push(newUrl, { scroll: false });
-    setSearchValue(search);
+    router.replace(newUrl, { scroll: false });
   };
   const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.code.toLocaleLowerCase() === "enter" && handleSearchEnter) {
@@ -49,7 +49,7 @@ const SearchInputCampainComponent = ({
         className="pl-10"
         placeholder={placeholder}
         onChange={(e) => setSearch(e.target.value)}
-        value={search}
+        defaultValue={search}
         onKeyUp={handleKeyUp}
       />
     </div>

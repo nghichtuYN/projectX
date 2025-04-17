@@ -1,144 +1,205 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Switch } from "@/components/ui/switch";
-import { Badge } from "@/components/ui/badge";
-import { Eye } from "lucide-react";
-import { campaigns } from "@/data/campaigns";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
+import React, { createContext, useEffect } from "react";
 
 import EmployerSidebaHeaderComponent from "@/components/EmployerSidebaHeaderComponent";
-import Link from "next/link";
 import SearchInputCampainComponent from "@/components/SearchInputCampainComponent";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import DialogAddCampaignComponent from "./(components)/DialogAddCampaignComponent";
-import { getAllCampaigns } from "@/services/campaign";
-import { useQueryHook } from "@/hooks/useQueryHook";
+import TableComponent, { TableColumn } from "@/components/TableComponent";
+import { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
+import { campaignOptions } from "@/data/campain";
+import { campaignType, ListCampaign } from "@/types/campaign";
+import { getCampaigns } from "@/queries/queries";
+import PaginationComponent from "@/components/PaginationComponent";
+import SkeletonTableComponent from "@/components/SeketonTable";
+import FilterComponent from "./(components)/FilterJobComponent";
+import { Switch } from "@/components/ui/switch";
+import Link from "next/link";
 import DialogEditCampaignComponent from "./(components)/DialogEditCampaignComponent";
-import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Eye } from "lucide-react";
+import { useMutationHook } from "@/hooks/useMutationHook";
+import { updateCampaign } from "@/services/campaign";
+import { toast } from "sonner";
 import { useAuthStore } from "@/store/UserStore";
-type campaignOptionsType = {
-  value: string;
-  label: string;
+export type ContextType<T> = {
+  refetch: (options?: RefetchOptions) => Promise<QueryObserverResult<T, Error>>;
 };
-export type campaignType = {
-  id: string;
-  close: Date;
-  countJob: number;
-  description: string;
-  name: string;
-  open: Date;
-  status: number;
-};
-type ListCampaign = {
-  first: boolean;
-  last: boolean;
-  items: campaignType[];
-  totalItems: number;
-  totalPages: number;
-  pageNumber: number;
-  pageSize: number;
-};
-const campaignOptions: campaignOptionsType[] = [
-  { value: "all", label: "Tất cả chiến dịch" },
-  { value: "only_open", label: "Chỉ chiến dịch đang mở" },
-  { value: "has_new_cv", label: "Có CV ứng viên mới cần xem" },
-  { value: "has_publishing_job", label: "Tin tuyển dụng đang hiển thị" },
-  { value: "has_running_service", label: "Có dịch vụ đang chạy" },
-  { value: "expired_job", label: "Tin tuyển dụng hết hạn hiển thị" },
-  { value: "waitting_approve_job", label: "Tin tuyển dụng đang xét duyệt" },
-];
-type headerTableType = {
-  classname: string | "";
-  title: string;
-};
-const tableHeaders: headerTableType[] = [
-  {
-    classname: "w-[300px]",
-    title: "Chiến dịch tuyển dụng",
-  },
-  {
-    classname: "",
-    title: "Tin tuyển dụng",
-  },
-  {
-    classname: "",
-    title: "CV từ hệ thống",
-  },
-  {
-    classname: "",
-    title: "Lọc CV",
-  },
-  {
-    classname: "",
-    title: "Dịch vụ đang chạy",
-  },
-];
+
+export const CampaignContext = createContext<ContextType<ListCampaign>>({
+  refetch: (options?: RefetchOptions) =>
+    Promise.resolve({} as QueryObserverResult<ListCampaign, Error>),
+});
 
 const RecruitmentCampaignPage = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [filterBy, setFilterBy] = React.useState(
-    searchParams.get("filter_by") || "all"
-  );
-  const [searchValue, setSearchValue] = React.useState(
-    searchParams.get("search") || ""
-  );
-  const [currentPage, setCurrentPage] = React.useState(
-    parseInt(searchParams.get("page") || "1", 10)
-  );
-  useEffect(() => {
-    const query = new URLSearchParams();
-    if (searchValue) query.set("search", searchValue);
-    if (filterBy !== "all") query.set("filter_by", filterBy);
-    if (currentPage >= 1) query.set("page", currentPage.toString());
+  const filterBy = searchParams.get("filterBy") || "";
 
-    const newUrl = query.toString()
-      ? `${pathname}?${query.toString()}`
-      : pathname;
-    router.push(newUrl, { scroll: false });
-  }, [filterBy, currentPage, pathname, router]);
-  const onChangeFilterByValue = (value: string) => {
-    setFilterBy(value);
-  };
+  const searchValue = searchParams.get("search") || "";
 
-  const { data, refetch } = useQueryHook<ListCampaign>(
-    ["campaigns", searchValue, currentPage],
-    () => getAllCampaigns(searchValue, currentPage)
-  );
+  const currentPage = parseInt(searchParams.get("page") || "1", 10);
   const user = useAuthStore((state) => state.user);
-  console.log(user);
   useEffect(() => {
-    if (!user) return;
-    if(!user) router.push('/employer-login')
+    if (user && !user?.recruiterVerified) {
+      console.log(user.recruiterVerified);
+      router.push("/employer/employer-verify");
+    }
   }, [user]);
+  const handleFilterBy = (filter_by: string) => {
+    const params = new URLSearchParams(searchParams);
+    params.set("page", "1");
+    if (filter_by) {
+      params.set("filter_by", filter_by);
+    } else {
+      params.delete("filter_by");
+    }
+    router.replace(`${pathname}?${params.toString()}`);
+  };
+  const {
+    data: campaigns,
+    refetch,
+    isLoading,
+    isFetching,
+  } = getCampaigns(searchValue, currentPage);
+  const updateStatusMutation = useMutationHook(
+    (dataUpdate: campaignType) => {
+      const { id } = dataUpdate;
+      return updateCampaign(id, {
+        name: dataUpdate?.name,
+        description: dataUpdate?.description,
+        open: dataUpdate.open,
+        close: dataUpdate.close,
+        status: dataUpdate.status,
+      });
+    },
+    (data) => {
+      refetch();
+      toast.success(
+        `Chiến dịch đã được ${data.status === 1 ? "kích hoạt" : "tạm dừng"}`
+      );
+    },
+    (error) => {
+      toast.error("Có lỗi xảy ra khi cập nhật trạng thái chiến dịch");
+    }
+  );
+  const handleStatusChange = (row: campaignType) => {
+    const newStatus = row.status === 1 ? 0 : 1;
+    updateStatusMutation.mutate({ ...row, status: newStatus });
+  };
+  const columns: TableColumn<campaignType>[] = [
+    {
+      key: "name",
+      classname: "w-[300px] h-full",
+      title: "Chiến dịch tuyển dụng",
+      renderColumn: (row) => {
+        return (
+          <div className="flex justify-start items-start gap-2 h-28">
+            <Switch
+              onCheckedChange={() => handleStatusChange(row)}
+              checked={row.status === 1}
+            />
+            <div className="flex flex-col">
+              <span className="font-medium text-xs">
+                #{row.id.replace(/-/g, "")}
+              </span>
+              <Link
+                className="hover:underline"
+                href={`/employer/recruitment-campaigns/${row?.id}?active_tab=jobs`}
+              >
+                {row.name}
+              </Link>
+              <div className="text-sm text-gray-500">{row.status}</div>
+
+              <div className="hidden group-hover:flex group-hover:flex-col text-sm font-medium gap-1 mt-2">
+                <div className="flex items-center gap-2">
+                  <DialogEditCampaignComponent id={row?.id} />
+                  <Link
+                    className=" hover:text-secondaryColor"
+                    href={`/employer/recruitment-campaigns/${row?.id}`}
+                  >
+                    Xem báo cáo
+                  </Link>
+                  <span className="cursor-pointer"></span>
+                </div>
+                <Link
+                  className=" hover:text-secondaryColor"
+                  href={`http://localhost:3000/employer/recruitment-campaigns/${row?.id}?active_tab=apply_cv`}
+                >
+                  Xem CV ứng tuyển
+                </Link>
+              </div>
+            </div>
+          </div>
+        );
+      },
+    },
+    {
+      key: "countJobs",
+      title: "Tin tuyển dụng",
+      renderColumn: (row) => {
+        return (
+          <div className="flex justify-center">
+            {row.countJobs ? (
+              row.countJobs
+            ) : (
+              <Link
+                href={`/employer/recruitment-campaigns/${row?.id}/create_job`}
+              >
+                <Button
+                  size={"sm"}
+                  className="text-sm leading-[21px] border border-secondaryColor text-secondaryColor"
+                  variant={"outline"}
+                >
+                  Đăng tin
+                </Button>
+              </Link>
+            )}
+          </div>
+        );
+      },
+    },
+    {
+      key: "description",
+      title: "CV từ hệ thống",
+      renderColumn: (row) => {
+        return (
+          <div className="space-y-1">
+            <div>CV đề xuất</div>
+            <div className="text-sm text-gray-500">Chưa kích hoạt</div>
+            <Button variant="ghost" size="sm" className="text-blue-500">
+              <Eye className="w-4 h-4 mr-1" /> Xem chi tiết
+            </Button>
+          </div>
+        );
+      },
+    },
+    {
+      key: "id",
+      title: "Lọc CV",
+      renderColumn: (row) => {
+        return (
+          <Button variant="outline" size="sm">
+            Tìm CV
+          </Button>
+        );
+      },
+    },
+    {
+      key: "status",
+      title: "Dịch vụ đang chạy",
+      renderColumn: (row) => {
+        return (
+          <Button variant="outline" size="sm" className="text-green-500">
+            Thêm
+          </Button>
+        );
+      },
+    },
+  ];
   return (
-    <>
+    <CampaignContext.Provider value={{ refetch }}>
       <EmployerSidebaHeaderComponent>
         <div className="flex w-full items-center ">
           <p className="text-lg font-semibold text-secondaryColor">
@@ -146,26 +207,19 @@ const RecruitmentCampaignPage = () => {
           </p>
         </div>
       </EmployerSidebaHeaderComponent>
-      <div className="pt-14 pl-8 pr-8">
-        <div className="container  mx-auto p-4 space-y-4  bg-accent">
+      <div className="pt-14 pl-8 pr-8 w-full">
+        <div className="container w-full  mx-auto p-4 space-y-4  bg-accent">
           <div className=" flex gap-4 items-center">
-            <Select onValueChange={onChangeFilterByValue} value={filterBy}>
-              <SelectTrigger className="w-[180px] bg-white">
-                <SelectValue placeholder="Tất cả chiến dịch" />
-              </SelectTrigger>
-              <SelectContent>
-                {campaignOptions.map((option) => (
-                  <SelectItem key={option.value} value={option.value}>
-                    {option.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <FilterComponent
+              dataOptions={campaignOptions}
+              filterBy={filterBy}
+              placeholder="Tất cả chiến dịch"
+              onChangeFilterByValue={handleFilterBy}
+            />
             <SearchInputCampainComponent
               page={currentPage}
               filterBy={filterBy}
               searchValue={searchValue}
-              setSearchValue={setSearchValue}
               placeholder="Tìm chiến dịch (Nhấn enter để tìm kiếm)"
             />
             <DialogAddCampaignComponent refetch={refetch} />
@@ -174,146 +228,31 @@ const RecruitmentCampaignPage = () => {
           {/* Table */}
           <div>
             <div className="border rounded-lg bg-white">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    {tableHeaders?.map((headers) => (
-                      <TableHead
-                        key={headers.title}
-                        className={cn(headers.classname, "border border-r-2")}
-                      >
-                        {headers.title}
-                      </TableHead>
-                    ))}
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {data?.items?.map((campaign, index) => (
-                    <TableRow
-                      key={index}
-                      className="group h-28 hover:bg-fourthColor"
-                    >
-                      <TableCell className="h-full border border-r-2">
-                        <div className="flex justify-start items-start gap-2 h-28">
-                          <Switch
-                            checked={campaign.status === 1 ? true : false}
-                          />
-                          <div className="flex flex-col">
-                            <span className="font-medium text-xs">
-                              #{campaign.id.replace(/-/g, "")}
-                            </span>
-                            <Link
-                              className="hover:underline"
-                              href={`/employer/recruitment-campaigns/${campaign?.id}?active_tab=jobs`}
-                            >
-                              {campaign.name}
-                            </Link>
-                            <div className="text-sm text-gray-500">
-                              {campaign.status}
-                            </div>
-
-                            <div className="hidden group-hover:flex group-hover:flex-col text-sm font-medium gap-1 mt-2">
-                              <div className="flex items-center gap-2">
-                                <DialogEditCampaignComponent
-                                  refetch={refetch}
-                                  id={campaign?.id}
-                                />
-                                <span className="cursor-pointer hover:text-secondaryColor">
-                                  Xem báo cáo
-                                </span>
-                              </div>
-                              <span className="cursor-pointer hover:text-secondaryColor">
-                                Xem CV ứng tuyển
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      </TableCell>
-                      <TableCell className="border border-r-2 ">
-                        <div className="flex justify-center">
-                          {!!campaign.countJob ? (
-                            campaign.countJob
-                          ) : (
-                            <Link
-                              href={`/employer/recruitment-campaigns/${campaign?.id}/create_job`}
-                            >
-                              <Button
-                                size={"sm"}
-                                className="text-sm leading-[21px] border border-secondaryColor text-secondaryColor"
-                                variant={"outline"}
-                              >
-                                Đăng tin
-                              </Button>
-                            </Link>
-                          )}
-                        </div>
-                      </TableCell>
-                      <TableCell className="border border-r-2">
-                        <div className="space-y-1">
-                          <div>CV đề xuất</div>
-                          <div className="text-sm text-gray-500">
-                            Chưa kích hoạt
-                          </div>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            className="text-blue-500"
-                          >
-                            <Eye className="w-4 h-4 mr-1" /> Xem chi tiết
-                          </Button>
-                        </div>
-                      </TableCell>
-                      <TableCell className="border border-r-2">
-                        <Button variant="outline" size="sm">
-                          Tìm CV
-                        </Button>
-                      </TableCell>
-                      <TableCell>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="text-green-500"
-                        >
-                          Thêm
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+              {isLoading || isFetching ? (
+                <SkeletonTableComponent columnsCount={5} />
+              ) : (
+                <TableComponent
+                  rows={campaigns?.items || []}
+                  rowKey="id"
+                  columns={columns}
+                  rowClassName="group h-28 hover:bg-fourthColor"
+                  content="Không có chiến dịch nào"
+                />
+              )}
             </div>
-            {data?.totalPages && data?.totalPages > 1 && (
+            {!!campaigns && campaigns?.totalPages > 1 && (
               <div className="flex justify-end w-full">
-                <Pagination className="flex justify-end">
-                  <PaginationContent>
-                    <PaginationItem>
-                      <PaginationPrevious href="#" />
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationLink href="#">1</PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationLink href="#" isActive>
-                        2
-                      </PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationLink href="#">3</PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationEllipsis />
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationNext href="#" />
-                    </PaginationItem>
-                  </PaginationContent>
-                </Pagination>
+                <PaginationComponent
+                  currentPage={currentPage}
+                  totalPages={campaigns?.totalPages}
+                  className={"flex justify-end"}
+                />
               </div>
             )}
           </div>
         </div>
       </div>
-    </>
+    </CampaignContext.Provider>
   );
 };
 

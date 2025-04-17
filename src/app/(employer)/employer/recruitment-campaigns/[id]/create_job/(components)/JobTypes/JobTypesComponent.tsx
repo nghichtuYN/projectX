@@ -15,11 +15,10 @@ import { ChevronsUpDown } from "lucide-react";
 import { useDebounce } from "use-debounce";
 type Props = {
   form: any;
-  addItem: (field: keyof JobFormValues, value: string) => void;
   removeItem: (field: keyof JobFormValues, value: string) => void;
 };
 
-const JobTypesComponent = ({ form, addItem, removeItem }: Props) => {
+const JobTypesComponent = ({ form, removeItem }: Props) => {
   const [open, setOpen] = React.useState(false);
   const [search, setSearch] = React.useState("");
   const [debouncedSearchTerm] = useDebounce(search, 500);

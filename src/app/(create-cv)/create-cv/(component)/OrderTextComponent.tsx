@@ -6,7 +6,7 @@ type Props = {
 };
 const OrderTextComponent = ({ editor }: Props) => {
   return (
-    <ToggleGroup type="multiple" className="flex gap-2 bg-white">
+    <ToggleGroup type="multiple" className="flex gap-2 p-1 w-fit bg-white">
       <ToggleGroupItem
         onClick={(e) => {
           e.preventDefault();

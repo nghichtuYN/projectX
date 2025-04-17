@@ -15,11 +15,10 @@ import SelectedContractType from "./SelectedContractType";
 import { getAllContractType } from "@/queries/queries";
 type Props = {
   form: any;
-  addItem: (field: keyof JobFormValues, value: string) => void;
   removeItem: (field: keyof JobFormValues, value: string) => void;
 };
 
-const ContractsTypeComponent = ({ form, addItem, removeItem }: Props) => {
+const ContractsTypeComponent = ({ form, removeItem }: Props) => {
   const [open, setOpen] = React.useState(false);
   const [search, setSearch] = React.useState("");
   const [debouncedSearchTerm] = useDebounce(search, 500);

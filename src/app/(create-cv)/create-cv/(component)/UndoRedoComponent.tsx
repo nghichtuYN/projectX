@@ -1,3 +1,6 @@
+"use client";
+
+import { Button } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
@@ -5,61 +8,71 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Redo, Undo } from "lucide-react";
-import React from "react";
+
 type Props = {
   editor: any;
 };
+
 const UndoRedoComponent = ({ editor }: Props) => {
   return (
-    <div className="flex items-center w-auto bg-white gap-2 border-r-2 pr-2">
-      <span
+    <div className="flex gap-2 p-1 w-fit bg-white rounded-md">
+      <Button
         onClick={(e) => {
           e.preventDefault();
           if (editor.can().undo()) {
             editor.chain().focus().undo().run();
           }
         }}
-        className={
+        className={`p-2 rounded-md transition-colors ${
           editor.can().undo()
-            ? "text-gray-500 hover:text-red-500 p-2 rounded-lg"
-            : "text-gray-300 p-2 rounded-lg cursor-not-allowed"
-        }
+            ? "bg-secondaryColor text-white hover:bg-secondaryColor/90"
+            : "bg-gray-100 text-gray-600 cursor-not-allowed"
+        }`}
+        aria-label="Undo"
+        disabled={!editor.can().undo()}
       >
         <TooltipProvider>
           <Tooltip>
-            <TooltipTrigger disabled={!editor.can().undo()}>
-              <Undo className="w-5 h-5" />
+            <TooltipTrigger asChild>
+              <span className="inline-flex items-center justify-center">
+                <Undo className="w-5 h-5" />
+              </span>
             </TooltipTrigger>
-            <TooltipContent>
+            <TooltipContent side="bottom">
               <p>Undo (Ctrl + Z)</p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
-      </span>
-      <span
+      </Button>
+
+      <Button
         onClick={(e) => {
           e.preventDefault();
           if (editor.can().redo()) {
             editor.chain().focus().redo().run();
           }
         }}
-        className={
+        className={`p-2 rounded-md transition-colors ${
           editor.can().redo()
-            ? "text-gray-500 hover:text-red-500 p-2 rounded-lg"
-            : "text-gray-300 p-2 rounded-lg cursor-not-allowed"
-        }
+            ? "bg-secondaryColor text-white hover:bg-secondaryColor/90"
+            : "bg-gray-100 text-gray-600 cursor-not-allowed"
+        }`}
+        aria-label="Redo"
+        disabled={!editor.can().redo()}
       >
         <TooltipProvider>
           <Tooltip>
-            <TooltipTrigger disabled={!editor.can().redo()}>
-              <Redo className="w-5 h-5" />
+            <TooltipTrigger asChild>
+              <span className="inline-flex items-center justify-center">
+                <Redo className="w-5 h-5" />
+              </span>
             </TooltipTrigger>
-            <TooltipContent>
+            <TooltipContent side="bottom">
               <p>Redo (Ctrl + Shift + Z)</p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
-      </span>
+      </Button>
     </div>
   );
 };

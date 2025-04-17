@@ -1,7 +1,6 @@
 "use client";
 import EmployerSidebaHeaderComponent from "@/components/EmployerSidebaHeaderComponent";
 import { Button } from "@/components/ui/button";
-
 import {
   Card,
   CardDescription,
@@ -12,9 +11,7 @@ import { MoveLeft } from "lucide-react";
 import React from "react";
 import TabsComponent from "@/app/(employer)/employer/recruitment-campaigns/[id]/(components)/TabsComponent";
 import { useParams, useRouter } from "next/navigation";
-import { useQueryHook } from "@/hooks/useQueryHook";
-import { campaignType } from "../page";
-import { getDetailsCampaign } from "@/services/campaign";
+import { getDetailCampaigns } from "@/queries/queries";
 
 const CampaignDetailPage = () => {
   const param = useParams();
@@ -23,11 +20,7 @@ const CampaignDetailPage = () => {
   if (!id) {
     return <div>Campaign ID không hợp lệ</div>;
   }
-  const { data: campaign } = useQueryHook<campaignType>(
-    ["campaign", id],
-    () => getDetailsCampaign(id),
-    { enabled: !!id }
-  );
+  const { data: campaign } = getDetailCampaigns(id);
 
   return (
     <>
@@ -45,7 +38,7 @@ const CampaignDetailPage = () => {
           </p>
         </div>
       </EmployerSidebaHeaderComponent>
-      <div className="pt-14 pl-8 pr-8">
+      <div className="pt-14 pl-8 pr-8 w-full">
         <div className="container  mx-auto p-4 space-y-4  bg-accent">
           <div className=" grid grid-cols-4 gap-4">
             <Card className="rounded-none ">

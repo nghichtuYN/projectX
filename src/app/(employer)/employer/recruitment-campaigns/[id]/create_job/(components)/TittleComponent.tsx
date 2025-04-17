@@ -8,7 +8,7 @@ const TittleComponent = ({ form }: Props) => {
   return (
     <FormFieldComponent
       control={form.control}
-      name="title"
+      name="Title"
       label="Tiêu đề tin tuyển dụng"
       requrie
       icon={null}

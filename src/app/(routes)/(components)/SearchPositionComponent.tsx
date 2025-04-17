@@ -34,7 +34,6 @@ export default function SearchPositionComponent({ search, setSearch }: Props) {
         setOpen(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
 
     const storedHistory = JSON.parse(

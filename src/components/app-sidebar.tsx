@@ -12,19 +12,29 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { MenuEmployer } from "@/data/MenuEmployer";
+import { usePathname } from "next/navigation";
+import { MenuAdmin } from "@/data/MenuAdmin";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const pathname = usePathname();
+  const isEmployer = pathname.startsWith("/employer");
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <TeamSwitcher teams={MenuEmployer.teams} />
+        <TeamSwitcher
+          teams={isEmployer ? MenuEmployer.teams : MenuAdmin.teams}
+        />
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={MenuEmployer.navMain} />
-        <NavProjects projects={MenuEmployer.projects} />
+        <NavMain
+          items={isEmployer ? MenuEmployer.navMain : MenuAdmin.navMain}
+        />
+        <NavProjects
+          projects={isEmployer ? MenuEmployer.projects : MenuAdmin.projects}
+        />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser  />
+        <NavUser />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

@@ -1,33 +1,71 @@
 "use client";
 
-import { createContext, useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useAuthStore } from "@/store/UserStore";
-interface AuthContextType {
-  isLoading: boolean;
-}
+import { getUser } from "@/services/user";
+import { usePathname } from "next/navigation";
 
-export const AuthContext = createContext<AuthContextType | undefined>(
-  undefined
-);
 export default function AuthWrapper({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const user = useAuthStore((state) => state.user);
-  const loadUser = useAuthStore((state) => state.loadUser);
-  const [isLoading, setIsLoading] = useState(false);
-  useEffect(() => {
-    if (!user) {
-      setIsLoading(true);
-      loadUser();
-      setIsLoading(false);
-    }
-  }, [user, loadUser]);
-
-  return (
-    <AuthContext.Provider value={{ isLoading }}>
-      {children}
-    </AuthContext.Provider>
+  const setUser = useAuthStore((state) => state.setUser);
+  const pathname = usePathname();
+  const isLoginPage = pathname.split("/").includes("login");
+  const isRegisterPage = pathname.split("/").includes("register");
+  const isEmployerLoginPage = pathname.split("/").includes("employer-login");
+  const isEmployerRegisterPage = pathname
+    .split("/")
+    .includes("employer-register");
+  const protectedRoutes = [
+    "/admin",
+    "/employer",
+    "/profile",
+    "/company",
+    "/employer",
+  ];
+  const needsAuth = protectedRoutes.some((protectedPath) =>
+    pathname.startsWith(protectedPath)
   );
+  useEffect(() => {
+    console.log("run1")
+    const fetchUser = async () => {
+      if (
+        isLoginPage ||
+        isRegisterPage ||
+        isEmployerLoginPage ||
+        isEmployerRegisterPage
+      )
+        return;
+      try {
+        const res = await getUser();
+        setUser(res);
+      } catch (error: any) {
+        if (error) {
+          if (needsAuth) {
+            if (
+              pathname.startsWith("/employer") ||
+              pathname.startsWith("/company")
+            ) {
+              window.location.href = "/employer-login";
+            } else {
+              window.location.href = "/login";
+            }
+          } else {
+            console.warn(
+              "Chưa đăng nhập, nhưng route hiện tại được phép truy cập:",
+              pathname
+            );
+          }
+        } else {
+          console.error("Lỗi khi gọi getUser:", error);
+        }
+      }
+    };
+
+    fetchUser();
+  }, []);
+
+  return <>{children}</>;
 }

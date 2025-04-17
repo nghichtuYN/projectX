@@ -9,7 +9,6 @@ import React from "react";
 import MajorComponent from "./MajorComponent";
 import { Skeleton } from "@/components/ui/skeleton";
 type Props = {
-  setValue: React.Dispatch<React.SetStateAction<string>>;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   value: string;
   majors: Major[] | undefined;
@@ -18,7 +17,6 @@ type Props = {
   field: any;
 };
 const ListMajorsComponent = ({
-  setValue,
   setOpen,
   value,
   majors,
@@ -54,7 +52,6 @@ const ListMajorsComponent = ({
               setOpen={setOpen}
               value={value}
               field={field}
-              setValue={setValue}
             />
           ))}
         </CommandGroup>

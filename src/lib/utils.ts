@@ -35,3 +35,12 @@ export const handleSelect = (
     : [...currentValues, fieldId];
   field.onChange(newValues);
 };
+export const roles: { [key: string]: string } = {
+  "employer-login": "Business",
+  freelanceRecruiter: "FreelanceRecruiter",
+  admin: "Admin",
+  login: "Candidate",
+};
+export const sleep = (ms: number) => {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+};

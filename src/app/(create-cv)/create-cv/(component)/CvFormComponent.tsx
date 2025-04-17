@@ -475,6 +475,7 @@ const CvFormComponent = () => {
     };
   }, [activeEditor]);
   useEffect(() => {
+    console.log("run1")
     return () => {
       handleDragOver.cancel();
     };

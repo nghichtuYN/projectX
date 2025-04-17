@@ -9,15 +9,10 @@ import Link from "next/link";
 import ToggleHeader from "./ToggleHeader";
 import { useAuthStore } from "@/store/UserStore";
 import { Button } from "@/components/ui/button";
-import { AuthContext } from "./AuthWraper";
-import { Skeleton } from "@/components/ui/skeleton";
 
 const Header = () => {
   const [open, setOpen] = React.useState<boolean>(false);
   const user = useAuthStore((state) => state.user);
-  const context = useContext(AuthContext);
-  const isLoading = context?.isLoading ?? true;
-  console.log(isLoading);
   return (
     <header className="bg-white shadow-sm w-full  z-50">
       <div className="  mx-auto px-4 sm:px-6 lg:px-8 bg-secondaryColor text-white w-full ">
@@ -29,13 +24,7 @@ const Header = () => {
             <NavMenuComponent />
           </div>
           <ToggleHeader open={open} setOpen={setOpen} />
-          {isLoading ? (
-            <div className="flex items-center gap-3">
-              <Skeleton className="h-8 w-20" />
-              <Skeleton className="h-8 w-20" />
-              <Skeleton className="h-8 w-36" />
-            </div>
-          ) : user ? (
+          {user ? (
             <div className="hidden xl:flex items-center space-x-4">
               <SiteComponent />
             </div>

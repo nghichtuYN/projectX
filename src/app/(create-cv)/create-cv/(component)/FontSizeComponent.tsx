@@ -11,7 +11,7 @@ type Props = {
 };
 const FontSizeComponent = ({ editor }: Props) => {
   return (
-    <div className="h-fit flex items-center flex-wrap gap-2 bg-white border-l-2 border-r-2">
+    <div className="h-fit flex items-center flex-wrap gap-2 p-1 bg-white">
       <div className="pl-2">Cỡ chữ</div>
       <Select
         onValueChange={(size) => {
