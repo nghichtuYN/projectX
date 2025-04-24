@@ -12,6 +12,7 @@ import { getUser } from "@/services/user";
 import { usePathname } from "next/navigation";
 import { getSignalRConnection } from "@/lib/signalrConnection";
 import { Message } from "@/types/Conversation";
+import { toast } from "sonner";
 
 type SignalRContextType = {
   connection: any;
@@ -56,7 +57,12 @@ export default function AuthWrapper({
         setConnection(conn);
         await conn.start();
         console.log("✅ Đã kết nối SignalR");
-
+        conn.on("ReceiveMessage", (data: Message) => {
+          console.log("💬 Tin nhắn mới:", data);
+          if (!pathname.includes("/messages")) {
+            toast.success("Bạn có tin nhắn mới");
+          }
+        });
         conn.on("ReceiveNotification", (data) => {
           console.log("🔔 Thông báo mới:", data);
           setNotifications((prev: any[]) => [...prev, data]);
@@ -87,17 +93,10 @@ export default function AuthWrapper({
 
     fetchUserAndInitSignalR();
 
-    return () => {
-      if (connection) {
-        connection.stop();
-      }
-    };
-  }, []);
+  }, [pathname]);
 
   return (
-    <SignalRContext.Provider
-      value={{ connection, notifications }}
-    >
+    <SignalRContext.Provider value={{ connection, notifications }}>
       {children}
     </SignalRContext.Provider>
   );

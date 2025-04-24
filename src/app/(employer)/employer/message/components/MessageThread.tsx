@@ -115,12 +115,15 @@ export function MessageThread({
     if (connection) {
       connection.on("ReceiveMessage", (data: Message) => {
         console.log("💬 Tin nhắn mới:", data);
-        console.log("run");
         setMessages((prev: Message[]) => [...prev, data]);
       });
     }
-    // messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+    return () => {
+      if (connection) {
+        connection.off("ReceiveMessage");
+      }
+    };
+  }, [connection]);
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (
@@ -147,9 +150,15 @@ export function MessageThread({
       setFile(undefined);
       setIsClone(false);
       setMessages((prev: Message[]) => [...prev, data]);
+      refetch();
+      // refetchConversation()
       console.log("run send message");
-      if (conversations && conversations.length > 0) {
-        setSelectedConversation(conversations[0]);
+      if (conversations) {
+        if (isClone) {
+          setSelectedConversation(conversations[-1]);
+        } else {
+          // setSelectedConversation(conversations[0]);
+        }
       }
     }
   );
