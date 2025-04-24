@@ -16,7 +16,7 @@ type Props = {
     subField?: string,
     index?: number
   ) => void;
-  setData: React.Dispatch<React.SetStateAction<null>>;
+  setData: React.Dispatch<React.SetStateAction<string>>;
 };
 const DropZoneComponent = ({ handleChange, setData }: Props) => {
   const [uploading, setUploading] = useState(false); // Trạng thái đang upload
@@ -24,23 +24,15 @@ const DropZoneComponent = ({ handleChange, setData }: Props) => {
   const handleDrop = async (acceptedFiles: File[]) => {
     setUploading(true);
     setError(null);
-
-    try {
-      const formData = new FormData();
-      formData.append("file", acceptedFiles[0]);
-
-      const response = await fetch("/api/file", {
-        method: "POST",
-        body: formData,
-      });
-
-      const data = await response.json();
-      setData(data);
-    } catch (err) {
-      setError("Có lỗi xảy ra khi upload ảnh. Vui lòng thử lại.");
-      console.error(err);
-    } finally {
+    const file = acceptedFiles[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        setData(event.target?.result as string)
       setUploading(false);
+
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -52,7 +44,7 @@ const DropZoneComponent = ({ handleChange, setData }: Props) => {
       }}
       onDropAccepted={handleDrop}
       noClick
-      maxSize={5000000} // 5MB
+      maxSize={5000000} 
     >
       <DropzoneZone className="h-full w-full">
         <DropzoneInput />

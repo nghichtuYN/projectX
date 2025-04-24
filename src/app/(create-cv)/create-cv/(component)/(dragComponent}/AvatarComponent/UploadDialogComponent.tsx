@@ -24,7 +24,7 @@ type Props = {
 const UploadDialogComponent = ({ handleChange }: Props) => {
   const [isUpLoading, setIsUpLoading] = useState(false);
   const [open, setOpen] = useState<boolean>(false);
-  const [data, setData] = useState(null);
+  const [data, setData] = useState("");
 
   return (
     <Dialog
