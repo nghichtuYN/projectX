@@ -48,3 +48,18 @@ export const getJobByCampaignId = async (
   });
   return res.data;
 };
+
+export const getAppLicationByCampaignId = async (
+  id: string,
+  search: string,
+  page: number
+) => {
+  const res = await axiosJwt.get(`/campaigns/${id}/applications`, {
+    params: {
+      search: search,
+      page: page,
+      pageSize: 10,
+    },
+  });
+  return res.data;
+};

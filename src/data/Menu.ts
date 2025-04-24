@@ -25,21 +25,21 @@ export type Menu = {
 export const Menu: Menu[] = [
   {
     title: "Việc Làm",
-    href: "/jobs",
+    href: "/find-jobs",
     subMenu: [
       {
         title: "Tìm việc làm",
-        href: "/jobs",
+        href: "/find-jobs",
         icon: Search,
       },
       {
         title: "Việc làm đã ứng tuyển ",
-        href: "/application-job",
+        href: "/applied-jobs",
         icon: BriefcaseBusiness,
       },
       {
         title: "Việc làm đã lưu",
-        href: "/docs/primitives/hover-card",
+        href: "/saved-jobs",
         icon: Heart,
       },
       {
@@ -124,36 +124,36 @@ export const Menu: Menu[] = [
     ],
     // icon: Eye
   },
-  {
-    title: "Cẩm nang nghề nghiệp",
-    href: "/docs/primitives/tooltip",
-    subMenu: [
-      {
-        title: "Tạo CV",
-        href: "/docs/primitives/tooltip",
-        icon: FileUser,
-      },
-      {
-        title: "Tải CV lên",
-        href: "/docs/primitives/tooltip",
-        icon: FileUp,
-      },
-      {
-        title: "Quản lý CV",
-        href: "/docs/primitives/tooltip",
-        icon: FileUser,
-      },
-      {
-        title: "TopCV",
-        href: "/docs/primitives/tooltip",
-        icon: SquareUserRound,
-      },
-    ],
-    // icon: Lock
-  },
+  // {
+  //   title: "Cẩm nang nghề nghiệp",
+  //   href: "/docs/primitives/tooltip",
+  //   subMenu: [
+  //     {
+  //       title: "Tạo CV",
+  //       href: "/docs/primitives/tooltip",
+  //       icon: FileUser,
+  //     },
+  //     {
+  //       title: "Tải CV lên",
+  //       href: "/docs/primitives/tooltip",
+  //       icon: FileUp,
+  //     },
+  //     {
+  //       title: "Quản lý CV",
+  //       href: "/docs/primitives/tooltip",
+  //       icon: FileUser,
+  //     },
+  //     {
+  //       title: "TopCV",
+  //       href: "/docs/primitives/tooltip",
+  //       icon: SquareUserRound,
+  //     },
+  //   ],
+  //   // icon: Lock
+  // },
   {
     title: "Diễn đàn",
-    href: "/docs/primitives/tooltip",
+    href: "/forum",
 
     // href="javascript:void(0)",
     // icon: LogOut

@@ -43,7 +43,6 @@ const RecruitmentCampaignPage = () => {
   const user = useAuthStore((state) => state.user);
   useEffect(() => {
     if (user && !user?.recruiterVerified) {
-      console.log(user.recruiterVerified);
       router.push("/employer/employer-verify");
     }
   }, [user]);

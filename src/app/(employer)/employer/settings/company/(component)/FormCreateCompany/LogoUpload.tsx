@@ -18,7 +18,6 @@ export default function LogoUpload({ form, setLogoImage }: Props) {
       setLogoImage((prev) => [file]);
       const reader = new FileReader();
       reader.onload = (event) => {
-        console.log("run");
         form.setValue("logo", event.target?.result as string, {
           shouldValidate: true,
         });

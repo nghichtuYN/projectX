@@ -18,9 +18,8 @@ type Props = {
 
 const DropzoneComponent = ({ field, files, setFiles }: Props) => {
   const handleDrop = (acceptedFiles: File[]) => {
-    setFiles(acceptedFiles); // Update the local file state
+    setFiles(acceptedFiles);
     if (acceptedFiles.length > 0) {
-      // Update the form's RegistrationFile field with the file name (or other identifier)
       field.onChange(acceptedFiles[0].name);
     }
   };

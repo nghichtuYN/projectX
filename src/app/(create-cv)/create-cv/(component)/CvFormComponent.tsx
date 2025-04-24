@@ -1,5 +1,5 @@
 `use client`;
-import React, {
+import {
   useState,
   useEffect,
   useRef,
@@ -12,7 +12,7 @@ import ToolbarCvComponent from "@/app/(create-cv)/create-cv/(component)/ToolbarC
 import { Editor } from "@tiptap/react";
 import TextToolBarComponent from "./TextToolBarComponent";
 import { layout } from "@/data/layout1";
-import { cloneDeep, isEmpty, debounce } from "lodash";
+import { cloneDeep, isEmpty } from "lodash";
 import {
   defaultDropAnimationSideEffects,
   DndContext,
@@ -36,6 +36,7 @@ import { ColumnType } from "@/types/Columns";
 import { createPortal } from "react-dom";
 import { LayoutType } from "@/types/layoutCv";
 import RenderIconComponent from "./RenderIconComponent";
+import { useDebouncedCallback } from "use-debounce";
 
 type CvFormContextType = {
   setActiveEditor: Dispatch<React.SetStateAction<Editor | null>>;
@@ -183,6 +184,7 @@ const CvFormComponent = () => {
       details: "",
     },
   });
+  console.log(form.skills)
   const handleChange = (
     field: keyof FormType,
     value: any,
@@ -328,7 +330,7 @@ const CvFormComponent = () => {
     }
   };
 
-  const handleDragOver = debounce((event: any) => {
+  const handleDragOver = useDebouncedCallback((event: any) => {
     const { active, over } = event;
     if (!over || !active) return;
     const {

@@ -34,7 +34,7 @@ import NotFoundedComponent from "./NotFoundedComponent";
 // Define column type
 export type TableColumn<R extends Record<string, any>> = {
   key: Extract<string, string>;
-  title?: string;
+  title?: string | React.ReactNode;
   renderColumn?: (row: R) => React.ReactNode;
   classname?: string;
 };
@@ -61,7 +61,7 @@ const DragContentComponent = <R extends Record<string, any>>({
 }) => {
   const { attributes, setNodeRef, transform, transition, listeners } =
     useSortable({
-      id: row.id ?? row.companyId,
+      id: row.id ?? row.companyId ?? row.userId,
       data: { ...row },
     });
 
@@ -126,7 +126,6 @@ const TableComponent = <R extends Record<string, any>>({
     useSensor(KeyboardSensor, {})
   );
   const [rowsToDrag, setRowsToDrag] = React.useState<R[]>(rows);
-  console.log(rowsToDrag);
   React.useEffect(() => {
     setRowsToDrag(rows);
   }, [rows]);
@@ -176,7 +175,7 @@ const TableComponent = <R extends Record<string, any>>({
         {!!rows.length ? (
           <TableBody>
             <SortableContext
-              items={rowsToDrag.map((row) => row.id ?? row.companyId)}
+              items={rowsToDrag.map((row) => row.id ?? row.companyId ?? row.userId)}
               strategy={verticalListSortingStrategy}
             >
               {rowsToDrag?.map((row) => (

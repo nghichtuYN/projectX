@@ -4,6 +4,12 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
+        protocol: "http",
+        hostname: "localhost",
+        port: "5064",
+        pathname: "/**",
+      },
+      {
         protocol: "https",
         hostname: "**.googleusercontent.com", // Allow Google domains (images on Google Drive, Google Photos)
       },

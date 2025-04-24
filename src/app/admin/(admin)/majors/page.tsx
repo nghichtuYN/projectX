@@ -112,7 +112,7 @@ const AdminMajorsPage = () => {
                 columns={columns}
                 rowKey={"id"}
                 rows={majors?.items || []}
-                rowClassName="group h-28 hover:bg-fourthColor"
+                rowClassName="group  hover:bg-fourthColor"
                 content="Không có tin tuyển dụng nào"
               />
             )}

@@ -1,24 +1,42 @@
+import {
+  getConversation,
+  getConversationById,
+} from "./../services/conversation";
 import { useQueryHook } from "@/hooks/useQueryHook";
-import { getBusiness } from "@/services/business";
+import { getBusiness, getFreelance } from "@/services/admin";
+import { getAppliedJobs } from "@/services/application";
+import { getBusinessInfo } from "@/services/business";
 import {
   getAllCampaigns,
+  getAppLicationByCampaignId,
   getDetailsCampaign,
   getJobByCampaignId,
 } from "@/services/campaign";
 import { getContractType, getContractTypeById } from "@/services/contractType";
 import { getLevelById, getLevels } from "@/services/jobLevels";
-import { getJobById } from "@/services/jobs";
+import { getJobById, getJobs, getJobSaved } from "@/services/jobs";
 import { getJobTypeById, getJobTypes } from "@/services/jobTypes";
 import { getMajor, getMajorById } from "@/services/majors";
+import { getPost, getPostById } from "@/services/posts";
 import { getSkillById, getSkills } from "@/services/skills";
-import { ListBusinessVerification } from "@/types/BusinessVerification";
+import { getUserCon } from "@/services/user";
+import { ApllicationList, AplliedJobList } from "@/types/Apllication";
+import {
+  BusinessVerification,
+  ListBusinessVerification,
+} from "@/types/BusinessVerification";
 import { campaignType, ListCampaign } from "@/types/campaign";
 import { ContractType, ListContractTypes } from "@/types/ContractType";
+import { Conversation, ListConversations, User } from "@/types/Conversation";
+import { ListFreeLaneRecruiter } from "@/types/Freelance";
 import { JobLevel } from "@/types/JobLevelType";
-import { Job, ListJob } from "@/types/Jobs";
+import { Job, JobPublic, ListJob, ListJobPublic } from "@/types/Jobs";
 import { JobType, ListJobType } from "@/types/JobType";
 import { ListMajors, Major } from "@/types/majors";
+import { ListPosts, Post, PostById } from "@/types/Post";
+import { ListJobSaved } from "@/types/SavedJob";
 import { ListSkills, Skills } from "@/types/skills";
+import { QueryKey } from "@tanstack/react-query";
 //JobTypes
 export const getAllJobTypes = (
   search: string,
@@ -137,8 +155,7 @@ export const getAllMajors = (
         page,
       },
     ],
-    () => getMajor(search, pageSize, page),
-    { enabled: !!open }
+    () => getMajor(search, pageSize, page)
   );
 };
 export const getDetailMajors = (id: string, open: boolean) => {
@@ -164,7 +181,11 @@ export const getDetailCampaigns = (id: string) => {
     { enabled: !!id }
   );
 };
-
+export const getApplyByCampain = (id: string, search: string, page: number) => {
+  return useQueryHook<ApllicationList>(["applications", id, search, page], () =>
+    getAppLicationByCampaignId(id, search, page)
+  );
+};
 // Jobs
 export const getJobsByCampaignId = (
   id: string,
@@ -180,7 +201,68 @@ export const getJobsByCampaignId = (
 export const getJobByID = (id: string) => {
   return useQueryHook<Job>(["job", id], () => getJobById(id));
 };
-// Business Verified
+export const getJobPublicByID = (id: string) => {
+  return useQueryHook<JobPublic>(["job", id], () => getJobById(id));
+};
+export const getJobsQuery = (
+  search: string = "",
+  pageSize: number = 10,
+  locations?: string[],
+  majors?: string[],
+  companyName?: string | null,
+  jobLevels?: string[],
+  minSalary?: number | string | undefined,
+  maxSalary?: number | string | undefined,
+  contractTypes?: string[],
+  jobTypes?: string[],
+  minExp?: number | string | undefined,
+  maxExp?: number | string | undefined,
+  options?: any
+) => {
+  // Create a query key that includes all parameters to ensure cache uniqueness
+  const queryKey: QueryKey = [
+    "jobs",
+    search,
+    jobLevels,
+    jobTypes,
+    contractTypes,
+    majors,
+    locations,
+    minSalary,
+    maxSalary,
+    pageSize,
+    companyName,
+    minExp,
+    maxExp,
+  ];
+
+  return useQueryHook<ListJobPublic>(
+    queryKey,
+    () =>
+      getJobs(
+        search,
+        companyName,
+        jobLevels,
+        jobTypes,
+        contractTypes,
+        majors,
+        locations,
+        minSalary,
+        maxSalary,
+        minExp,
+        maxExp,
+        pageSize
+      ),
+    options
+  );
+};
+export const getSavedJob = (search: string, page: number) => {
+  return useQueryHook<ListJobSaved>(["savedJobs", search, page], () =>
+    getJobSaved(search, page)
+  );
+};
+
+// Admin
 export const getBusinessVerified = (
   search: string,
   page: number,
@@ -189,5 +271,52 @@ export const getBusinessVerified = (
   return useQueryHook<ListBusinessVerification>(
     ["business_verified", search, page, verified],
     () => getBusiness(search, page, verified === "all" ? undefined : verified)
+  );
+};
+export const getFreelanceVerified = (
+  search: string,
+  page: number,
+  verified: string
+) => {
+  return useQueryHook<ListFreeLaneRecruiter>(
+    ["freelance_verified", search, page, verified],
+    () => getFreelance(search, page, verified === "all" ? undefined : verified)
+  );
+};
+// Bussiness
+export const getBusinessInfomation = () => {
+  return useQueryHook<BusinessVerification>(["businessInfo"], getBusinessInfo);
+};
+// conversation
+export const getAllConversation = (search: string, page: number) => {
+  return useQueryHook<ListConversations>(["conversation", search, page], () =>
+    getConversation(search, page)
+  );
+};
+export const getAConversation = (id: string) => {
+  return useQueryHook<Conversation>(["conversation", id], () =>
+    getConversationById(id)
+  );
+};
+// user
+export const getAllConversationUser = (search: string, open: boolean) => {
+  return useQueryHook<User[]>(
+    ["conversation", search],
+    () => getUserCon(search),
+    { enabled: !!open }
+  );
+};
+// Posts
+export const getAllPost = (search: string, pageSize: number) => {
+  return useQueryHook<ListPosts>(["posts", search, pageSize], () =>
+    getPost(search, pageSize)
+  );
+};
+export const getAPost = (id: string) => {
+  return useQueryHook<PostById>(["post", id], () => getPostById(id));
+};
+export const getAplliedJob = (search: string, page: number) => {
+  return useQueryHook<AplliedJobList>(["appliedJobs", search], () =>
+    getAppliedJobs(search, page)
   );
 };

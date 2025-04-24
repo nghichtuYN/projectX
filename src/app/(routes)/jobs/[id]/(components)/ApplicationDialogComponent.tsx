@@ -20,6 +20,10 @@ import { Textarea } from "../../../../../components/ui/textarea";
 import FormFieldComponent from "../../../../(auth)/(components)/FormFieldComponent";
 import DropzoneComponent from "./DropzoneComponent";
 import { AlertDialogCompoent } from "./AlertDialogCompoent";
+import { useMutationHook } from "@/hooks/useMutationHook";
+import { createApplication } from "@/services/application";
+import { toast } from "sonner";
+import { error } from "node:console";
 
 export const formSchema = z.object({
   name: z.string().min(2, {
@@ -31,7 +35,10 @@ export const formSchema = z.object({
   phone: z.string().regex(/^[0-9]{10,11}$/, "Số điện thoại không hợp lệ"),
   decription: z.string(),
 });
-const ApplicationDialogComponent = () => {
+type Props = {
+  id: string;
+};
+const ApplicationDialogComponent = ({ id }: Props) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [files, setFiles] = React.useState<File[]>([]);
   const [open, setOpen] = useState<boolean>(false);
@@ -45,6 +52,23 @@ const ApplicationDialogComponent = () => {
       decription: "",
     },
   });
+  const mutation = useMutationHook(
+    (data: { id: string; formData: FormData }) => {
+      const { id, formData } = data;
+      return createApplication(id, formData);
+    },
+    (data) => {
+      toast.success("Tạo hồ sơ thành công!");
+      setIsLoading(false);
+      setOpen(false);
+      form.reset();
+      setFiles([]);
+    },
+    (error) => {
+      toast.error("Tạo hồ sơ thất bại!");
+      setIsLoading(false);
+    }
+  );
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     // Simulate API call
     if (files.length < 1) {
@@ -52,13 +76,14 @@ const ApplicationDialogComponent = () => {
       return;
     }
     setIsLoading(true);
-    setTimeout(() => {
-      console.log(values, files);
-      setIsLoading(false);
-      setOpen(false);
-      form.reset();
-      setFiles([]);
-    }, 2000);
+    const formData = new FormData();
+    formData.append("fullName", values.name);
+    formData.append("email", values.email);
+    formData.append("phoneNumber", values.phone);
+    formData.append("introduction", values.decription);
+    formData.append("status", "1");
+    formData.append("resume", files[0]);
+    mutation.mutate({ id: id, formData });
   };
 
   return (

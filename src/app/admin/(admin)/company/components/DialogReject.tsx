@@ -13,7 +13,7 @@ export const formSchema = z.object({
 export type FormReasonValues = z.infer<typeof formSchema>;
 type Props = {
   id: string;
-  handleReject: (companyId: string, reason: string) => void;
+  handleReject: (id: string, reason: string) => void;
 };
 const DialogReject = ({ id, handleReject }: Props) => {
   const [open, setOpen] = useState(false);

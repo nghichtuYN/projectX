@@ -1,7 +1,5 @@
 import { Card } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { AlertTriangle, File, Upload } from "lucide-react";
-import Image from "next/image";
+import { AlertTriangle, File } from "lucide-react";
 import React from "react";
 import DropzoneComponent from "./DropzoneComponent";
 import DialogImage from "./DialogImage";

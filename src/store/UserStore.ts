@@ -9,6 +9,7 @@ export type User = {
   profilePicture: string;
   roles: string[];
   recruiterVerified: boolean;
+  verificationSubmitted: boolean;
 };
 
 type AuthState = {
@@ -25,7 +26,6 @@ export const useAuthStore = create<AuthState>((set) => ({
   isAuthenticated: false, // Thêm trạng thái đăng nhập
 
   setUser: (user) => {
-    console.log(user)
     set({ user, isAuthenticated: !!user });
   },
 

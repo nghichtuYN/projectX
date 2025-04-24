@@ -1,3 +1,4 @@
+'use client'
 import InfomationComponent from "./(dragComponent}/Infomation/InfomationComponent";
 import AchievementComponent from "./(dragComponent}/Achievements/AchievementComponent";
 import ActiviesComponent from "./(dragComponent}/Activies/ActiviesComponent";

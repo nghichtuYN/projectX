@@ -1,43 +1,17 @@
 "use client";
 
-import { useSearchParams, usePathname, useRouter } from "next/navigation";
+import { useSearchParams, usePathname } from "next/navigation";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
-import { ChangeEvent, useEffect, useState } from "react";
-
 import Link from "next/link";
-import TabContentApplyCv from "./TabContentApplyCv";
+import TabContentApplyCv from "./TabApllicaton/TabContentApplyCv";
 import { tabLists } from "@/data/campain";
 import TabContentJobs from "./TabContentJobs";
 
 const TabsComponent = () => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
-  const router = useRouter();
-  const [keyWord, setKeyWord] = useState("");
-  const [quickFilter, setQuickFilter] = useState("all");
-  const [label, setLabel] = useState("");
   const activeTab = searchParams.get("active_tab") || "jobs";
-
-  useEffect(() => {
-    if (activeTab === "apply_cv") {
-      const newUrl = `${pathname}?active_tab=apply_cv&keyword=${encodeURIComponent(
-        keyWord
-      )}&quick_filter=${quickFilter}&label=${label}`;
-      router.push(newUrl, { scroll: false });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [keyWord, quickFilter, label]);
-
-  const onChangeKeyWordVaule = (e: ChangeEvent<HTMLInputElement>) => {
-    setKeyWord(e.target.value);
-  };
-  const onChangeQuickFilterValue = (value: string) => {
-    setQuickFilter(value);
-  };
-  const onChangeLabelValue = (value: string) => {
-    setLabel(value);
-  };
 
   return (
     <Tabs defaultValue={activeTab}>
@@ -47,7 +21,7 @@ const TabsComponent = () => {
             key={tab.value}
             href={
               tab.value === "apply_cv"
-                ? tab.href(pathname, keyWord, quickFilter, label)
+                ? tab.href(pathname, "", "all", "")
                 : tab.href(pathname)
             }
           >
@@ -66,14 +40,7 @@ const TabsComponent = () => {
       </TabsContent>
 
       <TabsContent value="apply_cv" className="bg-white min-h-[500px]">
-        <TabContentApplyCv
-          keyWord={keyWord}
-          label={label}
-          quickFilter={quickFilter}
-          onChangeKeyWordVaule={onChangeKeyWordVaule}
-          onChangeLabelValue={onChangeLabelValue}
-          onChangeQuickFilterValue={onChangeQuickFilterValue}
-        />
+        <TabContentApplyCv />
       </TabsContent>
     </Tabs>
   );

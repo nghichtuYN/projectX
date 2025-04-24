@@ -14,7 +14,7 @@ import { getJobsByCampaignId } from "@/queries/queries";
 import TableComponent, { TableColumn } from "@/components/TableComponent";
 import { Job } from "@/types/Jobs";
 
-import { Pencil } from "lucide-react";
+import { Pencil, Settings } from "lucide-react";
 import { useDebounce } from "use-debounce";
 import SkeletonTableComponent from "@/components/SeketonTable";
 import DialogDeleteJob from "./DialogDelete";
@@ -62,7 +62,9 @@ const TabContentJobs = ({ activeTab }: Props) => {
                 className="hover:underline w-2/3"
                 href={`/employer/recruitment-campaigns/${row?.id}?active_tab=jobs`}
               >
-                <p className="truncate">{row.title}</p>
+                <p title={row.title} className="truncate">
+                  {row.title}
+                </p>
               </Link>
               <div className="">
                 <p className="w-2/3 truncate text-sm text-gray-500">
@@ -174,6 +176,11 @@ const TabContentJobs = ({ activeTab }: Props) => {
     {
       key: "status",
       classname: "max-w-[60px]",
+      title: (
+        <div className="flex justify-center">
+          <Settings className="w-5 h-5" />
+        </div>
+      ),
       renderColumn: (row) => {
         return (
           <div className="flex items-center  gap-3 justify-center w-full">
@@ -254,7 +261,7 @@ const TabContentJobs = ({ activeTab }: Props) => {
           columns={columns}
           rowKey={"id"}
           rows={jobs?.items || []}
-          rowClassName="group h-28 hover:bg-fourthColor"
+          rowClassName="group  hover:bg-fourthColor"
           content="Không có tin tuyển dụng nào"
         />
       )}

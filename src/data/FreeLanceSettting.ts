@@ -1,5 +1,5 @@
 import { NavItem } from "@/types/navCvItems";
-import { Building, File, Lock, User } from "lucide-react";
+import { FileUser, Lock, User } from "lucide-react";
 
 export const FreelanceSettting: NavItem[] = [
   {
@@ -8,13 +8,13 @@ export const FreelanceSettting: NavItem[] = [
     content: "password-login",
   },
   {
-    title: "Thông tin cá nhân",
+    title: "Thông tin tài khoản",
     icon: User,
     content: "use_info",
   },
   {
-    title: "Xác thực thông tin nhà tuyển dụng",
-    icon: Building,
-    content: "freelanceRecruitment",
+    title: "Thông tin nhà tuyển dụng",
+    icon: FileUser,
+    content: "freelance-recruitment",
   },
 ];

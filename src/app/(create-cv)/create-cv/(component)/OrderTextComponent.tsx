@@ -1,6 +1,6 @@
+'use client'
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { List, ListOrdered } from "lucide-react";
-import React from "react";
 type Props = {
   editor: any;
 };

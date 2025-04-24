@@ -133,7 +133,7 @@ const AdminSkillsPage = () => {
                 columns={columns}
                 rowKey={"id"}
                 rows={skills?.items || []}
-                rowClassName="group h-28 hover:bg-fourthColor"
+                rowClassName="group  hover:bg-fourthColor"
                 content="Không có tin tuyển dụng nào"
               />
             )}

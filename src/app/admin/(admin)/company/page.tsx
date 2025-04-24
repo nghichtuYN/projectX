@@ -11,7 +11,6 @@ import { BusinessVerification } from "@/types/BusinessVerification";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 import { useMutationHook } from "@/hooks/useMutationHook";
-import { acceptBusiness, rejectBusiness } from "@/services/business";
 import { toast } from "sonner";
 import CompanyColumn from "./components/CompanyColumn";
 import UserColumn from "./components/UserColumn";
@@ -21,6 +20,7 @@ import MajorColumn from "./components/MajorColumn";
 import SizeColumn from "./components/SizeColumn";
 import ActionColumn from "./components/ActionColumn";
 import GPKDColumn from "./components/GPKDColumn";
+import { acceptBusiness, rejectBusiness } from "@/services/admin";
 const CompanyPage = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();

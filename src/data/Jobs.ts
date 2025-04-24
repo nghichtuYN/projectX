@@ -17,3 +17,21 @@ export const CompanyOptions: JobOptionsType[] = [
   { value: "1", label: "Công ty đã xác thực" },
   { value: "2", label: "Công ty bị từ chối" },
 ];
+
+export const ApplicationOption: JobOptionsType[] = [
+  { value: "all", label: "Hiển thị tất cả" },
+  { value: "notViewed", label: "Chỉ hiển thị CV chưa xem" },
+];
+export const LabelOption: JobOptionsType[] = [
+  { value: "is_not_label", label: "Chưa gắn nhãn" },
+  { value: "1", label: "Ưu tiền" },
+  { value: "2", label: "Hiển thị tất cả" },
+];
+export const ProcessOption: JobOptionsType[] = [
+  { value: "0", label: "Pending" },
+  { value: "1", label: "Shortlisted" },
+  { value: "2", label: "Interviewing" },
+  { value: "3", label: "Offered" },
+  { value: "4", label: "Hired" },
+  { value: "5", label: "Rejected" },
+];

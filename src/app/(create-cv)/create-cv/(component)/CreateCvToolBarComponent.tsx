@@ -11,46 +11,97 @@ type Props = {
 const CreateCvToolBarComponent = ({ printRef }: Props) => {
   const [nameCv, setNameCv] = useState("");
 
+  // const handleDownloadPdf = async () => {
+  //   const element = printRef.current;
+  //   if (!element) return;
+
+  //   const images = element.querySelectorAll("img");
+  //   images.forEach((img: any) => {
+  //     const src = img.src;
+  //     if (src) img.src = `${src}?date=${Date.now()}`;
+  //   });
+
+  //   await new Promise((resolve) => setTimeout(resolve, 500));
+
+  //   const canvas = await html2canvas(element, { scale: 2 });
+  //   const data = canvas.toDataURL("image/png");
+
+  //   const pdf = new jsPDF({
+  //     orientation: "portrait",
+  //     unit: "px",
+  //     format: "a5",
+  //   });
+
+  //   const pdfWidth = pdf.internal.pageSize.getWidth();
+  //   const pdfHeight = pdf.internal.pageSize.getHeight();
+  //   const imgProperties = pdf.getImageProperties(data);
+  //   const imgWidth = imgProperties.width;
+  //   const imgHeight = imgProperties.height;
+
+  //   const scale = pdfWidth / imgWidth;
+  //   const scaledHeight = imgHeight * scale;
+  //   const totalPages = Math.ceil(scaledHeight / pdfHeight);
+
+  //   for (let i = 0; i < totalPages; i++) {
+  //     if (i > 0) pdf.addPage();
+  //     const offsetY = i * pdfHeight;
+  //     pdf.addImage(data, "PNG", 0, -offsetY, pdfWidth, scaledHeight);
+  //   }
+
+  //   pdf.save(`${nameCv ? nameCv : "exampleCV"}.pdf`);
+  // };
   const handleDownloadPdf = async () => {
     const element = printRef.current;
     if (!element) return;
-
+  
+    // Xử lý ảnh
     const images = element.querySelectorAll("img");
     images.forEach((img: any) => {
       const src = img.src;
       if (src) img.src = `${src}?date=${Date.now()}`;
     });
-
+  
     await new Promise((resolve) => setTimeout(resolve, 500));
-
-    const canvas = await html2canvas(element, { scale: 2 });
-    const data = canvas.toDataURL("image/png");
-
+  
+    const canvas = await html2canvas(element, { 
+      scale: 1.2,
+      useCORS: true,
+      logging: false, // Tắt logging để cải thiện hiệu suất
+      allowTaint: true
+    });
+    
+    // Dùng JPEG thay vì PNG, điều chỉnh chất lượng (0.7-0.9)
+    const data = canvas.toDataURL("image/jpeg", 0.85);
+  
     const pdf = new jsPDF({
       orientation: "portrait",
-      unit: "px",
+      unit: "mm", // Dùng mm thay vì px
       format: "a5",
+      compress: true
     });
-
+  
     const pdfWidth = pdf.internal.pageSize.getWidth();
-    const pdfHeight = pdf.internal.pageSize.getHeight();
     const imgProperties = pdf.getImageProperties(data);
-    const imgWidth = imgProperties.width;
-    const imgHeight = imgProperties.height;
-
-    const scale = pdfWidth / imgWidth;
-    const scaledHeight = imgHeight * scale;
-    const totalPages = Math.ceil(scaledHeight / pdfHeight);
-
-    for (let i = 0; i < totalPages; i++) {
-      if (i > 0) pdf.addPage();
-      const offsetY = i * pdfHeight;
-      pdf.addImage(data, "PNG", 0, -offsetY, pdfWidth, scaledHeight);
+    const imgWidth = pdfWidth;
+    const imgHeight = (imgProperties.height * pdfWidth) / imgProperties.width;
+    
+    let heightLeft = imgHeight;
+    let position = 0;
+    let pageHeight = pdf.internal.pageSize.getHeight();
+  
+    pdf.addImage(data, 'JPEG', 0, position, imgWidth, imgHeight);
+    heightLeft -= pageHeight;
+    
+    // Thêm các trang tiếp theo nếu cần
+    while (heightLeft >= 0) {
+      position = heightLeft - imgHeight;
+      pdf.addPage();
+      pdf.addImage(data, 'JPEG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
     }
-
+  
     pdf.save(`${nameCv ? nameCv : "exampleCV"}.pdf`);
   };
-
   return (
     <div className="bg-white w-full pl-3 pr-3 h-16 mx-auto flex items-center gap-4 justify-between">
       <Input

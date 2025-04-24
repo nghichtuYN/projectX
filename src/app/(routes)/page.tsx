@@ -2,7 +2,7 @@
 import CompnayBoardComponent from "@/app/(routes)/(components)/CompanyBoardComponent";
 // import DraggableForm from "@/components/DraggableForm";
 import JobBoardComponent from "@/app/(routes)/(components)/JobBoardComponent";
-import SearchFilter from "@/app/(routes)/(components)/SearchFilterComponent";
+import SearchFilter from "@/app/(routes)/(components)/SearchFilter/SearchFilterComponent";
 import { useAuthStore } from "@/store/UserStore";
 import { useEffect } from "react";
 // import "react-quill-new/dist/quill.snow.css";

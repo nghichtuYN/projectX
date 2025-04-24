@@ -25,7 +25,6 @@ const SkillDetailComponent = ({
   length,
 }: Props) => {
   const context = useContext(CvFormContext);
-
   const { setActiveEditor, setForm } = context;
   const { editor: editorNameSkill } = useEditorHook(
     skill.name,
@@ -46,23 +45,37 @@ const SkillDetailComponent = ({
   );
   const handleMoveUp = () => {
     if (index === 0) return;
-    setForm((prevForm: FormType) => ({
-      ...prevForm,
-      skills: {
-        ...prevForm.skills,
-        details: moveElement(prevForm.skills.details, index, index - 1),
-      },
-    }));
+    setForm((prevForm: FormType) => {
+      const updatedDetails = moveElement(
+        prevForm.skills.details,
+        index,
+        index - 1
+      );
+      return {
+        ...prevForm,
+        skills: {
+          ...prevForm.skills,
+          details: updatedDetails, 
+        },
+      };
+    });
   };
   const handleMoveDown = () => {
     if (index === length - 1) return;
-    setForm((prevForm: FormType) => ({
-      ...prevForm,
-      skills: {
-        ...prevForm.skills,
-        details: moveElement(prevForm.skills.details, index, index + 1),
-      },
-    }));
+    setForm((prevForm: FormType) => {
+      const updatedDetails = moveElement(
+        prevForm.skills.details,
+        index,
+        index + 1
+      );
+      return {
+        ...prevForm,
+        skills: {
+          ...prevForm.skills,
+          details: updatedDetails, // Create a new reference for `details`
+        },
+      };
+    });
   };
   const handleDelete = () => {
     setForm((prevForm: FormType) => ({

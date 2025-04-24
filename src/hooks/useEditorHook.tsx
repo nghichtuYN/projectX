@@ -39,7 +39,7 @@ export const useEditorHook = <T,>(
       CustomTextStyle,
       Color.configure({ types: ["textStyle"] }),
     ],
-    immediatelyRender: false,
+    immediatelyRender: true,
     content: content,
     editorProps: {
       attributes: {
@@ -52,8 +52,10 @@ export const useEditorHook = <T,>(
   });
   useEffect(() => {
     if (editor && content !== editor.getHTML()) {
-      editor.commands.setContent(content);
+      setTimeout(() => {
+        editor.commands.setContent(content);
+      }, 0);
     }
-  }, [content, editor]);
+  }, [content, editor, index]);
   return { editor };
 };

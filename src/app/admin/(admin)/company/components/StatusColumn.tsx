@@ -8,13 +8,13 @@ const StatusColumn = ({ row }: Props) => {
   return (
     <div className="text-center">
       {row.company.status === 0 && (
-        <Badge className="bg-yellow-500">Đang chờ duyệt</Badge>
+        <Badge  className="text-xs bg-yellow-500">Đang chờ duyệt</Badge>
       )}
       {row.company.status === 1 && (
-        <Badge className="bg-green-500">Đã duyệt</Badge>
+        <Badge className="text-xs bg-green-500">Đã duyệt</Badge>
       )}
       {row.company.status === 2 && (
-        <Badge className="bg-red-500">Bị từ chối</Badge>
+        <Badge className="text-xs bg-red-500">Bị từ chối</Badge>
       )}
     </div>
   );

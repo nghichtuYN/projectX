@@ -1,8 +1,9 @@
+import axiosInstance from "@/lib/axios";
 import { axiosJwt } from "./user";
 
 export const getAllLocation = async (search: string | "") => {
   try {
-    const res = await axiosJwt.get("/locations", {
+    const res = await axiosInstance.get("/locations", {
       params: {
         search: search,
       },

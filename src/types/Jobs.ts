@@ -1,3 +1,4 @@
+import { Company } from "./Company";
 import { ContractType } from "./ContractType";
 import { JobLevel } from "./JobLevelType";
 import { JobType } from "./JobType";
@@ -12,6 +13,7 @@ export type Job = {
   quantity: number;
   officeAddress: string;
   status: number;
+  isSaved:boolean
   educationLevelRequire: number;
   yearOfExperience: number;
   minSalary: number;
@@ -27,6 +29,7 @@ export type Job = {
   contractTypes: ContractType[];
   jobLevels: JobLevel[];
   jobTypes: JobType[];
+  created: string;
 };
 export type ListJob = {
   totalItems: number;
@@ -36,4 +39,26 @@ export type ListJob = {
   first: boolean;
   last: boolean;
   items: Job[];
+};
+export type FreelanceRecruiter = {
+  id: string;
+  fullName: string;
+  email: string;
+  profilePicture: string;
+  linkedInProfile: string;
+  gitHubProfile: Job;
+};
+export type JobPublic = Job & {
+  freelanceRecruiter: FreelanceRecruiter;
+  companyRecruiter: Company;
+};
+
+export type ListJobPublic = {
+  totalItems: number;
+  totalPages: number;
+  pageNumber: number;
+  pageSize: number;
+  first: boolean;
+  last: boolean;
+  items: JobPublic[];
 };

@@ -18,7 +18,6 @@ const FilterComponent = <T extends Record<string, any>>({
   dataOptions,
   placeholder,
 }: Props<T>) => {
-  console.log(filterBy);
   return (
     <div className=" flex gap-4 items-center">
       <Select onValueChange={onChangeFilterByValue} value={filterBy}>

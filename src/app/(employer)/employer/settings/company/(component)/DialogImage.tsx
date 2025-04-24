@@ -20,7 +20,7 @@ const DialogImage = ({ image }: Props) => {
             src={image}
             alt="Minh họa giấy phép kinh doanh"
             fill
-            className="w-full bg-yellow-50 object-contain"
+            className="w-full bg-yellow-50 object-fill"
           />
         </div>
       </DialogTrigger>

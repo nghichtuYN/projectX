@@ -14,7 +14,7 @@ const Header = () => {
   const [open, setOpen] = React.useState<boolean>(false);
   const user = useAuthStore((state) => state.user);
   return (
-    <header className="bg-white shadow-sm w-full  z-50">
+    <header className="bg-white shadow-sm w-full sticky top-0 z-50 ">
       <div className="  mx-auto px-4 sm:px-6 lg:px-8 bg-secondaryColor text-white w-full ">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center space-x-8">

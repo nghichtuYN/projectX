@@ -75,11 +75,6 @@ export const MenuEmployer = {
           url: "/employer/recruitment-campaigns",
           icon: ClipboardList,
         },
-        {
-          title: "Tin tuyển dụng",
-          url: "/employer/jobs",
-          icon: FileText,
-        },
       ],
     },
     {

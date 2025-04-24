@@ -14,40 +14,35 @@ let isRefreshing = false;
 let refreshSubscribers: any[] = [];
 let isRedirecting = false;
 
-// Hàm thêm subscriber vào danh sách chờ
 const subscribeTokenRefresh = (callback: any) => {
   refreshSubscribers.push(callback);
 };
 
-// Hàm thông báo tất cả subscriber khi refresh hoàn tất
 const onRefreshed = () => {
   refreshSubscribers.forEach((callback: any) => callback());
   refreshSubscribers = [];
 };
 
-// Hàm xử lý redirect đến trang đăng nhập (chỉ gọi một lần)
 const redirectToLogin = () => {
   if (typeof window !== "undefined" && !isRedirecting) {
     isRedirecting = true;
     console.log("Redirecting to login (called once)...");
-    window.location.href = "/employer-login"; // Thay đổi đường dẫn theo route của bạn
+    window.location.href = "/employer-login";
   }
 };
 
 // Hàm refresh token
 export const refreshToken = async () => {
   try {
-    const res = await axiosJwt.post(
-      "/auth/refresh-token",
-      { skipInterceptor: true } // Đảm bảo không bị interceptor xử lý
-    );
+    const res = await axiosJwt.post("/auth/refresh-token", {
+      skipInterceptor: true,
+    });
     return res.data;
   } catch (error: any) {
     throw error;
   }
 };
 
-// Interceptor xử lý request (chặn yêu cầu nếu đang chuyển hướng)
 axiosJwt.interceptors.request.use(
   (config) => {
     if (isRedirecting) {
@@ -59,7 +54,7 @@ axiosJwt.interceptors.request.use(
   },
   (error) => Promise.reject(error)
 );
-// Interceptor xử lý response
+
 axiosJwt.interceptors.response.use(
   (response) => response,
   async (error) => {
@@ -72,15 +67,6 @@ axiosJwt.interceptors.response.use(
     if (isRedirecting) {
       return Promise.reject(error);
     }
-
-    // Xử lý lỗi 401 (Unauthorized)
-    // if (error.response?.status === 401 && !originalRequest._retry) {
-    //   originalRequest._retry = true;
-    //   redirectToLogin();
-    //   return Promise.reject(error);
-    // }
-
-    // Xử lý lỗi 419 hoặc Network Error
     if (
       (error.response?.status === 419 || error.code === "ERR_NETWORK") &&
       !originalRequest._retry
@@ -97,12 +83,6 @@ axiosJwt.interceptors.response.use(
           onRefreshed();
           return axiosJwt(originalRequest);
         } catch (refreshError) {
-          // isRefreshing = false;
-          // if (typeof window !== "undefined") {
-          //   window.location.href = "/login";
-          // }
-          // onRefreshed();
-          // redirectToLogin();
           return Promise.reject(refreshError);
         }
       }
@@ -158,6 +138,28 @@ export const googleSignIn = async (data: {
 }) => {
   try {
     const res = await axiosInstance.post("/auth/google-auth", data);
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+};
+export const updateUser = async (data: FormData) => {
+  try {
+    const res = await axiosJwt.patch("/users", data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return res.data;
+  } catch (error) {}
+};
+export const getUserCon = async (search: string) => {
+  try {
+    const res = await axiosJwt.get(`/users`, {
+      params: {
+        search,
+      },
+    });
     return res.data;
   } catch (error) {
     throw error;

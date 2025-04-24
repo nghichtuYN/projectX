@@ -1,5 +1,4 @@
-import { getUser } from "@/services/user";
-import { useAuthStore } from "@/store/UserStore";
+
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -43,4 +42,77 @@ export const roles: { [key: string]: string } = {
 };
 export const sleep = (ms: number) => {
   return new Promise((resolve) => setTimeout(resolve, ms));
+};
+export const handeCompanyName = (
+  pathname: string,
+  searchParams: string,
+  router: any,
+  term: string | null
+) => {
+  const params = new URLSearchParams(searchParams);
+  if (term) {
+    params.set("companyName", term);
+  } else {
+    params.delete("companyName");
+  }
+  router.replace(`${pathname}?${params.toString()}`);
+};
+export const getTimeSincePosted = (created: string): string => {
+  // Lấy ngày hiện tại
+  const currentDate = new Date(); // 19/04/2025
+
+  // Chuyển created thành Date object
+  const createdDate = new Date(created); // "2025-04-19T08:09:39.5687802"
+
+  // Kiểm tra xem createdDate có hợp lệ không
+  if (isNaN(createdDate.getTime())) {
+    return "Ngày không hợp lệ";
+  }
+
+  // Tính khoảng cách thời gian (milliseconds)
+  const timeDiff = currentDate.getTime() - createdDate.getTime();
+
+  // Chuyển thành số ngày (làm tròn xuống)
+  const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+
+  // Nếu dưới 7 ngày, trả về số ngày
+  if (daysDiff < 7) {
+    return `Đăng ${daysDiff} ngày trước`;
+  }
+
+  // Nếu từ 7 đến dưới 30 ngày, làm tròn thành tuần
+  if (daysDiff < 30) {
+    const weeks = Math.round(daysDiff / 7);
+    return `Đăng ${weeks} tuần trước`;
+  }
+
+  // Nếu từ 30 ngày trở lên, làm tròn thành tháng
+  const months = Math.round(daysDiff / 30);
+  return `Đăng ${months} tháng trước`;
+};
+export const getTimeSince = (created: string): string => {
+  const currentDate = new Date();
+  const createdDate = new Date(created);
+
+  if (isNaN(createdDate.getTime())) {
+    return "Ngày không hợp lệ";
+  }
+
+  // Cộng thêm 7 giờ (7 * 60 * 60 * 1000 milliseconds)
+  createdDate.setTime(createdDate.getTime() + 7 * 60 * 60 * 1000);
+
+  const timeDiff = currentDate.getTime() - createdDate.getTime();
+
+  const minutes = Math.floor(timeDiff / (1000 * 60));
+  const hours = Math.floor(timeDiff / (1000 * 60 * 60));
+  const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+
+  if (minutes < 1) return "Vừa xong";
+  if (minutes < 60) return `${minutes} phút trước`;
+  if (hours < 24) return `${hours} giờ trước`;
+  if (days < 7) return `${days} ngày trước`;
+  if (days < 30) return `${Math.round(days / 7)} tuần trước`;
+
+  const months = Math.round(days / 30);
+  return `${months} tháng trước`;
 };

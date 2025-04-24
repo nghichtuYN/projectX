@@ -6,7 +6,7 @@ type Props = {
   clearHistory: () => void;
   inputRef: RefObject<HTMLInputElement | null>;
   history: string[];
-  setSearch: Dispatch<SetStateAction<string>>;
+  setSearch?: Dispatch<SetStateAction<string>>;
   setOpen: Dispatch<SetStateAction<boolean>>;
   removeHistoryItem: (item: string) => void;
 };
@@ -36,7 +36,7 @@ const RecentSearchKeyComponent = ({
         <div
           key={item}
           onSelect={() => {
-            setSearch(item);
+            // setSearch(item);
             inputRef.current?.focus();
           }}
           className="flex justify-between cursor-pointer px-3 py-2 hover:bg-gray-100"
