@@ -1,17 +1,16 @@
 "use client";
-import React, { useContext } from "react";
 import NavMenuComponent from "@/app/(routes)/(components)/NavMenuComponent";
 import SiteComponent from "@/app/(routes)/(components)/SiteComponent";
 import { cn } from "@/lib/utils";
-
 import { NavMobbileComponent } from "./NavMobbileComponent";
 import Link from "next/link";
 import ToggleHeader from "./ToggleHeader";
 import { useAuthStore } from "@/store/UserStore";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
 
 const Header = () => {
-  const [open, setOpen] = React.useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
   const user = useAuthStore((state) => state.user);
   return (
     <header className="bg-white shadow-sm w-full sticky top-0 z-50 ">

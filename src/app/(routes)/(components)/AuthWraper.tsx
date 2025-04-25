@@ -9,7 +9,7 @@ import {
 } from "react";
 import { useAuthStore } from "@/store/UserStore";
 import { getUser } from "@/services/user";
-import { usePathname } from "next/navigation";
+import { notFound, usePathname } from "next/navigation";
 import { getSignalRConnection } from "@/lib/signalrConnection";
 import { Message } from "@/types/Conversation";
 import { toast } from "sonner";
@@ -34,11 +34,21 @@ export default function AuthWrapper({
   const isEmployerRegisterPage = pathname
     .split("/")
     .includes("employer-register");
-  const protectedRoutes = ["/admin", "/employer", "/profile","/applied-jobs","/saved-jobs","/uploadCv","/messages","/jobs"];
+  const protectedRoutes = [
+    "/admin",
+    "/employer",
+    "/profile",
+    "/applied-jobs",
+    "/saved-jobs",
+    "/uploadCv",
+    "/messages",
+    "/jobs",
+  ];
+
   const needsAuth = protectedRoutes.some((protectedPath) =>
     pathname.startsWith(protectedPath)
   );
-
+ 
   useEffect(() => {
     const fetchUserAndInitSignalR = async () => {
       if (
@@ -92,7 +102,6 @@ export default function AuthWrapper({
     };
 
     fetchUserAndInitSignalR();
-
   }, [pathname]);
 
   return (

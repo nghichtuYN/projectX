@@ -1,28 +1,11 @@
 "use client";
 import { CheckCircle2, Loader2, MoveRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useAuthStore } from "@/store/UserStore";
-type ProgressListType = {
-  value: string;
-  content: string;
-  isCompleted: boolean;
-};
-const ProgressList: ProgressListType[] = [
-  {
-    value: "email",
-    content: "Xác thực email",
-    isCompleted: false,
-  },
-  {
-    value: "company",
-    content: "Cập nhật thông tin công ty",
-    isCompleted: false,
-  },
-];
+
 const CardVerify = () => {
   const user = useAuthStore((state) => state.user);
   if (!user) return <Loader2 className="animate-spin w-5 h-5" />;
@@ -42,7 +25,6 @@ const CardVerify = () => {
           Vui lòng thực hiện các bước xác thực dưới đây để bắt đầu đăng tin và
           nhận hồ sơ ứng tuyển cho tin tuyển dụng của bạn.
           <span className="text-secondaryColor font-medium">
-            {" "}
             Tìm hiểu thêm
           </span>
         </p>
