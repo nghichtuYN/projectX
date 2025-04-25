@@ -81,7 +81,8 @@ export function RegistrationForm({
       router.push("/verify-account");
     },
     (errors) => {
-      toast.error("Đăng ký thất bại");
+      toast.error("Đăng ký thất bại"+errors);
+      setIsLoading(false);
     }
   );
   const onSubmit = (values: RegisterFormValues) => {
