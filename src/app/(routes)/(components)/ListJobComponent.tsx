@@ -1,83 +1,85 @@
 "use client";
-import { JobType } from "@/data/jobType";
-import React, { useState } from "react";
+import  { useState } from "react";
 import { Card, CardContent } from "../../../components/ui/card";
 import { Button } from "../../../components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { getAllMajors } from "@/queries/queries";
+import Link from "next/link";
+
 const ITEMS_PER_PAGE = 6;
+
 const ListJobComponent = () => {
-  const [currentPage, setCurrentPage] = useState(0);
-  const pageCount = Math.ceil(JobType.length / ITEMS_PER_PAGE);
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const startIndex = currentPage * ITEMS_PER_PAGE;
-  const currentJobTypes = JobType.slice(
-    startIndex,
-    startIndex + ITEMS_PER_PAGE
-  );
-
-  const nextPage = () => {
-    setCurrentPage((prev) => (prev + 1) % pageCount);
-  };
+  const { data: Majors } = getAllMajors("", ITEMS_PER_PAGE, currentPage, true);
 
   const prevPage = () => {
-    setCurrentPage((prev) => (prev - 1 + pageCount) % pageCount);
+    if (currentPage > 1) {
+      setCurrentPage((prev) => prev - 1);
+    }
   };
 
-  const handleCategoryClick = (value: string) => {
-    console.log(`Category clicked: ${value}`);
+  const nextPage = () => {
+    if (Majors && currentPage < Majors.totalPages) {
+      setCurrentPage((prev) => prev + 1);
+    }
   };
 
   return (
-    <Card className="w-full  mx-auto">
+    <Card className="w-full mx-auto">
       <CardContent className="pt-2 w-full">
         <div className="">
-          {currentJobTypes.map((category) => (
-            <Button
-              key={category.value}
-              variant="ghost"
-              className="w-full pt-2 pr-0   font-semibold justify-between mr-4 pb-2 text-left leading-5 hover:bg-transparent hover:text-secondaryColor hover:underline"
-              onClick={() => handleCategoryClick(category.value)}
+          {Majors?.items.map((major) => (
+            <Link
+              href={`find-jobs?majors=${major?.id}`}
+              key={major.id}
+              className="w-full pt-2 pr-0  flex text-sm font-semibold justify-between mr-4 pb-2 text-left leading-5 hover:bg-transparent hover:text-secondaryColor hover:underline"
             >
-              <p title={category?.label} className="w-4/5 overflow-hidden text-ellipsis ">{category.label}</p>
-              <ChevronRight />
-            </Button>
+              <p
+                title={major?.name}
+                className="w-4/5 overflow-hidden text-ellipsis"
+              >
+                {major?.name}
+              </p>
+              <ChevronRight className="h-5 w-5 font-medium" />
+            </Link>
           ))}
         </div>
         <hr />
         <div className="flex items-center justify-between mt-2">
           <span className="text-sm text-muted-foreground font-bold">
-            {currentPage + 1}/{pageCount}
+            {currentPage}/{Majors?.totalPages || 1}
           </span>
           <div className="flex gap-2">
             <Button
               variant="outline"
               size="icon"
+              onClick={prevPage}
               className={cn(
                 "h-8 w-8 rounded-full hover:bg-secondaryColor hover:text-white",
-                currentPage + 1 !== 1
+                currentPage !== 1
                   ? "text-secondaryColor border-secondaryColor"
                   : ""
               )}
-              disabled={currentPage + 1 === 1}
-              onClick={prevPage}
+              disabled={currentPage === 1}
             >
-              <ChevronLeft className="h-4 w-4 " />
+              <ChevronLeft className="h-4 w-4" />
             </Button>
 
             <Button
               variant="outline"
               size="icon"
-              disabled={currentPage + 1 === pageCount}
+              onClick={nextPage}
+              disabled={currentPage === Majors?.totalPages}
               className={cn(
                 "h-8 w-8 rounded-full hover:bg-secondaryColor hover:text-white",
-                currentPage + 1 !== pageCount
+                currentPage !== Majors?.totalPages
                   ? "text-secondaryColor border-secondaryColor"
                   : ""
               )}
-              onClick={nextPage}
             >
-              <ChevronRight className="h-4 w-4 " />
+              <ChevronRight className="h-4 w-4" />
             </Button>
           </div>
         </div>

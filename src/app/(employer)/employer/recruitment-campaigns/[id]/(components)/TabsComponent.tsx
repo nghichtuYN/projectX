@@ -36,7 +36,7 @@ const TabsComponent = () => {
       </TabsList>
 
       <TabsContent value="jobs">
-        <TabContentJobs activeTab={activeTab} />
+        <TabContentJobs />
       </TabsContent>
 
       <TabsContent value="apply_cv" className="bg-white min-h-[500px]">

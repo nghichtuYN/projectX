@@ -5,7 +5,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { BriefcaseBusiness, GraduationCap, Shield, User, Users } from "lucide-react";
+import {
+  BriefcaseBusiness,
+  GraduationCap,
+  Shield,
+  User,
+  Users,
+} from "lucide-react";
 import { educationLevels } from "@/data/educationLevels";
 type Props = {
   job: JobPublic;
@@ -41,7 +47,8 @@ const CardInfo = ({ job }: Props) => {
               <span className="font-semibold text-black">
                 {
                   educationLevels.find(
-                    (_, index) => index === job?.yearOfExperience
+                    (education) =>
+                      Number(education.value) === job?.educationLevelRequire
                   )?.name
                 }
               </span>
@@ -72,15 +79,6 @@ const CardInfo = ({ job }: Props) => {
                   </div>
                 ))}
               </span>
-            </div>
-          </span>
-          <span className="flex items-center gap-2">
-            <div className="rounded-3xl bg-secondaryColor p-2">
-              <User className="w-6 h-6 text-white " />
-            </div>
-            <div className="flex flex-col gap-1">
-              <p className="text-md text-black">Giới tính</p>
-              <span className="font-semibold text-black">Nữ</span>
             </div>
           </span>
         </CardDescription>

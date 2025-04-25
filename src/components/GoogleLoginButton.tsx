@@ -9,20 +9,16 @@ import { usePathname, useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 function getUserRole(pathname: string) {
-  // Lấy phần cuối của pathname (loại bỏ dấu / và các phần không cần thiết)
   const roleKey =
     pathname.split("/").filter(Boolean).pop()?.toLowerCase() ?? "";
 
-  // Kiểm tra nếu roleKey tồn tại trong getRole
   if (roleKey && roles[roleKey]) {
     return roles[roleKey];
   }
 
-  // Trả về giá trị mặc định nếu không tìm thấy
   return roles[roleKey];
 }
 
-// Ví dụ sử dụng
 export default function GoogleLoginButton() {
   const pathname = usePathname();
   console.log(pathname);
@@ -32,9 +28,12 @@ export default function GoogleLoginButton() {
     if (data) {
       loadUser();
       toast.success("Đăng nhập thành công🚀");
-      if (pathname === "/login") {
+      if (pathname === "/login" || pathname === "/register") {
         router.push("/");
-      } else if (pathname === "/employer-login") {
+      } else if (
+        pathname === "/employer-login" ||
+        pathname === "/employer-register"
+      ) {
         router.push("/employer/dashboard");
       }
     }

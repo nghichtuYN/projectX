@@ -33,35 +33,28 @@ const SiteComponent = () => {
   return (
     <>
       <div className="flex items-center">
-        <div className="border-r pr-2 gap-2 flex flex-col ">
-          <span className="p-0 m-0 text-xs font-normal text-fourthColor leading-4">
-            Bạn là nhà tuyển dụng?
-          </span>
-          <Link
-            href={"/employer-login"}
-            className="p-0 m-0 text-sm font-normal flex items-center hover:text-hoverColor text-thirdColor leading-3"
-          >
-            Đăng tuyển ngay <ChevronsRight />
+        <div className="flex items-start gap-3">
+          <Link href="/messages ">
+            <div className="bg-accent p-2 rounded-3xl">
+              <Bell className="h-5 w-5 text-secondaryColor" />
+            </div>
           </Link>
-        </div>
-        <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon">
-            <Bell className="h-5 w-5" />
-          </Button>
-          <Link href="/messages">
-            <MessageCircle className="h-5 w-5" />
+          <Link href="/messages ">
+            <div className="bg-accent p-2 rounded-3xl">
+              <MessageCircle className="h-5 w-5 text-secondaryColor" />
+            </div>
           </Link>
           <NavigationMenu>
             <NavigationMenuList>
-              <NavigationMenuItem>
+              <NavigationMenuItem className="">
                 <NavigationMenuTrigger className={cn(styleNav)}>
                   <Avatar>
                     <AvatarImage
-                      className="rounded-3xl w-5 h-5 border-solid"
+                      className="rounded-3xl w-9 h-9  border-solid"
                       src={
-                        user?.profilePicture
+                        user?.profilePicture && user?.provider === "Google"
                           ? user?.profilePicture
-                          : "https://github.com/shadcn.png"
+                          : `${process.env.NEXT_PUBLIC_API_URL_IMAGE}${user?.profilePicture}`
                       }
                       alt="avatar"
                     />
@@ -80,9 +73,9 @@ const SiteComponent = () => {
                         <AvatarImage
                           className="rounded-3xl w-10 h-10  border-solid"
                           src={
-                            user?.profilePicture
+                            user?.profilePicture && user?.provider === "Google"
                               ? user?.profilePicture
-                              : "https://github.com/shadcn.png"
+                              : `${process.env.NEXT_PUBLIC_API_URL_IMAGE}${user?.profilePicture}`
                           }
                           alt="avatar"
                         />
@@ -143,6 +136,17 @@ const SiteComponent = () => {
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
+        </div>
+        <div className="border-l pl-2 gap-2 flex flex-col ">
+          <span className="p-0 m-0 text-xs font-normal text-fourthColor leading-4">
+            Bạn là nhà tuyển dụng?
+          </span>
+          <Link
+            href={"/employer-login"}
+            className="p-0 m-0 text-sm font-normal flex items-center hover:text-hoverColor text-thirdColor leading-3"
+          >
+            Đăng tuyển ngay <ChevronsRight />
+          </Link>
         </div>
       </div>
     </>

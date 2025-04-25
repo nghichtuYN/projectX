@@ -10,6 +10,8 @@ export type User = {
   roles: string[];
   recruiterVerified: boolean;
   verificationSubmitted: boolean;
+  emailConfirmed: boolean;
+  provider:string
 };
 
 type AuthState = {

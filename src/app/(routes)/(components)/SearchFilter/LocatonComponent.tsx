@@ -1,7 +1,7 @@
 "use client";
 import { Check, ChevronDown, ChevronUp, MapPin } from "lucide-react";
 
-import { cn, handleSelect } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -17,21 +17,19 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-import { JobType } from "@/data/jobType";
-import React, { useState } from "react";
-import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { useDebounce } from "use-debounce";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useQueryHook } from "@/hooks/useQueryHook";
 import { ListLocations } from "@/types/locations";
 import { getAllLocation } from "@/services/location";
+import { Dispatch, SetStateAction, useState } from "react";
 type Props = {
   location: string[];
-  setLocation: React.Dispatch<React.SetStateAction<string[]>>;
+  setLocation: Dispatch<SetStateAction<string[]>>;
 };
 const LocatonComponent = ({ location, setLocation }: Props) => {
-  const [open, setOpen] = React.useState(false);
-  const [search, setSearch] = React.useState("");
+  const [open, setOpen] = useState(false);
+  const [search, setSearch] = useState("");
   const [debouncedSearchTerm] = useDebounce(search, 500);
   const placeHolderComandInput = "Nhập Thành phố";
   const {

@@ -63,7 +63,7 @@ export function EmployerRegistrationForm({
   const onSuccess = (data: any) => {
     toast.success("Đăng nhập thành công🚀");
     setIsLoading(false);
-    router.push("/employer-login");
+    router.push(`/verify-account?key=${window.location.pathname}`);
   };
   const onError = (error: any) => {
     toast.error("Tạo tài khoản thất bại🚀");

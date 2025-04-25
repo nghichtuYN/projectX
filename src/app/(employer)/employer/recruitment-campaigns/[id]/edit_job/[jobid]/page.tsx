@@ -15,8 +15,7 @@ const EditJobPage = () => {
           </p>
         </div>
       </EmployerSidebaHeaderComponent>
-      <div className="mt-14 pl-8 pr-8 full">
-        <p className="text-lg font-semibold p-3">Thông tin tuyển dụng</p>
+      <div className="mt-14 pl-8 pr-8 w-full">
         <div className="p-3">
           <FormEditJob />
         </div>

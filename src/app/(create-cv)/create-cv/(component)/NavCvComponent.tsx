@@ -16,6 +16,15 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import RenderIconComponent from "./RenderIconComponent";
 import { allPossibleFields } from "@/data/CvElement";
+import { Info, X } from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 const NavCvComponent = () => {
   const { layoutInstance } = useContext(CvFormContext);
@@ -90,16 +99,21 @@ const NavCvComponent = () => {
         {navItems.map((item) => (
           <div
             key={item.title}
-            // variant="ghost"
             className={cn(
-              "w-[85px] h-[85px] flex flex-col justify-center rounded-lg items-center space-y-1 hover:bg-secondaryColor hover:text-white bg-white",
+              "w-[85px] h-[85px]  cursor-pointer flex flex-col group justify-center rounded-lg items-center space-y-1 hover:bg-secondaryColor hover:text-white bg-white",
               "text-center px-2",
               activeContent === item.content && "bg-secondaryColor text-white"
             )}
             onClick={() => handleNavClick(item.content)}
           >
-            <item.icon size={24} className="" />
-            <p className="text-xs font-medium text-center leading-tight break-normal whitespace-normal">
+            <item.icon
+              size={24}
+              className={cn(
+                "text-secondaryColor group-hover:text-white",
+                activeContent === item.content && " text-white"
+              )}
+            />
+            <p className="text-xs font-medium text-center leading-tight break-normal whitespace-normal select-none">
               {item.title}
             </p>
           </div>
@@ -114,15 +128,26 @@ const NavCvComponent = () => {
         )}
       >
         {activeContent && (
-          <div className="w-[340px] h-[432px]">
-            <div className={cn("p-4", activeContent && "border-b")}>
+          <div className="w-[340px] h-[500px]">
+            <div
+              className={cn(
+                "p-4 flex items-center justify-between",
+                activeContent && "border-b"
+              )}
+            >
               <h2 className="text-lg font-semibold">
                 {navItems.find((item) => item.content === activeContent)?.title}
               </h2>
+              <Button
+                variant={"outline"}
+                size={"icon"}
+                onClick={() => setActiveContent("")}
+              >
+                <X />
+              </Button>
             </div>
             <ScrollArea className="h-[400px]">
               <div className="p-4">
-                {activeContent === "templates" && <CvTemplateComponent />}
                 {activeContent === "sections" && (
                   <div className="flex flex-col">
                     <div>
@@ -155,18 +180,48 @@ const NavCvComponent = () => {
                     </div>
                   </div>
                 )}
-                {activeContent === "library" && <div>CV Library Content</div>}
                 {activeContent === "guide" && (
-                  <div>CV Writing Guide Content</div>
+                  <Card>
+                    <CardHeader className="flex flex-col gap-2 mb-3">
+                      <CardTitle>Cách viết</CardTitle>
+                      <CardDescription>
+                        CV cơ bản cần có thông tin cá nhân, kỹ năng, học vấn và
+                        kinh nghiệm làm việc. Lưu ý ghi rõ tên bạn vào tiêu đề
+                        khi tải CV về máy.
+                      </CardDescription>
+                      <CardDescription className="flex items-center gap-2 rounded-lg  text-sm">
+                        <Info className="h-4 w-4  text-secondaryColor" />
+                        <p
+                          title="Một số lỗi sai thường gặp:"
+                          className="line-clamp-1 text-ellipsis"
+                        >
+                          Một số lỗi sai thường gặp:
+                        </p>
+                      </CardDescription>
+                      <CardDescription>
+                        <p>
+                          • Mục tiêu nghề nghiệp chung chung "tìm kiếm cơ hội",
+                          "thăng tiến", "phát triển bản thân".
+                        </p>
+                        <p>• Thiếu thông tin kỹ năng trong CV.</p>
+                        <p>
+                          • Kinh nghiệm làm việc hoặc hoạt động chưa có kết quả
+                          thể hiện bằng con số.
+                        </p>
+                        <p>
+                          • Kinh nghiệm làm việc chưa sắp xếp từ gần nhất đến xa
+                          nhất.
+                        </p>
+                      </CardDescription>
+                    </CardHeader>
+                  </Card>
                 )}
-                {activeContent === "jobs" && <div>Suitable Jobs Content</div>}
               </div>
             </ScrollArea>
           </div>
         )}
       </div>
 
-      {/* Main Content Area */}
     </div>
   );
 };

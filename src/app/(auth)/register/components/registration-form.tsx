@@ -14,12 +14,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Loader2, Lock, Mail, User } from "lucide-react";
 import React from "react";
 import GoogleLoginButton from "../../../../components/GoogleLoginButton";
-import FormFieldComponent from "../../(components)/FormFieldComponent";
-import IsShowPasswordComponent from "../../(components)/IsShowPasswordComponent";
+
 import { useMutationHook } from "@/hooks/useMutationHook";
 import { signUp } from "@/services/user";
 import { toast } from "sonner";
@@ -28,6 +25,7 @@ import Email from "./Email";
 import Password from "./Password";
 import ConfirmPassWord from "./ConfirmPassWord";
 import { useRouter } from "next/navigation";
+import { Loader2 } from "lucide-react";
 
 const formSchema = z
   .object({
@@ -80,7 +78,7 @@ export function RegistrationForm({
     (data) => {
       setIsLoading(false);
       toast.success("Đăng ký thành công");
-      router.push("/login");
+      router.push("/verify-account");
     },
     (errors) => {
       toast.error("Đăng ký thất bại");
@@ -96,7 +94,7 @@ export function RegistrationForm({
       <Card>
         <CardHeader className="text-start">
           <CardTitle className="text-xl text-secondaryColor">
-            Chào mừng bạn đến với Project X
+            Chào mừng bạn đến với Project X1
           </CardTitle>
           <CardDescription>
             Tạo tài khoản để trải nghiệm công nghệ tuyển dụng tiên tiến

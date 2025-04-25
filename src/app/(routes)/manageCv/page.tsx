@@ -7,12 +7,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Plus, Upload } from "lucide-react";
+import { Loader2, Plus, Upload } from "lucide-react";
 import Image from "next/image";
 import { redirect } from "next/navigation";
-import React from "react";
+import CardUser from "./components/CardUser";
+import { useAuthStore } from "@/store/UserStore";
 
 const ManageCvPage = () => {
+  const user = useAuthStore((state) => state.user);
   return (
     <div className="lg:pt-3 items-center flex flex-col">
       <div className="w-3/4">
@@ -73,34 +75,7 @@ const ManageCvPage = () => {
             </Card>
           </div>
           <div className="col-span-1 flex flex-col gap-4">
-            <Card className="w-full">
-              <CardHeader>
-                <CardTitle className="flex gap-4">
-                  <div className="h-16 w-16 flex-shrink-0 rounded-3xl">
-                    <div className="relative h-full w-full overflow-hidden rounded-lg bg-gray-100">
-                      <Image
-                        src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-XQiivDBn4lbLgDbeMky8ZCoMG61VS3.png"
-                        alt="Company logo"
-                        fill
-                        className="rounded-full"
-                      />
-                    </div>
-                  </div>
-                  <div className="flex flex-col items-start gap-2">
-                    <p className="text-sm font-normal hover:text-secondaryColor">
-                      Chào bạn trở lại,
-                    </p>
-                    <h3 className="font-semibold hover:text-secondaryColor">
-                      Hoàng Đặng
-                    </h3>
-                    <div className="w-full bg-accent text-xs font-normal p-1">
-                      Tài khoản đã xác thực
-                    </div>
-                  </div>
-                </CardTitle>
-                <CardDescription></CardDescription>
-              </CardHeader>
-            </Card>
+            <CardUser user={user} />
           </div>
         </div>
       </div>

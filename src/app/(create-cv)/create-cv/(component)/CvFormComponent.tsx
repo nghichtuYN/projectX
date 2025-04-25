@@ -184,7 +184,6 @@ const CvFormComponent = () => {
       details: "",
     },
   });
-  console.log(form.skills)
   const handleChange = (
     field: keyof FormType,
     value: any,
@@ -230,6 +229,7 @@ const CvFormComponent = () => {
   };
 
   const handleClickOutside = (event: MouseEvent) => {
+    if (typeof window === "undefined") return;
     const selectContent = document.querySelector("[data-state='open']");
 
     if (
@@ -470,18 +470,16 @@ const CvFormComponent = () => {
     setActiveOldColumn(null);
   };
 
+  // In the useEffect hooks or anywhere you're using document
   useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    if (typeof window !== "undefined") {
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }
   }, [activeEditor]);
-  useEffect(() => {
-    console.log("run1")
-    return () => {
-      handleDragOver.cancel();
-    };
-  }, []);
+
   const sensors = useSensors(
     useSensor(MouseSensor, {
       activationConstraint: {
@@ -560,23 +558,24 @@ const CvFormComponent = () => {
             </div>
 
             <CvComponent ref={printRef} layoutInstance={layoutInstance} />
-            {createPortal(
-              <DragOverlay
-                adjustScale={false}
-                dropAnimation={dropAnimation}
-                modifiers={[snapCenterToCursor]}
-              >
-                {activeDragContentId && activeDragContentData && (
-                  <div className="flex items-center gap-2 rounded-md justify-center w-fit h-fit p-2 border border-hoverColor font-medium text-white bg-secondaryColor pointer-events-none">
-                    <RenderIconComponent
-                      keyName={activeDragContentData?.type!}
-                    />
-                    {activeDragContentData?.name}
-                  </div>
-                )}
-              </DragOverlay>,
-              document.body
-            )}
+            {typeof window !== "undefined" &&
+              createPortal(
+                <DragOverlay
+                  adjustScale={false}
+                  dropAnimation={dropAnimation}
+                  modifiers={[snapCenterToCursor]}
+                >
+                  {activeDragContentId && activeDragContentData && (
+                    <div className="flex items-center gap-2 rounded-md justify-center w-fit h-fit p-2 border border-hoverColor font-medium text-white bg-secondaryColor pointer-events-none">
+                      <RenderIconComponent
+                        keyName={activeDragContentData?.type!}
+                      />
+                      {activeDragContentData?.name}
+                    </div>
+                  )}
+                </DragOverlay>,
+                document.body
+              )}
           </div>
         </DndContext>
       </div>

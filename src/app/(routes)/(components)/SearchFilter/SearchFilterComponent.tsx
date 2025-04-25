@@ -1,6 +1,5 @@
 "use client";
 import React, { useState } from "react";
-import JobTypeComponent from "../JobTypeComponent";
 import LocatonComponent from "./LocatonComponent";
 import SearchPositionComponent from "./SearchPositionComponent";
 import ButtonSearchComponent from "../ButtonSearchComponent";
@@ -45,18 +44,7 @@ const SearchFilter = () => {
   return (
     <section className=" mx-auto py-8  bg-primaryColor">
       <div className="relative flex items-center gap-1 bg-white rounded-3xl  h-13 lg:w-3/4 w-5/6  mx-auto">
-        {/* Job Type Component */}
-
-        {/* Search Filter */}
         <div className="flex gap-1 items-center xl:basis-[60%] p-1 basis-full">
-          <div
-            className={cn(
-              "relative after:content-[''] w-full overflow-hidden after:h-9 after:w-[1px] after:absolute after:-right-1 after: after:top-1 after:bg-[#2d2d2d] after:opacity-10 p-1",
-              pathname === "/" ? "hidden" : "hidden xl:block  xl:basis-1/4"
-            )}
-          >
-            <JobTypeComponent />
-          </div>
           <div
             className={cn(
               "text-sm  after:content-['']  basis-full pl-2 after:h-9 after:w-[1px] after:bg-[#2d2d2d] after:opacity-10",

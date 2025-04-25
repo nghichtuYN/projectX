@@ -83,6 +83,7 @@ axiosJwt.interceptors.response.use(
           onRefreshed();
           return axiosJwt(originalRequest);
         } catch (refreshError) {
+          redirectToLogin();
           return Promise.reject(refreshError);
         }
       }
@@ -160,6 +161,14 @@ export const getUserCon = async (search: string) => {
         search,
       },
     });
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+};
+export const confirmEmail = async (data: { otp: string }) => {
+  try {
+    const res = await axiosJwt.post("/auth/confirm-email", data);
     return res.data;
   } catch (error) {
     throw error;

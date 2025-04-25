@@ -1,12 +1,11 @@
+// src/app/(employer)/employer/recruitment-campaigns/page.tsx
 "use client";
-import React, { createContext, useEffect } from "react";
-
+import { useEffect } from "react";
 import EmployerSidebaHeaderComponent from "@/components/EmployerSidebaHeaderComponent";
 import SearchInputCampainComponent from "@/components/SearchInputCampainComponent";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import DialogAddCampaignComponent from "./(components)/DialogAddCampaignComponent";
 import TableComponent, { TableColumn } from "@/components/TableComponent";
-import { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
 import { campaignOptions } from "@/data/campain";
 import { campaignType, ListCampaign } from "@/types/campaign";
 import { getCampaigns } from "@/queries/queries";
@@ -22,30 +21,23 @@ import { useMutationHook } from "@/hooks/useMutationHook";
 import { updateCampaign } from "@/services/campaign";
 import { toast } from "sonner";
 import { useAuthStore } from "@/store/UserStore";
-export type ContextType<T> = {
-  refetch: (options?: RefetchOptions) => Promise<QueryObserverResult<T, Error>>;
-};
-
-export const CampaignContext = createContext<ContextType<ListCampaign>>({
-  refetch: (options?: RefetchOptions) =>
-    Promise.resolve({} as QueryObserverResult<ListCampaign, Error>),
-});
+import { CampaignContext } from "@/contexts/CampaignContex";
 
 const RecruitmentCampaignPage = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
   const filterBy = searchParams.get("filterBy") || "";
-
   const searchValue = searchParams.get("search") || "";
-
   const currentPage = parseInt(searchParams.get("page") || "1", 10);
   const user = useAuthStore((state) => state.user);
+
   useEffect(() => {
     if (user && !user?.recruiterVerified) {
       router.push("/employer/employer-verify");
     }
   }, [user]);
+
   const handleFilterBy = (filter_by: string) => {
     const params = new URLSearchParams(searchParams);
     params.set("page", "1");
@@ -56,12 +48,14 @@ const RecruitmentCampaignPage = () => {
     }
     router.replace(`${pathname}?${params.toString()}`);
   };
+
   const {
     data: campaigns,
     refetch,
     isLoading,
     isFetching,
   } = getCampaigns(searchValue, currentPage);
+
   const updateStatusMutation = useMutationHook(
     (dataUpdate: campaignType) => {
       const { id } = dataUpdate;
@@ -83,10 +77,12 @@ const RecruitmentCampaignPage = () => {
       toast.error("Có lỗi xảy ra khi cập nhật trạng thái chiến dịch");
     }
   );
+
   const handleStatusChange = (row: campaignType) => {
     const newStatus = row.status === 1 ? 0 : 1;
     updateStatusMutation.mutate({ ...row, status: newStatus });
   };
+
   const columns: TableColumn<campaignType>[] = [
     {
       key: "name",
@@ -110,12 +106,11 @@ const RecruitmentCampaignPage = () => {
                 {row.name}
               </Link>
               <div className="text-sm text-gray-500">{row.status}</div>
-
               <div className="hidden group-hover:flex group-hover:flex-col text-sm font-medium gap-1 mt-2">
                 <div className="flex items-center gap-2">
                   <DialogEditCampaignComponent id={row?.id} />
                   <Link
-                    className=" hover:text-secondaryColor"
+                    className="hover:text-secondaryColor"
                     href={`/employer/recruitment-campaigns/${row?.id}`}
                   >
                     Xem báo cáo
@@ -123,7 +118,7 @@ const RecruitmentCampaignPage = () => {
                   <span className="cursor-pointer"></span>
                 </div>
                 <Link
-                  className=" hover:text-secondaryColor"
+                  className="hover:text-secondaryColor"
                   href={`http://localhost:3000/employer/recruitment-campaigns/${row?.id}?active_tab=apply_cv`}
                 >
                   Xem CV ứng tuyển
@@ -197,18 +192,19 @@ const RecruitmentCampaignPage = () => {
       },
     },
   ];
+
   return (
     <CampaignContext.Provider value={{ refetch }}>
       <EmployerSidebaHeaderComponent>
-        <div className="flex w-full items-center ">
+        <div className="flex w-full items-center">
           <p className="text-lg font-semibold text-secondaryColor">
             Quản lý chiến dịch
           </p>
         </div>
       </EmployerSidebaHeaderComponent>
       <div className="pt-14 pl-8 pr-8 w-full">
-        <div className="container w-full  mx-auto p-4 space-y-4  bg-accent">
-          <div className=" flex gap-4 items-center">
+        <div className="container w-full mx-auto p-4 space-y-4 bg-accent">
+          <div className="flex gap-4 items-center">
             <FilterComponent
               dataOptions={campaignOptions}
               filterBy={filterBy}
@@ -223,8 +219,6 @@ const RecruitmentCampaignPage = () => {
             />
             <DialogAddCampaignComponent refetch={refetch} />
           </div>
-
-          {/* Table */}
           <div>
             <div className="border rounded-lg bg-white">
               {isLoading || isFetching ? (

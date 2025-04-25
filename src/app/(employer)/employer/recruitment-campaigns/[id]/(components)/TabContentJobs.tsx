@@ -4,7 +4,6 @@ import {
   useRouter,
   useSearchParams,
 } from "next/navigation";
-import React, { useEffect, useMemo } from "react";
 import FilterComponent from "../../(components)/FilterJobComponent";
 import { Input } from "@/components/ui/input";
 import { JobOptions } from "@/data/Jobs";
@@ -13,23 +12,25 @@ import { Button } from "@/components/ui/button";
 import { getJobsByCampaignId } from "@/queries/queries";
 import TableComponent, { TableColumn } from "@/components/TableComponent";
 import { Job } from "@/types/Jobs";
-
-import { Pencil, Settings } from "lucide-react";
-import { useDebounce } from "use-debounce";
+import { Settings } from "lucide-react";
 import SkeletonTableComponent from "@/components/SeketonTable";
-import DialogDeleteJob from "./DialogDelete";
-
 import { useMutationHook } from "@/hooks/useMutationHook";
 import { deleteJob } from "@/services/jobs";
 import { toast } from "sonner";
 import PaginationComponent from "@/components/PaginationComponent";
-type Props = {
-  activeTab: string;
-};
+import JobInfoColumn from "./TabJob/JobInfoColumn";
+import ContracTypeColumn from "./TabJob/ContracTypeColumn";
+import JobLevelColumn from "./TabJob/JobLevelColumn";
+import JobTypeColumn from "./TabJob/JobTypeColumn";
+import SkillsColumn from "./TabJob/SkillsColumn";
+import SalaryColumn from "./TabJob/SalaryColumn";
+import Action from "./TabJob/Action";
+import { useDebouncedCallback } from "use-debounce";
 
-const TabContentJobs = ({ activeTab }: Props) => {
+const TabContentJobs = () => {
   const param = useParams();
   const id = param.id as string | undefined;
+  const jobId = param.jobid as string;
   if (!id) {
     return <div>Campaign ID không hợp lệ</div>;
   }
@@ -52,33 +53,7 @@ const TabContentJobs = ({ activeTab }: Props) => {
       classname: "max-w-[250px] h-full",
       title: "Tin tuyển dụng",
       renderColumn: (row) => {
-        return (
-          <div className="flex justify-start items-start gap-2 w-full">
-            <div className="flex flex-col w-full">
-              <span className="font-medium text-xs">
-                #{row.id.replace(/-/g, "")}
-              </span>
-              <Link
-                className="hover:underline w-2/3"
-                href={`/employer/recruitment-campaigns/${row?.id}?active_tab=jobs`}
-              >
-                <p title={row.title} className="truncate">
-                  {row.title}
-                </p>
-              </Link>
-              <div className="">
-                <p className="w-2/3 truncate text-sm text-gray-500">
-                  {row.officeAddress}
-                </p>
-              </div>
-              <div className="w-full">
-                <p className="w-2/3 truncate text-sm text-gray-500">
-                  {row.location.name}
-                </p>
-              </div>
-            </div>
-          </div>
-        );
+        return <JobInfoColumn id={id} row={row} />;
       },
     },
     {
@@ -86,27 +61,15 @@ const TabContentJobs = ({ activeTab }: Props) => {
       title: "Loại hình ",
       classname: "max-w-[150px]",
       renderColumn: (row) => {
-        return (
-          <div className="flex flex-wrap gap-2">
-            {row.contractTypes?.map((contractTypes) => (
-              <div key={contractTypes.id}>{contractTypes?.name},</div>
-            ))}
-          </div>
-        );
+        return <ContracTypeColumn row={row} />;
       },
     },
     {
       key: "jobLevels",
-      title: "Chức vụ",
+      title: "Cấp bậc",
       classname: "max-w-[150px]",
       renderColumn: (row) => {
-        return (
-          <div className="flex flex-wrap gap-2 ">
-            {row.jobLevels?.map((jobLevel) => (
-              <div key={jobLevel.id}>{jobLevel?.name},</div>
-            ))}
-          </div>
-        );
+        return <JobLevelColumn row={row} />;
       },
     },
     {
@@ -115,16 +78,7 @@ const TabContentJobs = ({ activeTab }: Props) => {
       classname: "max-w-[150px]",
 
       renderColumn: (row) => {
-        return (
-          <div
-            className="flex flex-wrap gap-2
-          "
-          >
-            {row.jobTypes?.map((jobType) => (
-              <div key={jobType.id}>{jobType?.name},</div>
-            ))}
-          </div>
-        );
+        return <JobTypeColumn row={row} />;
       },
     },
     {
@@ -132,31 +86,14 @@ const TabContentJobs = ({ activeTab }: Props) => {
       title: "Kỹ năng",
       classname: "max-w-[150px]",
       renderColumn: (row) => {
-        return (
-          <div
-            className="flex flex-wrap gap-2
-          "
-          >
-            {row.skills?.map((skill) => (
-              <div key={skill.id}>{skill?.name},</div>
-            ))}
-          </div>
-        );
+        return <SkillsColumn row={row} />;
       },
     },
     {
-      key: "minSalary",
+      key: "Salary",
       title: "Lương",
       renderColumn: (row) => {
-        return (
-          <div className="">
-            {row.minSalary && row.maxSalary ? (
-              `${row.minSalary} - ${row.maxSalary}`
-            ) : (
-              <div className="text-xs">Thỏa thuận</div>
-            )}
-          </div>
-        );
+        return <SalaryColumn row={row} />;
       },
     },
     {
@@ -182,16 +119,7 @@ const TabContentJobs = ({ activeTab }: Props) => {
         </div>
       ),
       renderColumn: (row) => {
-        return (
-          <div className="flex items-center  gap-3 justify-center w-full">
-            <Link
-              href={`/employer/recruitment-campaigns/${id}/edit_job/${row?.id}`}
-            >
-              <Pencil className="w-5 h-5 text-yellow-500" />
-            </Link>
-            <DialogDeleteJob mutationDelete={mutationDelete} id={row?.id} />
-          </div>
-        );
+        return <Action row={row} mutationDelete={mutationDelete} />;
       },
     },
   ];
@@ -215,7 +143,7 @@ const TabContentJobs = ({ activeTab }: Props) => {
     onSuccess,
     onError
   );
-  const handleSearch = (term: string) => {
+  const handleSearch = useDebouncedCallback((term: string) => {
     const params = new URLSearchParams(searchParams);
     params.set("page", "1");
     if (term) {
@@ -224,7 +152,7 @@ const TabContentJobs = ({ activeTab }: Props) => {
       params.delete("search");
     }
     replace(`${pathname}?${params.toString()}`);
-  };
+  }, 500);
 
   const handleFilterBy = (filter_by: string) => {
     const params = new URLSearchParams(searchParams);

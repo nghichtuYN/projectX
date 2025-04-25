@@ -114,7 +114,7 @@ const FormEditJob = () => {
   return (
     <FormJob
       content="Lưu"
-      title="Chỉnh sửa tin tuyển dụng"
+      title="Thông tin việc làm"
       onSubmit={onSubmit}
       removeItem={removeItem}
       form={form}

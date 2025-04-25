@@ -1,4 +1,3 @@
-import { error } from "node:console";
 import { axiosJwt } from "./user";
 
 export const createApplication = async (id: string, data: FormData) => {
@@ -69,6 +68,14 @@ export const getAppliedJobs = async (search: string, page: number) => {
         page,
       },
     });
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+};
+export const getApplicationByJobId = async (id: string) => {
+  try {
+    const res = await axiosJwt.get(`jobs/${id}/applications`);
     return res.data;
   } catch (error) {
     throw error;

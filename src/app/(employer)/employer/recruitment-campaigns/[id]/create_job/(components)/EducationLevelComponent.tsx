@@ -6,20 +6,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { educationLevels } from "@/data/educationLevels";
 // import { educationLevels } from "@/data/educationLevels";
 import React from "react";
 type Props = {
   form: any;
 };
-const educationLevels = [
-  { name: "Trung học cơ sở", value: "1" },
-  { name: "Trung học phổ thông", value: "2" },
-  { name: "Trung cấp", value: "3" },
-  { name: "Cao đẳng", value: "4" },
-  { name: "Đại học", value: "5" },
-  { name: "Thạc sĩ", value: "6" },
-  { name: "Tiến sĩ", value: "7" },
-];
+
 
 const EducationLevelComponent = ({ form }: Props) => {
   return (

@@ -27,6 +27,7 @@ import QuantityComponent from "./QuantityComponent";
 import { UseMutationResult } from "@tanstack/react-query";
 import { JobFormValues, jobSchema } from "./FormCreateJobComponent";
 import { z } from "zod";
+import { Loader2 } from "lucide-react";
 type Props = {
   form: any;
   removeItem: (field: keyof JobFormValues, value: string) => void;
@@ -44,14 +45,30 @@ const FormJob = ({
   title,
 }: Props) => {
   return (
-    <Card className="w-full shadow-sm">
-      <CardHeader>
-        <CardTitle className="text-2xl font-bold">{title}</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            {/* Basic Information Section */}
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <Card className="w-full shadow-sm">
+          <CardHeader>
+            <CardTitle className="text-2xl font-bold flex justify-between">
+              {title}
+              <Button
+                type="submit"
+                size="lg"
+                className="px-8"
+                disabled={mutation?.isPending}
+              >
+                {mutation?.isPending ? (
+                  <>
+                    <Loader2 className="animate-spin mr-2 w-4 h-4" />
+                    Đang xử lý...{" "}
+                  </>
+                ) : (
+                  content
+                )}
+              </Button>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
             <div className="space-y-4">
               <div className="flex items-center">
                 <h3 className="text-lg font-medium">Thông tin cơ bản</h3>
@@ -69,16 +86,12 @@ const FormJob = ({
                   <QuantityComponent form={form} />
                   <ExperienceComponent form={form} />
                   <div className="col-span-2">
-                    <EducationLevelComponent
-                      form={form}
-                      // className="md:col-span-2"
-                    />
+                    <EducationLevelComponent form={form} />
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Job Details Section */}
             <div className="space-y-4">
               <div className="flex items-center">
                 <h3 className="text-lg font-medium">Chi tiết công việc</h3>
@@ -105,20 +118,11 @@ const FormJob = ({
               </div>
             </div>
 
-            <CardFooter className="px-0 pt-6 flex justify-end">
-              <Button
-                type="submit"
-                size="lg"
-                className="px-8"
-                disabled={mutation.isPending}
-              >
-                {mutation.isPending ? "Đang xử lý..." : content}
-              </Button>
-            </CardFooter>
-          </form>
-        </Form>
-      </CardContent>
-    </Card>
+            <CardFooter className="px-0 pt-6 flex justify-end"></CardFooter>
+          </CardContent>
+        </Card>
+      </form>
+    </Form>
   );
 };
 

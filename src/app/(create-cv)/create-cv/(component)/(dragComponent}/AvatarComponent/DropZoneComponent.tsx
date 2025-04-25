@@ -30,7 +30,6 @@ const DropZoneComponent = ({ handleChange, setData }: Props) => {
       reader.onload = (event) => {
         setData(event.target?.result as string)
       setUploading(false);
-
       };
       reader.readAsDataURL(file);
     }

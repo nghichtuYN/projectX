@@ -1,5 +1,6 @@
 import { JobPublic } from "@/types/Jobs";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import Link from "next/link";
 
 type Props = {
   job: JobPublic;
@@ -12,10 +13,10 @@ const CardInclude = ({ job }: Props) => {
         <CardTitle className="flex gap-4">Danh mục nghề liên quan</CardTitle>
         <span className="flex items-center gap-2 text-xs">
           {job?.companyRecruiter?.majors?.map((major, index) => (
-            <div key={major.id}>
-              {major.name}{" "}
+            <Link href={`/find-jobs?majors=${major.id}`} className="hover:underline" key={major.id}>
+              {major.name}
               {index < job?.companyRecruiter?.majors?.length - 1 ? ", " : ""}
-            </div>
+            </Link>
           ))}
         </span>
       </CardHeader>
@@ -31,9 +32,12 @@ const CardInclude = ({ job }: Props) => {
       </CardHeader>
       <CardHeader>
         <CardTitle className="flex gap-4">Khu vực</CardTitle>
-        <span className="flex items-center gap-2 text-xs">
+        <Link
+          href={`/find-jobs?locations=${job?.location?.id}`}
+          className="flex items-center gap-2 text-xs hover:underline"
+        >
           {job?.location?.name}
-        </span>
+        </Link>
       </CardHeader>
     </Card>
   );

@@ -1,4 +1,5 @@
-'use client'
+"use client";
+import { Suspense } from "react";
 import ListJobsSaved from "./ListJobsSaved";
 const CardSavedJos = () => {
   return (
@@ -20,8 +21,9 @@ const CardSavedJos = () => {
           </div>
         </div>
       </div>
-
-      <ListJobsSaved />
+      <Suspense>
+        <ListJobsSaved />
+      </Suspense>
     </div>
   );
 };

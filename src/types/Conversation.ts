@@ -9,7 +9,7 @@ export type Conversation = {
   latestMessage?: string;
   latestMessageDetails?: Message;
   participant?: User;
-  messages?:Message[]
+  messages?: Message[];
 };
 export type Message = {
   id: string;
@@ -19,6 +19,7 @@ export type Message = {
     name: string;
     profilePicture: string;
   };
+  conversationId: string;
   isRead: boolean;
   read: string;
   isEdited: boolean;

@@ -29,8 +29,8 @@ import { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { useQueryHook } from "@/hooks/useQueryHook";
-import { CampaignContext } from "../page";
 import { campaignType } from "@/types/campaign";
+import { CampaignContext } from "@/contexts/CampaignContex";
 
 // Cập nhật schema để thêm trường status
 export const formSchema = z
@@ -78,6 +78,7 @@ const DialogEditCampaignComponent = ({ id }: Props) => {
   const router = useRouter();
   const context = useContext(CampaignContext);
   const { refetch } = context;
+
   const { data } = useQueryHook<campaignType>(
     ["campaign", id],
     () => getDetailsCampaign(id),

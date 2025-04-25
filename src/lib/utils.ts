@@ -1,4 +1,3 @@
-
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -36,9 +35,11 @@ export const handleSelect = (
 };
 export const roles: { [key: string]: string } = {
   "employer-login": "Business",
+  "employer-register": "Business",
   freelanceRecruiter: "FreelanceRecruiter",
   admin: "Admin",
   login: "Candidate",
+  register: "Candidate",
 };
 export const sleep = (ms: number) => {
   return new Promise((resolve) => setTimeout(resolve, ms));

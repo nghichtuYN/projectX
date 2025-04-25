@@ -62,43 +62,16 @@ const PostComponent = ({ post, refetch }: Props) => {
     <div className="bg-[#e0e0e0] cursor-pointer rounded-t-lg border w-full border-t-white text-[#333333]">
       <div className="p-4">
         <div className="flex items-start gap-3">
-          <Avatar className="h-10 w-10 border border-gray-700">
-            <AvatarImage
-              src={`${process.env.NEXT_PUBLIC_API_URL_IMAGE}${post?.user?.profilePicture}`}
-              alt="Profile picture"
-            />
-            <AvatarFallback>LC</AvatarFallback>
-          </Avatar>
-
-          <div className="flex-1">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-1.5">
-                <span className="font-medium ml-2 text-[#333333]">
-                  {post?.user?.name}
-                </span>
-                <span className="text-sm text-gray-400">
-                  {getTimeSince(post?.created!)}
-                </span>
-              </div>
-              {user?.id === post?.user?.id && <DialogUD />}
-            </div>
-            <div className="flex flex-col gap-2">
-              <Link href={`/forum/post/${post?.id}`}>
-                <p className="mt-1 ml-2 text-[#666666]">{post?.content}</p>
-              </Link>
-              {post?.attachedFile?.path && (
-                <Image
-                  src={`${process.env.NEXT_PUBLIC_API_URL_IMAGE}${post?.attachedFile?.path}`}
-                  alt="Image"
-                  width={400}
-                  height={400}
-                  className="border border-gray-700 rounded-md object-fill"
-                  quality={100}
-                />
-              )}
-            </div>
-            <div className=" flex items-center mt-1 gap-4">
-              <div className="flex items-center gap-1">
+          <div className="flex flex-col items-center gap-3">
+            <Avatar className="h-10 w-10 border border-gray-700">
+              <AvatarImage
+                src={`${process.env.NEXT_PUBLIC_API_URL_IMAGE}${post?.user?.profilePicture}`}
+                alt="Profile picture"
+              />
+              <AvatarFallback>LC</AvatarFallback>
+            </Avatar>
+            <div className=" flex items-center flex-col mt-1 gap-4">
+              <div className="flex items-center flex-col gap-1">
                 <Button
                   variant="ghost"
                   size="sm"
@@ -145,6 +118,35 @@ const PostComponent = ({ post, refetch }: Props) => {
                 isClone={isClone}
                 triggerContent={triggerContent}
               />
+            </div>
+          </div>
+
+          <div className="flex-1">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-1.5">
+                <span className="font-medium ml-2 text-[#333333]">
+                  {post?.user?.name}
+                </span>
+                <span className="text-sm text-gray-400">
+                  {getTimeSince(post?.created!)}
+                </span>
+              </div>
+              {user?.id === post?.user?.id && <DialogUD />}
+            </div>
+            <div className="flex flex-col gap-2">
+              <Link href={`/forum/post/${post?.id}`}>
+                <p className="mt-1 ml-2 text-[#666666]">{post?.content}</p>
+              </Link>
+              {post?.attachedFile?.path && (
+                <Image
+                  src={`${process.env.NEXT_PUBLIC_API_URL_IMAGE}${post?.attachedFile?.path}`}
+                  alt="Image"
+                  width={400}
+                  height={400}
+                  className="border border-gray-700 rounded-md object-fill"
+                  quality={100}
+                />
+              )}
             </div>
           </div>
         </div>

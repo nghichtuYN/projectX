@@ -34,7 +34,7 @@ export default function AuthWrapper({
   const isEmployerRegisterPage = pathname
     .split("/")
     .includes("employer-register");
-  const protectedRoutes = ["/admin", "/employer", "/profile"];
+  const protectedRoutes = ["/admin", "/employer", "/profile","/applied-jobs","/saved-jobs","/uploadCv","/messages","/jobs"];
   const needsAuth = protectedRoutes.some((protectedPath) =>
     pathname.startsWith(protectedPath)
   );

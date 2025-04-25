@@ -50,6 +50,7 @@ const ListJobsSaved = () => {
     }
   };
   return (
+    
     <div className="bg-white rounded-b-lg p-4 shadow-sm min-h-[80vh]">
       <div className="flex items-center justify-between mb-2">
         <h2 className="text-[15px] font-normal text-gray-800 mb">

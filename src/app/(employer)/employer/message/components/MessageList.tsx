@@ -1,13 +1,11 @@
 "use client";
 
-import { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, Plus } from "lucide-react";
 import { DebouncedState } from "use-debounce";
 import { Conversation } from "@/types/Conversation";
-import defaltAvatar from "../../../../../../public/images/default-avatar.jpeg";
 import { getTimeSince } from "@/lib/utils";
 
 interface MessageListProps {
@@ -61,45 +59,59 @@ export function MessageList({
                   <Avatar>
                     <AvatarImage
                       src={
-                        !!conversation?.participant?.id
+                        conversation?.participant?.profilePicture
                           ? `${process.env.NEXT_PUBLIC_API_URL_IMAGE}${conversation?.participant?.profilePicture}`
-                          : "../../../../../../images/default-avatar.jpeg"
+                          : "/images/default-avatar.jpeg"
                       }
                       alt={conversation?.groupName}
                     />
                     <AvatarFallback>
-                      {}
+                      {conversation?.groupName?.charAt(0) ||
+                        conversation?.participant?.name?.charAt(0)}
                     </AvatarFallback>
                   </Avatar>
-                  {/* {conversation.online && (
-                    <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-green-500 ring-2 ring-background"></span>
-                  )} */}
                 </div>
 
                 <div className="flex-1 overflow-hidden">
                   <div className="flex items-center justify-between">
-                    <p className="font-medium">
-                      {conversation?.participant?.name}
+                    <p
+                      className={`font-medium ${
+                        !conversation?.latestMessageDetails?.isRead &&
+                        conversation?.latestMessageDetails?.sender?.id ===
+                          conversation?.participant?.id
+                          ? "font-bold"
+                          : "font-normal"
+                      }`}
+                    >
+                      {conversation?.participant?.name ||
+                        conversation?.groupName}
                     </p>
-                    <span className="text-xs text-muted-foreground">
-                      {getTimeSince(conversation?.latestMessage!)}
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs text-muted-foreground">
+                        {getTimeSince(conversation?.latestMessage!)}
+                      </span>
+                      {!conversation?.latestMessageDetails?.isRead &&
+                        conversation?.latestMessageDetails?.sender?.id ===
+                          conversation?.participant?.id && (
+                          <span className="h-2 w-2 rounded-full bg-primary" />
+                        )}
+                    </div>
                   </div>
-                  <p className="text-xs text-muted-foreground">
-                    {/* {conversation.role} */}
-                  </p>
-                  <p className="mt-1 truncate text-sm">
-                    {conversation?.latestMessageDetails?.content}
+                  <p
+                    className={`mt-1 truncate text-sm ${
+                      !conversation?.latestMessageDetails?.isRead &&
+                      conversation?.latestMessageDetails?.sender?.id ===
+                        conversation?.participant?.id
+                        ? "text-foreground font-medium"
+                        : "text-muted-foreground font-normal"
+                    }`}
+                  >
+                    {conversation?.latestMessageDetails?.sender.id !==
+                    conversation?.participant?.id
+                      ? "Bạn: " + conversation?.latestMessageDetails?.content
+                      : conversation?.latestMessageDetails?.content}
                   </p>
                 </div>
-
-                {conversation.latestMessageDetails?.isRead && (
-                  <div className="ml-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-primary text-xs text-primary-foreground">
-                    {conversation?.latestMessageDetails?.isRead
-                      ? "Đã đọc"
-                      : "Chưa đọc"}
-                  </div>
-                )}
               </button>
             ))}
           </div>

@@ -10,3 +10,11 @@ export const sendMessages = async (data: FormData) => {
     throw error;
   }
 };
+export const markAsReadMessage = async (id: string) => {
+  try {
+    const res = await axiosJwt.patch(`/messages/${id}/mark-as-read`);
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+};

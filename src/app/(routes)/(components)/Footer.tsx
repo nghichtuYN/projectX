@@ -66,8 +66,8 @@ const Footer = () => {
         {/* Left Column - Company Info */}
         <div className="md:col-span-3 space-y-8">
           <div className="space-y-4">
-            <p className="text-3xl text-secondaryColor font-extrabold">
-              ProjecX
+            <p className="text-3xl font-bold ml-2 italic bg-gradient-to-r from-hoverColor to-fourthColor text-transparent bg-clip-text">
+              Project X
             </p>
             <p className="text-sm text-muted-foreground">
               Tiếp lợi thế - Nối thành công
@@ -96,7 +96,7 @@ const Footer = () => {
           <div className="space-y-4">
             <h3 className="font-medium">Cộng đồng ProjectX</h3>
             <div className="flex gap-2">
-              <Button variant="outline"  size="icon">
+              <Button variant="outline" size="icon">
                 <Facebook className="h-4 w-4" />
               </Button>
               <Button variant="outline" size="icon">

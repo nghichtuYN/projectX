@@ -1,29 +1,21 @@
-"use client";
-import CompnayBoardComponent from "@/app/(routes)/(components)/CompanyBoardComponent";
-// import DraggableForm from "@/components/DraggableForm";
-import JobBoardComponent from "@/app/(routes)/(components)/JobBoardComponent";
-import SearchFilter from "@/app/(routes)/(components)/SearchFilter/SearchFilterComponent";
-import { useAuthStore } from "@/store/UserStore";
-import { useEffect } from "react";
-// import "react-quill-new/dist/quill.snow.css";
-// import dynamic from "next/dynamic";
+// src/app/(routes)/page.tsx
+import { Suspense } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
+import HomeClient from "./(components)/HomeClient";
 
-// const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
+export const dynamic = "force-dynamic";
 
-export default function Home() {
-  
+export default function HomePage() {
   return (
-    <div className="flex flex-col items-center pb-8">
-      <div className="w-full bg-primaryColor">
-        <SearchFilter />
-      </div>
-      <section className="w-full bg-accent flex justify-center">
-        <JobBoardComponent />
-      </section>
-      <section className="w-full flex justify-center  bg-white">
-        <CompnayBoardComponent />
-      </section>
-
-    </div>
+    <Suspense
+      fallback={
+        <div className="container mx-auto p-4">
+          <Skeleton className="h-8 w-[200px] mb-4" />
+          <Skeleton className="h-[400px] w-full" />
+        </div>
+      }
+    >
+      <HomeClient />
+    </Suspense>
   );
 }

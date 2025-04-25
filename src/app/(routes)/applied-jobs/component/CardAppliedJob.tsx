@@ -1,4 +1,5 @@
-'use client'
+"use client";
+import { Suspense } from "react";
 import ListJobApplied from "./ListJobApplied";
 
 const CardAppliedJob = () => {
@@ -20,8 +21,9 @@ const CardAppliedJob = () => {
           </div>
         </div>
       </div>
-
-      <ListJobApplied />
+      <Suspense>
+        <ListJobApplied />
+      </Suspense>
     </div>
   );
 };

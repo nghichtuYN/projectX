@@ -320,3 +320,4 @@ export const getAplliedJob = (search: string, page: number) => {
     getAppliedJobs(search, page)
   );
 };
+// application

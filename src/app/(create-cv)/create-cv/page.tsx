@@ -1,6 +1,12 @@
+// In src/app/(create-cv)/create-cv/page.tsx:
 "use client";
 import React from "react";
-import CvFormComponent from "./(component)/CvFormComponent";
+import dynamic from "next/dynamic";
+
+const CvFormComponent = dynamic(
+  () => import("./(component)/CvFormComponent"),
+  { ssr: false }
+);
 
 const CreateCvPage = () => {
   return (

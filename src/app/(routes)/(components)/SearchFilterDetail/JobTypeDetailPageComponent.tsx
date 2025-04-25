@@ -56,7 +56,7 @@ const JobTypeDetailPageComponent = ({ major, handleSelect }: Props) => {
           >
             <div className="flex items-center gap-2">
               {major && major?.length > 0 ? (
-                `${major?.length} địa điểm được chọn`
+                `${major?.length} ngành được chọn`
               ) : (
                 <>
                   <List /> Danh mục nghề
