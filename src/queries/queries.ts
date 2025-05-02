@@ -4,7 +4,7 @@ import {
 } from "./../services/conversation";
 import { useQueryHook } from "@/hooks/useQueryHook";
 import { getBusiness, getFreelance } from "@/services/admin";
-import { getAppliedJobs } from "@/services/application";
+import { getApplicationByJobId, getAppliedJobs } from "@/services/application";
 import { getBusinessInfo } from "@/services/business";
 import {
   getAllCampaigns,
@@ -12,7 +12,14 @@ import {
   getDetailsCampaign,
   getJobByCampaignId,
 } from "@/services/campaign";
+import {
+  getACompany,
+  getCompanies,
+  getRating,
+  getSelf,
+} from "@/services/company";
 import { getContractType, getContractTypeById } from "@/services/contractType";
+import { getFreelanceRecruitment } from "@/services/freelance";
 import { getLevelById, getLevels } from "@/services/jobLevels";
 import { getJobById, getJobs, getJobSaved } from "@/services/jobs";
 import { getJobTypeById, getJobTypes } from "@/services/jobTypes";
@@ -26,11 +33,23 @@ import {
   ListBusinessVerification,
 } from "@/types/BusinessVerification";
 import { campaignType, ListCampaign } from "@/types/campaign";
+import {
+  CompanyPublic,
+  CompanyPublicList,
+  CompanyVerifed,
+  RatingsList,
+} from "@/types/Company";
 import { ContractType, ListContractTypes } from "@/types/ContractType";
 import { Conversation, ListConversations, User } from "@/types/Conversation";
-import { ListFreeLaneRecruiter } from "@/types/Freelance";
+import { FreelanceUser, ListFreeLaneRecruiter } from "@/types/Freelance";
 import { JobLevel } from "@/types/JobLevelType";
-import { Job, JobPublic, ListJob, ListJobPublic } from "@/types/Jobs";
+import {
+  FreelanceRecruiter,
+  Job,
+  JobPublic,
+  ListJob,
+  ListJobPublic,
+} from "@/types/Jobs";
 import { JobType, ListJobType } from "@/types/JobType";
 import { ListMajors, Major } from "@/types/majors";
 import { ListPosts, Post, PostById } from "@/types/Post";
@@ -181,9 +200,16 @@ export const getDetailCampaigns = (id: string) => {
     { enabled: !!id }
   );
 };
-export const getApplyByCampain = (id: string, search: string, page: number) => {
-  return useQueryHook<ApllicationList>(["applications", id, search, page], () =>
-    getAppLicationByCampaignId(id, search, page)
+export const getApplyByCampain = (
+  id: string,
+  search: string,
+  page: number,
+  seen: string,
+  process?: string
+) => {
+  return useQueryHook<ApllicationList>(
+    ["applications", id, search, page, seen, process],
+    () => getAppLicationByCampaignId(id, search, page, seen, process)
   );
 };
 // Jobs
@@ -321,3 +347,68 @@ export const getAplliedJob = (search: string, page: number) => {
   );
 };
 // application
+export const getApllicatinByJobID = (
+  id: string,
+  search: string,
+  page: number,
+  seen: string,
+  process?: string
+) => {
+  return useQueryHook<AplliedJobList>(
+    ["appliedJobs", id, search, page, seen, process],
+    () => getApplicationByJobId(id, search, page, seen, process)
+  );
+};
+export const getAFreelance = () => {
+  return useQueryHook<FreelanceUser>(["freelance"], () =>
+    getFreelanceRecruitment()
+  );
+};
+// companies
+export const getAllCompany = (
+  search: string,
+  pageSize: number,
+  page: number
+) => {
+  return useQueryHook<CompanyPublicList>(
+    ["companies", search, page, pageSize],
+    () => getCompanies(search, page, pageSize)
+  );
+};
+export const getDetailCompany = (id: string) => {
+  try {
+    return useQueryHook<CompanyPublic>(["company", id], () => getACompany(id));
+  } catch (error) {
+    throw error;
+  }
+};
+export const getRatings = (
+  id: string,
+  page: number,
+  pageSize: number,
+  sort?: string
+) => {
+  return useQueryHook<RatingsList>(
+    ["ratings", id, page, pageSize, sort],
+    () => {
+      return getRating(id, page, pageSize, sort);
+    }
+  );
+};
+export const getCompany = () => {
+  return useQueryHook<CompanyVerifed>(["company"], () => getSelf());
+};
+//
+// export const getAppointments = (
+//   search: string,
+//   page: number,
+//   thisWeek: string,
+//   pageSize: number
+// ) => {
+//   return useQueryHook<AppointmentList>(
+//     ["appointments", search, page, thisWeek, pageSize],
+//     () => {
+//       return getBusiness(search, page, thisWeek, pageSize);
+//     }
+//   );
+// };

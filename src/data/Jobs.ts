@@ -17,10 +17,18 @@ export const CompanyOptions: JobOptionsType[] = [
   { value: "1", label: "Công ty đã xác thực" },
   { value: "2", label: "Công ty bị từ chối" },
 ];
+export const FreelanceOptions: JobOptionsType[] = [
+  { value: "all", label: "Tất cả" },
+  { value: "0", label: "NTD chờ duyệt" },
+  { value: "1", label: "NTD đã xác thực" },
+  { value: "2", label: "NTD bị từ chối" },
+];
 
 export const ApplicationOption: JobOptionsType[] = [
-  { value: "all", label: "Hiển thị tất cả" },
-  { value: "notViewed", label: "Chỉ hiển thị CV chưa xem" },
+  { value: "all", label: "Hiển thị tất cả CV" },
+  { value: "false", label: "Chỉ hiển thị CV chưa xem" },
+  { value: "appointment_true", label: "Chỉ hiển thị CV có lịch hẹn" },
+  { value: "appointment_false", label: "Chỉ hiển thị CV không có lịch hẹn" },
 ];
 export const LabelOption: JobOptionsType[] = [
   { value: "is_not_label", label: "Chưa gắn nhãn" },
@@ -34,4 +42,14 @@ export const ProcessOption: JobOptionsType[] = [
   { value: "3", label: "Offered" },
   { value: "4", label: "Hired" },
   { value: "5", label: "Rejected" },
+];
+export const SortJob: JobOptionsType[] = [
+  { value: "new", label: "Ngày đăng" },
+  { value: "up_top", label: "Ngày cập nhật" },
+  { value: "urgent", label: "Cần tuyển gấp" },
+];
+export const SortOptions: JobOptionsType[] = [
+  { value: "create", label: "Ngày đăng" },
+  { value: "point_asc", label: "Từ thấp đến cao" },
+  { value: "point_desc", label: "Từ cao đến thấp" },
 ];

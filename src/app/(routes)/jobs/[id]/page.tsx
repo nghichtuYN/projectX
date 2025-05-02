@@ -50,12 +50,12 @@ const JobDetailPage = () => {
       <SearchFilterDetailPage />
       <div className="w-3/4">
         <BreadCrumbComponent />
-        <div className="grid gap-5 pt-3 grid-cols-3">
+        <div className="grid gap-5 pt-3 grid-cols-1 md:grid-cols-3 w-full">
           <div className="col-span-2 flex flex-col items-center gap-5">
             <CardJob job={job} handleSaveJob={handleSaveJob} />
             <CardDetailJob job={job} handleSaveJob={handleSaveJob} />
           </div>
-          <div className="col-span-1 flex flex-col gap-4">
+          <div className="col-span-1 w-full flex flex-col gap-4">
             <CardCompany job={job} />
             <CardInfo job={job} />
             <CardInclude job={job} />

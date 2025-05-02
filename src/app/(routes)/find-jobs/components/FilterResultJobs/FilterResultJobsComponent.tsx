@@ -7,6 +7,8 @@ import { cn } from "@/lib/utils";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
 import { Job, JobPublic } from "@/types/Jobs";
+import FilterComponent from "@/app/(employer)/employer/recruitment-campaigns/(components)/FilterJobComponent";
+import { SortJob } from "@/data/Jobs";
 
 // Define the type for companyName options
 type CompanyNameOption = {
@@ -30,11 +32,12 @@ const companyNames: CompanyNameOption[] = [
 ];
 type Props = {
   jobs: JobPublic[] | undefined;
-  refetch:any
+  refetch: any;
 };
-const FilterResultJobsComponent = ({ jobs ,refetch}: Props) => {
+const FilterResultJobsComponent = ({ jobs, refetch }: Props) => {
   const searchParams = useSearchParams();
   const companyName = searchParams.get("companyName") || "null";
+  const sort = searchParams.get("sort") || "new";
   const pathName = usePathname();
   const router = useRouter();
   const getRadioValue = () => {
@@ -54,7 +57,16 @@ const FilterResultJobsComponent = ({ jobs ,refetch}: Props) => {
     },
     [pathName, router, searchParams, companyName]
   );
-
+  const handleFilterBy = (sort: string) => {
+    const params = new URLSearchParams(searchParams);
+    // params.set("page", "1");
+    if (sort) {
+      params.set("sort", sort);
+    } else {
+      params.delete("sort");
+    }
+    router.replace(`${pathName}?${params.toString()}`);
+  };
   const handleValueChange = (value: string) => {
     handleCompanyName(value);
   };
@@ -91,11 +103,17 @@ const FilterResultJobsComponent = ({ jobs ,refetch}: Props) => {
             </TabsList>
           </Tabs>
         </div>
-        <div className="flex items-center basis-1/3">
-          <p>Ưu tiên hiển thị theo</p>
+        <div className="flex items-center p-1 basis-1/3 justify-between">
+          <p>Ưu tiên hiển thị theo:</p>
+          <FilterComponent
+            dataOptions={SortJob}
+            filterBy={sort}
+            onChangeFilterByValue={handleFilterBy}
+            placeholder="Tất cả tin tuyển dụng"
+          />
         </div>
       </div>
-      <ListJobsComponent jobs={jobs} refetch={refetch}/>
+      <ListJobsComponent jobs={jobs} refetch={refetch} />
     </div>
   );
 };

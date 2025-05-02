@@ -29,7 +29,7 @@ const Password = ({
           <Input
             className={cn(
               errors.password && "border-red-500 focus-visible:ring-red-500",
-              "relative"
+              "relative placeholder:leading-6"
             )}
             placeholder="Nhập mật khẩu"
             type={isShowPassword ? "text" : "password"}

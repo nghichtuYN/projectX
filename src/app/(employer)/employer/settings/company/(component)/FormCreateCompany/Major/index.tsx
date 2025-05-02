@@ -15,7 +15,7 @@ import ListMajors from "./ListMajors";
 import SelectedMajorsComponent from "./SelectedMajorsComponent";
 type Props = {
   form: any;
-  removeItem: (field: keyof CompanyFormValues, value: string) => void;
+  removeItem: (field: any, value: string) => void;
 };
 const MajorsComponent = ({ form, removeItem }: Props) => {
   const [open, setOpen] = React.useState(false);

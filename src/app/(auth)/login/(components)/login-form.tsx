@@ -1,9 +1,8 @@
 "use client";
-
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import * as z from "zod";
+import z from "zod";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,15 +14,16 @@ import {
 } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Check, Lock, Mail } from "lucide-react";
+import { Lock, Mail } from "lucide-react";
 import GoogleLoginButton from "../../../../components/GoogleLoginButton";
 import { useAuthStore } from "@/store/UserStore";
 import FormFieldComponent from "../../(components)/FormFieldComponent";
 import IsShowPasswordComponent from "../../(components)/IsShowPasswordComponent";
 import { toast } from "sonner";
 import { useMutationHook } from "@/hooks/useMutationHook";
-import { getUser, signIn } from "@/services/user";
+import { signIn } from "@/services/user";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 const formSchema = z.object({
   email: z.string().email({
     message: "Vui lòng nhập một địa chỉ email hợp lệ.",
@@ -70,7 +70,6 @@ export function LoginForm({
           message: errorMessage || "Mật khẩu không đúng",
         });
       } else {
-        // Nếu lỗi không cụ thể, gán vào cả hai trường hoặc hiển thị thông báo chung
         form.setError("email", { type: "manual", message: errorMessage });
         form.setError("password", { type: "manual", message: errorMessage });
       }
@@ -148,6 +147,14 @@ export function LoginForm({
                     </div>
                   )}
                 </FormFieldComponent>
+                <div className="flex justify-end">
+                  <Link
+                    href="/reset-password"
+                    className="text-sm text-secondaryColor hover:underline"
+                  >
+                    Quên mật khẩu?
+                  </Link>
+                </div>
                 <Button
                   type="submit"
                   className="w-full font-semibold hover:bg-white hover:text-secondaryColor hover:outline-secondaryColor  text-white"
@@ -162,7 +169,7 @@ export function LoginForm({
                 </span>
               </div>
               <div className=" space-y-4 space-x-4">
-                <GoogleLoginButton />
+                <GoogleLoginButton roleName="Candidate" />
               </div>
 
               <div className="text-center text-sm">

@@ -17,7 +17,7 @@ export default function DashBoardEmployerLayout({
     if (
       user &&
       user.roles[0] !== "Business" &&
-      user.roles[0] !== "PreelanceRecruiter"
+      user.roles[0] !== "FreelanceRecruiter"
     ) {
       return notFound();
     }

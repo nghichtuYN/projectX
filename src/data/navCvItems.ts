@@ -6,11 +6,8 @@ export type NavItem = {
 
 import {
   BookOpen,
-  Briefcase,
-  FileText,
   FolderPlus,
   LucideIcon,
-  PaintBucket,
 } from "lucide-react";
 
 export const navItems: NavItem[] = [

@@ -115,8 +115,12 @@ export const signUp = async (data: {
   password: string;
   roleName: string;
 }) => {
-  const res = await axiosInstance.post("/auth/sign-up", data);
-  return res.data;
+  try {
+    const res = await axiosInstance.post("/auth/sign-up", data);
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
 };
 
 export const getUser = async () => {
@@ -137,12 +141,8 @@ export const googleSignIn = async (data: {
   idToken: string;
   roleName: string;
 }) => {
-  try {
-    const res = await axiosInstance.post("/auth/google-auth", data);
-    return res.data;
-  } catch (error) {
-    throw error;
-  }
+  const res = await axiosInstance.post("/auth/google-auth", data);
+  return res.data;
 };
 export const updateUser = async (data: FormData) => {
   try {

@@ -10,7 +10,7 @@ const AdminContractTypePage = () => {
       <EmployerSidebaHeaderComponent>
         <div className="flex w-full items-center ">
           <p className="text-lg font-semibold text-secondaryColor">
-            Quản lý hợp đồng
+            Quản lý hình thức công việc
           </p>
         </div>
       </EmployerSidebaHeaderComponent>

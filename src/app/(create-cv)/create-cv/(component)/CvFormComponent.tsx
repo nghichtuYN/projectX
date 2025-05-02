@@ -37,6 +37,7 @@ import { createPortal } from "react-dom";
 import { LayoutType } from "@/types/layoutCv";
 import RenderIconComponent from "./RenderIconComponent";
 import { useDebouncedCallback } from "use-debounce";
+import { useAuthStore } from "@/store/UserStore";
 
 type CvFormContextType = {
   setActiveEditor: Dispatch<React.SetStateAction<Editor | null>>;
@@ -76,6 +77,7 @@ const CvFormComponent = () => {
   const [activeOldColumn, setActiveOldColumn] = useState<ColumnType | null>(
     null
   );
+  const user = useAuthStore((state) => state.user);
   const [form, setForm] = useState<FormType>({
     email: `<p><span style="font-size: 13 ;">hoangtroll14354@gmail.com</span></p>`,
     phone: `<p><span style="font-size: 13 ;">0123456789</span></p>`,
@@ -228,6 +230,13 @@ const CvFormComponent = () => {
     }));
   };
 
+  useEffect(()=>{
+    if(user){
+      handleChange("email", `<p><span style="font-size: 13 ;">${user?.email}</span></p>`);
+      handleChange("name", `<p><span style="font-size: 48px; font-weight: bold;  color: ${textColor} ;">${user?.fullName}</span></p>`);
+      handleChange("phone", `<p><span style="font-size: 13 ;">${user?.phoneNumber}</span></p>`);
+    }
+  },[user])
   const handleClickOutside = (event: MouseEvent) => {
     if (typeof window === "undefined") return;
     const selectContent = document.querySelector("[data-state='open']");

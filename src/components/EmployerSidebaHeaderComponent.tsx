@@ -12,7 +12,10 @@ const EmployerSidebaHeaderComponent = ({
       <div className="flex w-full items-center gap-2 px-4">
         <SidebarTrigger className="-ml-1" />
         <Separator orientation="vertical" className="mr-2 h-4" />
-        <div>{children}</div>
+        <div className="flex items-center w-fit justify-between">
+          {children}
+          {/* <p>Số dư:</p> */}
+        </div>
       </div>
     </header>
   );

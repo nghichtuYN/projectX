@@ -45,17 +45,17 @@ const ContracTypeClient = () => {
       return deleteContractType(id);
     },
     (data) => {
-      toast.success("Xóa hợp đồng thành công");
+      toast.success("Xóa hình thức thành công");
       refetch();
     },
     (error) => {
-      toast.error("Xóa hợp đồng thất bại");
+      toast.error("Xóa hình thức thất bại");
     }
   );
   const columns: TableColumn<ContractType>[] = [
     {
       key: "name",
-      title: "Tên hợp đồng",
+      title: "Tên hình thức",
       renderColumn: (row) => {
         return (
           <div className="flex justify-start items-start gap-2 w-full">
@@ -89,7 +89,7 @@ const ContracTypeClient = () => {
             <div className="flex items-center rounded-3xl bg-white w-full ">
               <Search className="h-4 w-4 text-muted-foreground " />
               <Input
-                placeholder="Tên hợp đồng"
+                placeholder="Tên hình thức"
                 defaultValue={searchParams.get("search")?.toString() || ""}
                 onChange={(e) => handleSearch(e.target.value)}
                 className="border-none h-11 focus-visible:ring-0 placeholder:font-medium rounded-3xl placeholder:overflow-hidden placeholder:text-ellipsis"
@@ -105,7 +105,7 @@ const ContracTypeClient = () => {
               rowKey={"id"}
               rows={jobTypes?.items || []}
               rowClassName="group hover:bg-fourthColor"
-              content="Không có tin tuyển dụng nào"
+              content="Không tìm thấy hình thức nào"
             />
           )}
           {!!jobTypes && jobTypes?.totalPages > 1 && (

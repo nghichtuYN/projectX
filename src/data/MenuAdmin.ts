@@ -1,6 +1,8 @@
 import {
   Building,
   Command,
+  Files,
+  FileText,
   FileType,
   FileUser,
   Heart,
@@ -51,7 +53,7 @@ export const MenuAdmin = {
 
       items: [
         {
-          title: "Nhà tuyển dụng công y",
+          title: "Nhà tuyển dụng công ty",
           url: "/admin/company",
           icon: Building,
         },
@@ -63,21 +65,16 @@ export const MenuAdmin = {
       ],
     },
     {
-      title: "Ứng viên",
+      title: "Tin tuyển dụng",
       url: "#",
-      icon: Users,
+      icon: FileText,
       isActive: true,
 
       items: [
         {
-          title: "Danh sách ứng viên",
+          title: "Danh sách tin tuyển dụng",
           url: "#",
-          icon: FileUser,
-        },
-        {
-          title: "Hồ sơ đã lưu",
-          url: "/admin/recruitment-campaigns",
-          icon: Heart,
+          icon: Files,
         },
       ],
     },
@@ -94,17 +91,17 @@ export const MenuAdmin = {
           icon: UserCog,
         },
         {
-          title: "Hợp đồng",
+          title: "Hình thức làm việc",
           url: "/admin/contract-type",
           icon: ReceiptText,
         },
         {
-          title: "Hình thức làm việc",
+          title: "Loại hình công việc",
           url: "/admin/job-types",
           icon: FileType,
         },
         {
-          title: "Chức vụ công việc",
+          title: "Cấp bậc công việc",
           url: "/admin/job-levels",
           icon: UserRoundPen,
         },

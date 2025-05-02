@@ -30,7 +30,7 @@ export default function ForumClient() {
           <div className="flex items-center gap-2 w-full">
             <Avatar>
               <AvatarImage
-                src={`${process.env.NEXT_PUBLIC_API_URL_IMAGE}${user?.profilePicture}`}
+                src={user?.provider==="Google" ? user?.profilePicture : `${process.env.NEXT_PUBLIC_API_URL_IMAGE}${user?.profilePicture}`}
               />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>

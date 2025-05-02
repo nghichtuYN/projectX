@@ -41,12 +41,12 @@ const CardDetailJob = ({ job, handleSaveJob }: Props) => {
           {job?.isSaved ? (
             <div className="flex items-center gap-3 text-red-500">
               <BookmarkX className="w-5 h-5 font-bold" />
-              <p>Bỏ lưu</p>
+              <p className="hidden md:block">Bỏ lưu</p>
             </div>
           ) : (
             <>
               <Heart />
-              <p>Lưu tin</p>
+              <p className="hidden md:block">Lưu tin</p>
             </>
           )}
         </Button>

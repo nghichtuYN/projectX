@@ -1,7 +1,4 @@
 "use client";
-
-import type React from "react";
-
 import { useRef } from "react";
 import { Camera, Building } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -29,7 +26,6 @@ export default function LogoUpload({ form, setLogoImage }: Props) {
   const triggerFileInput = () => {
     fileInputRef.current?.click();
   };
-
   return (
     <div className="flex flex-col items-center">
       <div className="relative">

@@ -10,11 +10,10 @@ const AdminJobTypesPage = () => {
       <EmployerSidebaHeaderComponent>
         <div className="flex w-full items-center ">
           <p className="text-lg font-semibold text-secondaryColor">
-            Quản lý hình thức công việc
+            Quản lý loại hình công việc
           </p>
         </div>
       </EmployerSidebaHeaderComponent>
-
       <Suspense
         fallback={
           <div className="pt-14 pl-8 pr-8 w-full">

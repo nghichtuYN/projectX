@@ -127,7 +127,7 @@ const AdminSkillClient = () => {
                 rowKey={"id"}
                 rows={skills?.items || []}
                 rowClassName="group  hover:bg-fourthColor"
-                content="Không có tin tuyển dụng nào"
+                content="Không tìm thấy kỹ năng nào"
               />
             )}
             {!!skills && skills?.totalPages > 1 && (

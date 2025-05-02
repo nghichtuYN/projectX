@@ -59,7 +59,7 @@ export const Menu: Menu[] = [
       },
       {
         title: "Danh sách công ty",
-        href: "/docs/primitives/tooltip",
+        href: "/company",
         icon: Building2,
       },
       {

@@ -27,7 +27,7 @@ const LocationsComponent = ({ form }: Props) => {
     isFetching,
   } = useQueryHook<ListLocations>(
     ["LocationId", debouncedSearchTerm],
-    () => getAllLocation(debouncedSearchTerm)
+    () => getAllLocation(debouncedSearchTerm,1,0)
     // {
     //   enabled: !!open,
     // }

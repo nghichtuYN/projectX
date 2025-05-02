@@ -69,11 +69,11 @@ const FormJobType = ({
               name="name"
               icon={null}
               requrie={true}
-              label="Tên hình thức công việc"
+              label="Tên loại hình công việc"
             >
               {(field) => (
                 <Input
-                  placeholder="Nhập tên hình thức công việc"
+                  placeholder="Nhập tên loại hình công việc"
                   //   defaultValue={field.value}
                   {...field}
                 />

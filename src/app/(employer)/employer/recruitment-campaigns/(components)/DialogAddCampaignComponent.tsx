@@ -13,7 +13,7 @@ import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useMutationHook } from "@/hooks/useMutationHook";
-import { cn } from "@/lib/utils";
+import { cn, formatDateForInput } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FolderPlus } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -146,9 +146,7 @@ const DialogAddCampaignComponent = ({ refetch }: Props) => {
     [mutation]
   );
 
-  const formatDateForInput = (date: Date | undefined) => {
-    return date ? date.toISOString().split("T")[0] : "";
-  };
+  
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -247,8 +245,6 @@ const DialogAddCampaignComponent = ({ refetch }: Props) => {
                   />
                 )}
               </FormFieldComponent>
-
-              {/* Thêm trường chọn trạng thái với RadioGroup */}
               <FormFieldComponent
                 control={form.control}
                 name="status"

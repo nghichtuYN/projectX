@@ -42,7 +42,7 @@ const DialogEditContractType = ({ id, refetch }: Props) => {
       return updateContractType(id, rest);
     },
     (data) => {
-      toast.success("Cập nhật hợp đồng thành công");
+      toast.success("Cập nhật hình thức thành công");
       setOpen(false);
       form.reset({
         name: "",
@@ -50,7 +50,7 @@ const DialogEditContractType = ({ id, refetch }: Props) => {
       refetch();
     },
     (error) => {
-      toast.error("Cập nhật hợp đồng thất bại");
+      toast.error("Cập nhật hình thức thất bại");
     }
   );
   const onSubmit = (values: FormContractTypeValues) => {
@@ -76,8 +76,8 @@ const DialogEditContractType = ({ id, refetch }: Props) => {
       form={form}
       onSubmit={onSubmit}
       isLoading={isLoading}
-      title="Cập nhật hợp đồng"
-      description="Cập nhật hợp đồng để sử dụng trong hệ thống"
+      title="Cập nhật hình thức"
+      description="Cập nhật hình thức để sử dụng trong hệ thống"
       IconTrigger={Pencil}
       contentButton="Cập nhật"
       contentLoading="Đang tiến hành"

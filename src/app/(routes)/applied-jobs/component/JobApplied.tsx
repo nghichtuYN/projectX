@@ -5,28 +5,12 @@ import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 import { BookmarkX, Clock } from "lucide-react";
 import Link from "next/link";
-import { getTimeSince } from "@/lib/utils";
+import { formatDateTime, getTimeSince } from "@/lib/utils";
 type Props = {
   appliedJob: AppliedJob;
 };
 const JobApplied = ({ appliedJob }: Props) => {
-  function formatDateTime(isoString: string) {
-    // Parse the ISO string into a Date object
-    const date = new Date(isoString);
 
-    // Adjust for UTC+7 by adding 7 hours (7 * 60 * 60 * 1000 milliseconds)
-    date.setTime(date.getTime() + 7 * 60 * 60 * 1000);
-
-    // Extract day, month, year, hours, and minutes
-    const day = String(date.getUTCDate()).padStart(2, "0");
-    const month = String(date.getUTCMonth() + 1).padStart(2, "0"); // Months are 0-based
-    const year = date.getUTCFullYear();
-    const hours = String(date.getUTCHours()).padStart(2, "0");
-    const minutes = String(date.getUTCMinutes()).padStart(2, "0");
-
-    // Format as DD/MM/YYYY - HH:mm
-    return `${day}/${month}/${year} - ${hours}:${minutes}`;
-  }
   return (
     <Card className="mb-4 border-l-4 border-l-secondaryColor hover:shadow-md transition-shadow">
       <CardContent className="p-0">
@@ -47,9 +31,12 @@ const JobApplied = ({ appliedJob }: Props) => {
             </div>
           </div>
           <div className="flex-grow space-y-2">
-            <h3 className="text-[16px] font-semibold text-gray-800">
+            <Link
+              href={`/jobs/${appliedJob?.job?.id}`}
+              className="text-[16px] font-semibold text-gray-800"
+            >
               {appliedJob?.job?.title}
-            </h3>
+            </Link>
             <div className="text-emerald-600 text-sm font-semibold">
               {
                 <div className="">
@@ -67,7 +54,7 @@ const JobApplied = ({ appliedJob }: Props) => {
                 : appliedJob?.job?.freelanceRecruiter?.fullName}
             </div>
             <div className="text-gray-500 text-sm font-normal">
-              Đã ứng tuyển: {formatDateTime(appliedJob?.applied)}
+              Đã ứng tuyển: {formatDateTime(appliedJob?.submitted)}
             </div>
             <div className="flex justify-between items-center  pt-2 border-t">
               <div className="flex items-center gap-3  ">
@@ -79,23 +66,6 @@ const JobApplied = ({ appliedJob }: Props) => {
                   Cập nhật {getTimeSince(appliedJob?.modified)}
                 </div>
               </div>
-              {/* <div className="flex gap-2">
-                <Link href={`/jobs/${job?.id}`}>
-                  <Button className="font-semibold  leading-6 text-sm">
-                    Ứng tuyển
-                  </Button>
-                </Link>
-                <Button
-                  onClick={() => handleSaveJob(job?.id)}
-                  variant="outline"
-                  className="border-red-500"
-                >
-                  <div className="flex items-center gap-3 text-red-500">
-                    <BookmarkX className="w-5 h-5 font-bold" />
-                    <p>Bỏ lưu</p>
-                  </div>
-                </Button>
-              </div> */}
             </div>
           </div>
         </div>

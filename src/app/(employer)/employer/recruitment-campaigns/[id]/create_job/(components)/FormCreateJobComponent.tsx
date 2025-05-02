@@ -12,17 +12,17 @@ import FormJob from "./FormJob";
 
 // Zod schema for validation
 export const jobSchema = z.object({
-  Title: z.string().nonempty( "Tiêu đề tin là bắt buộc"),
+  Title: z.string().nonempty("Tiêu đề tin là bắt buộc"),
   Description: z.string().min(1, "Mô tả là bắt buộc"),
   majorId: z.string().min(1, "Chuyên ngành là bắt buộc"),
   LocationId: z.string().nonempty("Thành phố là bắt buộc"),
-  educationLevelRequire: z.string().nonempty( "Trình độ học vấn là bắt buộc"),
+  educationLevelRequire: z.string().nonempty("Trình độ học vấn là bắt buộc"),
   OfficeAddress: z.string().min(1, "Địa chỉ văn phòng là bắt buộc"),
   minSalary: z.number().min(0, "Mức lương tối thiểu phải là số dương"),
   maxSalary: z.number().min(0, "Mức lương tối đa phải là số dương"),
   yearOfExperience: z.number().min(0, "Kinh nghiệm phải là số dương"),
-  skills: z.array(z.string()).nonempty( "Phải có ít nhất một kỹ năng"),
-  jobTypes: z.array(z.string()).nonempty( "Phải có ít nhất một loại công việc"),
+  skills: z.array(z.string()).nonempty("Phải có ít nhất một kỹ năng"),
+  jobTypes: z.array(z.string()).nonempty("Phải có ít nhất một loại công việc"),
   jobLevels: z
     .array(z.string())
     .min(1, "Phải có ít nhất một chức vụ công việc"),
@@ -30,6 +30,22 @@ export const jobSchema = z.object({
     .array(z.string())
     .min(1, "Phải có ít nhất một loại hợp đồng"),
   quantity: z.number().min(1, "Số lượng không được để trống"),
+  // start: z
+  //   .date({
+  //     required_error: "Ngày bắt đầu không được để trống",
+  //     invalid_type_error: "Ngày bắt đầu không hợp lệ",
+  //   })
+  //   .refine((val) => val !== undefined, {
+  //     message: "Ngày bắt đầu không được để trống",
+  //   }),
+  // end: z
+  //   .date({
+  //     required_error: "Ngày kết thúc không được để trống",
+  //     invalid_type_error: "Ngày kết thúc không hợp lệ",
+  //   })
+  //   .refine((val) => val !== undefined, {
+  //     message: "Ngày kết thúc không được để trống",
+  //   }),
 });
 
 export type JobFormValues = z.infer<typeof jobSchema>;

@@ -11,7 +11,7 @@ import {
 import { useDebouncedCallback } from "use-debounce";
 import FilterComponent from "../../../(components)/FilterJobComponent";
 import { ApplicationOption, LabelOption, ProcessOption } from "@/data/Jobs";
-import { getApplyByCampain } from "@/queries/queries";
+import { getApllicatinByJobID, getApplyByCampain } from "@/queries/queries";
 import SkeletonTableComponent from "@/components/SeketonTable";
 import TableComponent, { TableColumn } from "@/components/TableComponent";
 import PaginationComponent from "@/components/PaginationComponent";
@@ -25,6 +25,9 @@ import {
   seenApllication,
   shortlistApllication,
 } from "@/services/application";
+import { X } from "lucide-react";
+import DialogAddAppointment from "./DialogAddAppointment";
+import { formatDate } from "@/lib/utils";
 // import * as XLSX from "xlsx";
 
 const processActionMap: { [key: string]: (id: string) => Promise<any> } = {
@@ -40,12 +43,14 @@ const TabContentApplyCv = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const keyword = searchParams.get("keyword") || "";
-  const label = searchParams.get("label") || "";
-  const quick_filter = searchParams.get("quick_filter") || "jobs";
+  const proces = searchParams.get("process") || "";
+  const seen = searchParams.get("seen") || "all";
   const page = parseInt(searchParams.get("page") || "1", 10);
 
   const param = useParams();
   const id = param.id as string | undefined;
+  const jobId = param.jobid as string;
+
   if (!id) return <p>...</p>;
   const handleKeywordChange = useDebouncedCallback((term: string) => {
     const params = new URLSearchParams(searchParams);
@@ -60,9 +65,11 @@ const TabContentApplyCv = () => {
     const params = new URLSearchParams(searchParams);
     params.set("page", "1");
     if (term) {
-      params.set("quick_filter", term);
+      if (term === "all") {
+        params.delete("seen");
+      } else params.set("seen", term);
     } else {
-      params.delete("quick_filter");
+      params.delete("seen");
     }
     router.replace(`${pathName}?${params.toString()}`);
   };
@@ -70,18 +77,17 @@ const TabContentApplyCv = () => {
     const params = new URLSearchParams(searchParams);
     params.set("page", "1");
     if (term) {
-      params.set("label", term);
+      params.set("process", term);
     } else {
-      params.delete("label");
+      params.delete("process");
     }
     router.replace(`${pathName}?${params.toString()}`);
   };
-  const {
-    data: applications,
-    isLoading,
-    isFetching,
-    refetch,
-  } = getApplyByCampain(id, keyword, page);
+  const getData = () => {
+    if (jobId) return getApllicatinByJobID(jobId, keyword, page, seen, proces);
+    return getApplyByCampain(id, keyword, page, seen, proces);
+  };
+  const { data: applications, isLoading, isFetching, refetch } = getData();
 
   const mutation = useMutationHook(
     (data: { id: string }) => {
@@ -110,7 +116,12 @@ const TabContentApplyCv = () => {
   const handleProcessChange = (id: string, process: string) => {
     processMutation.mutate({ id, process });
   };
-
+  const handleDeleteFilter = () => {
+    const params = new URLSearchParams(searchParams);
+    params.set("page", "1");
+    params.delete("process");
+    router.replace(`${pathName}?${params.toString()}`, { scroll: false });
+  };
   // const handleExport = () => {
   //   const data = [
   //     { name: "John Doe", email: "john@example.com" },
@@ -138,7 +149,7 @@ const TabContentApplyCv = () => {
     },
     {
       key: "introduction",
-      title: "Mô tả",
+      title: "Thư giới thiệu",
       renderColumn: (row) => {
         return (
           <div className="flex flex-col gap-2">
@@ -166,6 +177,27 @@ const TabContentApplyCv = () => {
       },
     },
     {
+      key: "appoitment",
+      title: "Lịch hẹn",
+      renderColumn: (row) => {
+        return (
+          <div className="flex justify-center">
+            {row?.appointment ? (
+              <div className="flex flex-col">
+                <p className="flex items-center gap-2">
+                  Bắt đầu: {formatDate(row?.appointment?.startTime)}
+                </p>
+                <p>Kết thúc: {formatDate(row?.appointment?.endTime)}</p>
+                <p>Ghi chú: {row.appointment?.note}</p>
+              </div>
+            ) : (
+              <DialogAddAppointment row={row} />
+            )}
+          </div>
+        );
+      },
+    },
+    {
       key: "resume",
       title: "CV ứng tuyển",
       renderColumn: (row) => {
@@ -187,7 +219,7 @@ const TabContentApplyCv = () => {
   ];
 
   return (
-    <div className="container w-full  mx-auto p-4 space-y-4 bg-white">
+    <div className=" w-full  mx-auto p-4 space-y-4 bg-white">
       <div className="flex items-center gap-2 pt-2 pl-2 pr-2 w-full">
         <div className="w-2/3 flex  items-center gap-2  ">
           <SearchApllication
@@ -196,16 +228,24 @@ const TabContentApplyCv = () => {
           />
           <FilterComponent
             dataOptions={ApplicationOption}
-            filterBy={quick_filter}
+            filterBy={seen}
             onChangeFilterByValue={handleQuickFilterChange}
-            placeholder="Hiển thị tất cả"
+            placeholder="Hiển thị tất cả CV"
           />
-          <FilterComponent
-            dataOptions={LabelOption}
-            filterBy={label}
-            onChangeFilterByValue={handleLabelChange}
-            placeholder="Tất cả nhãn"
-          />
+          <div className="flex gap-2 items-center">
+            <FilterComponent
+              dataOptions={ProcessOption}
+              filterBy={proces}
+              onChangeFilterByValue={handleLabelChange}
+              placeholder="Lọc theo trạng thái"
+            />
+            {proces && (
+              <X
+                className="w-4 h-4 cursor-pointer "
+                onClick={handleDeleteFilter}
+              />
+            )}
+          </div>
         </div>
         <div className="flex justify-end w-1/3">
           <Button
@@ -219,14 +259,14 @@ const TabContentApplyCv = () => {
       </div>
 
       {isLoading || isFetching ? (
-        <SkeletonTableComponent columnsCount={5} />
+        <SkeletonTableComponent columnsCount={5} rowsCount={1} />
       ) : (
         <TableComponent
           columns={columns}
           rowKey={"id"}
           rows={applications?.items || []}
           rowClassName="group hover:bg-fourthColor"
-          content="Không có tin tuyển dụng nào"
+          content="Không có ứng viên nào"
         />
       )}
       {!!applications && applications?.totalPages > 1 && (

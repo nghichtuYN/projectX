@@ -43,7 +43,8 @@ const UseInfo = () => {
     if (user) {
       form.reset({
         fullName: user.fullName || "",
-        profilePicture: user.profilePicture || "",
+        profilePicture:
+          `${process.env.NEXT_PUBLIC_API_URL_IMAGE}${user?.profilePicture}` || "",
         phoneNumber: user.phoneNumber || "",
         email: user.email || "",
       });

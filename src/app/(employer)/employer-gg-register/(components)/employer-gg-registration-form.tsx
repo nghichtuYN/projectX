@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import * as z from "zod";
+import  z from "zod";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
@@ -41,9 +41,6 @@ export function EmployerGoogleRegistrationForm({
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  const [openWorkLocation, setOpenWorkLocation] = useState<boolean>(false);
-  const [open, setOpen] = useState<boolean>(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -73,13 +70,6 @@ export function EmployerGoogleRegistrationForm({
             <p className="text-secondaryColor font-semibold text-2xl pl-3 pt-3">
               Thông tin nhà tuyển dụng
             </p>
-            {/* <EmloyerInfoComponent
-              openWorkLocation={openWorkLocation}
-              setOpenWorkLocation={setOpenWorkLocation}
-              open={open}
-              setOpen={setOpen}
-              form={form}
-            /> */}
             <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? "Đang đăng ký..." : "Đăng ký"}
             </Button>

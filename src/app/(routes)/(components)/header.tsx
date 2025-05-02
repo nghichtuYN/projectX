@@ -28,7 +28,7 @@ const Header = () => {
               <SiteComponent />
             </div>
           ) : (
-            <div className="flex items-center gap-3">
+            <div className="hidden items-center gap-3 xl:flex">
               <Link href={"/login"}>
                 <Button className="border-2 border-primaryColor hover:bg-gray-50 rounded-sm text-sm leading-[22px] font-semibold bg-white text-secondaryColor">
                   Đăng nhập

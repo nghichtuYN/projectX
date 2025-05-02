@@ -52,14 +52,33 @@ export const getJobByCampaignId = async (
 export const getAppLicationByCampaignId = async (
   id: string,
   search: string,
-  page: number
+  page: number,
+  seen: string,
+  progess?: string,
 ) => {
-  const res = await axiosJwt.get(`/campaigns/${id}/applications`, {
-    params: {
-      search: search,
-      page: page,
-      pageSize: 10,
-    },
-  });
-  return res.data;
+  try {
+    const params = new URLSearchParams();
+    if (search) {
+      params.append("search", search);
+    }
+    if (page) {
+      params.append("page", page.toString());
+    }
+    if (seen !== "all") {
+      if (seen === "appointment_true") params.append("appointment", "true");
+      else if (seen === "appointment_false")
+        params.append("appointment", "false");
+      else params.append("seen", seen.toString());
+    }
+    if (progess !== "all" && progess !== undefined) {
+      params.append("process", progess.toString());
+    }
+    const queryString = params.toString();
+    const res = await axiosJwt.get(
+      `/campaigns/${id}/applications?${queryString}`
+    );
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
 };

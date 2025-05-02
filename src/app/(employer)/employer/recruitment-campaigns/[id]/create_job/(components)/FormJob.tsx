@@ -28,6 +28,16 @@ import { UseMutationResult } from "@tanstack/react-query";
 import { JobFormValues, jobSchema } from "./FormCreateJobComponent";
 import { z } from "zod";
 import { Loader2 } from "lucide-react";
+import HighLightStart from "./HighLightStart";
+import HighLightEnd from "./HighLightEnd";
+import TabContentApplyCv from "../../(components)/TabApllicaton/TabContentApplyCv";
+import { usePathname } from "next/navigation";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 type Props = {
   form: any;
   removeItem: (field: keyof JobFormValues, value: string) => void;
@@ -44,6 +54,7 @@ const FormJob = ({
   content,
   title,
 }: Props) => {
+  const pathName = usePathname();
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -69,56 +80,74 @@ const FormJob = ({
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
-              <div className="flex items-center">
-                <h3 className="text-lg font-medium">Thông tin cơ bản</h3>
-                <Separator className="flex-1 ml-3" />
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-4">
-                  <TittleComponent form={form} />
-                  <AddressComponent form={form} />
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <LocationsComponent form={form} />
-                  <MajorsComponent form={form} />
-                  <QuantityComponent form={form} />
-                  <ExperienceComponent form={form} />
-                  <div className="col-span-2">
-                    <EducationLevelComponent form={form} />
+            <Accordion type="multiple" defaultValue={["item-1","item-3"]} className="w-full space-y-4">
+              <AccordionItem value="item-1">
+                <AccordionTrigger>
+                  <h3 className="text-lg font-medium">Thông tin cơ bản</h3>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-4">
+                      <TittleComponent form={form} />
+                      <AddressComponent form={form} />
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <LocationsComponent form={form} />
+                      <MajorsComponent form={form} />
+                      <QuantityComponent form={form} />
+                      <ExperienceComponent form={form} />
+                      <div className="col-span-2">
+                        <EducationLevelComponent form={form} />
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <div className="flex items-center">
-                <h3 className="text-lg font-medium">Chi tiết công việc</h3>
-                <Separator className="flex-1 ml-3" />
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-4">
-                  <DescriptionComponent form={form} />
-                  <JDComponent form={form} />
-                </div>
-                <div className="space-y-4">
-                  <SalaryComponent form={form} />
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <JobTypeComponent form={form} removeItem={removeItem} />
-                    <JobLevelComponent form={form} removeItem={removeItem} />
-                    <SkillComponent form={form} removeItem={removeItem} />
-                    <ContractTypeComponent
-                      form={form}
-                      removeItem={removeItem}
-                    />
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="item-2">
+                <AccordionTrigger>
+                  <h3 className="text-lg font-medium">Chi tiết công việc</h3>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-4">
+                      <DescriptionComponent form={form} />
+                      <JDComponent form={form} />
+                    </div>
+                    <div className="space-y-4">
+                      <SalaryComponent form={form} />
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <JobTypeComponent form={form} removeItem={removeItem} />
+                        <JobLevelComponent
+                          form={form}
+                          removeItem={removeItem}
+                        />
+                        <SkillComponent form={form} removeItem={removeItem} />
+                        <ContractTypeComponent
+                          form={form}
+                          removeItem={removeItem}
+                        />
+                        {/* <HighLightStart form={form} />
+                    <HighLightEnd form={form} /> */}
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            </div>
+                </AccordionContent>
+              </AccordionItem>
+              {pathName.includes("edit_job") && (
+                <AccordionItem value="item-3">
+                  <AccordionTrigger>
+                    <h3 className="text-lg font-medium">Danh sách ứng viên</h3>
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <div className="border">
+                      <TabContentApplyCv />
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              )}
+            </Accordion>
+            {/* <div className="space-y-4"></div> */}
 
-            <CardFooter className="px-0 pt-6 flex justify-end"></CardFooter>
           </CardContent>
         </Card>
       </form>

@@ -18,8 +18,8 @@ type Props = {
   ) => Promise<QueryObserverResult<ListContractTypes, Error>>;
 };
 export const formSchema = z.object({
-  name: z.string().nonempty("Tên hợp đồng không được để trống").min(2, {
-    message: "Tên hợp đồng tối thiểu 2 ký tự",
+  name: z.string().nonempty("Tên hình thức không được để trống").min(2, {
+    message: "Tên hình thức tối thiểu 2 ký tự",
   }),
 });
 export type FormContractTypeValues = z.infer<typeof formSchema>;
@@ -35,14 +35,14 @@ const DialogAddContractType = ({ refetch }: Props) => {
   const mutationCreateJobType = useMutationHook(
     (data: { name: string }) => createContractType(data),
     (data) => {
-      toast.success("Tạo hợp đồng thành công");
+      toast.success("Tạo hình thức thành công");
       setOpen(false);
       form.reset();
       setIsLoading(false);
       refetch();
     },
     (error) => {
-      toast.error("Tạo hợp đồng thất bại");
+      toast.error("Tạo hình thức thất bại");
       setIsLoading(false);
     }
   );
@@ -69,9 +69,9 @@ const DialogAddContractType = ({ refetch }: Props) => {
       form={form}
       onSubmit={onSubmit}
       isLoading={isLoading}
-      title="Tạo hợp đồng"
-      description="Tạo hợp đồng mới để sử dụng trong hệ thống"
-      contentTrigger="Tạo hợp đồng"
+      title="Tạo hình thức"
+      description="Tạo hình thức mới để sử dụng trong hệ thống"
+      contentTrigger="Tạo hình thức"
       IconTrigger={PlusCircle}
       contentButton="Tạo"
       contentLoading="Đang tiến hành"

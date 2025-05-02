@@ -71,9 +71,9 @@ const FormJobLevel = ({
               name="name"
               icon={null}
               requrie={true}
-              label="Tên chức vụ"
+              label="Tên cấp bậc"
             >
-              {(field) => <Input placeholder="Nhập tên chức vụ" {...field} />}
+              {(field) => <Input placeholder="Nhập tên cấp bậc" {...field} />}
             </FormFieldComponent>
 
             <DialogFooter>

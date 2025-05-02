@@ -28,7 +28,9 @@ const CardJob = ({ job, handleSaveJob }: Props) => {
         <CardTitle className="text-ellipsis line-clamp-2">
           {job?.title}
         </CardTitle>
-        <CardDescription className="flex items-center gap-36 pt-2">
+        <CardDescription
+          className="flex items-center justify-between pt-2"
+        >
           <span className="flex items-center gap-2">
             <div className="rounded-3xl bg-secondaryColor p-2">
               <CircleDollarSign className="w-6 h-6 text-white " />
@@ -91,12 +93,12 @@ const CardJob = ({ job, handleSaveJob }: Props) => {
           {job?.isSaved ? (
             <div className="flex items-center gap-3 text-red-500">
               <BookmarkX className="w-5 h-5 font-bold" />
-              <p>Bỏ lưu</p>
+              <p className="hidden md:block">Bỏ lưu</p>
             </div>
           ) : (
             <>
               <Heart />
-              <p>Lưu tin</p>
+              <p className="hidden md:block">Lưu tin</p>
             </>
           )}
         </Button>

@@ -35,7 +35,7 @@ const LocationDetailPageComponent = ({ location, handleSelect }: Props) => {
     isLoading,
     isFetching,
   } = useQueryHook<ListLocations>(["LocationId", debouncedSearchTerm], () =>
-    getAllLocation(debouncedSearchTerm)
+    getAllLocation(debouncedSearchTerm,1,10)
   );
 
   return (

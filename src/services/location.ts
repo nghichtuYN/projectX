@@ -1,11 +1,13 @@
 import axiosInstance from "@/lib/axios";
 import { axiosJwt } from "./user";
 
-export const getAllLocation = async (search: string | "") => {
+export const getAllLocation = async (search: string ,page:number,pageSize=10) => {
   try {
     const res = await axiosInstance.get("/locations", {
       params: {
         search: search,
+        page,
+        pageSize
       },
     });
     return res.data;

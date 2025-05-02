@@ -4,30 +4,14 @@ import { Badge } from "@/components/ui/badge";
 import { BookmarkX, Clock } from "lucide-react";
 import Image from "next/image";
 import { SavedJob } from "@/types/SavedJob";
-import { getTimeSince } from "@/lib/utils";
+import { formatDateTime, getTimeSince } from "@/lib/utils";
 import Link from "next/link";
 type Props = {
   job: SavedJob;
   handleSaveJob: (id: string) => void;
 };
 const JobSaved = ({ job, handleSaveJob }: Props) => {
-  function formatDateTime(isoString: string) {
-    // Parse the ISO string into a Date object
-    const date = new Date(isoString);
 
-    // Adjust for UTC+7 by adding 7 hours (7 * 60 * 60 * 1000 milliseconds)
-    date.setTime(date.getTime() + 7 * 60 * 60 * 1000);
-
-    // Extract day, month, year, hours, and minutes
-    const day = String(date.getUTCDate()).padStart(2, "0");
-    const month = String(date.getUTCMonth() + 1).padStart(2, "0"); // Months are 0-based
-    const year = date.getUTCFullYear();
-    const hours = String(date.getUTCHours()).padStart(2, "0");
-    const minutes = String(date.getUTCMinutes()).padStart(2, "0");
-
-    // Format as DD/MM/YYYY - HH:mm
-    return `${day}/${month}/${year} - ${hours}:${minutes}`;
-  }
   return (
     <Card className="mb-4 border-l-4 border-l-secondaryColor hover:shadow-md transition-shadow">
       <CardContent className="p-0">

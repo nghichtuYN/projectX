@@ -1,4 +1,5 @@
 import {
+  AlarmClock,
   AlignJustify,
   AppWindow,
   AudioWaveform,
@@ -9,8 +10,8 @@ import {
   ClipboardList,
   Command,
   FileClock,
-  FileText,
   FileUser,
+  FolderClock,
   Heart,
   LayoutDashboard,
   Megaphone,
@@ -78,34 +79,29 @@ export const MenuEmployer = {
       ],
     },
     {
-      title: "Ứng viên",
+      title: "Lịch hẹn",
       url: "#",
-      icon: Users,
+      icon: FolderClock,
       isActive: true,
 
       items: [
         {
-          title: "Hồ sơ ứng tuyển",
+          title: "Danh sách lịch hẹn",
           url: "#",
-          icon: FileUser,
-        },
-        {
-          title: "Hồ sơ đã lưu",
-          url: "/employer/recruitment-campaigns",
-          icon: Heart,
+          icon: FileClock,
         },
       ],
     },
     {
       title: "Dịch vụ",
-      url: "#",
+      url: "/services",
       icon: Package,
       isActive: true,
 
       items: [
         {
           title: "Mua dịch vụ",
-          url: "#",
+          url: "/employer/services",
           icon: ShoppingCart,
         },
         {

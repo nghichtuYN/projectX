@@ -1,6 +1,5 @@
 "use client";
 import DialogDelete from "@/app/(employer)/employer/recruitment-campaigns/[id]/(components)/DialogDelete";
-import EmployerSidebaHeaderComponent from "@/components/EmployerSidebaHeaderComponent";
 import PaginationComponent from "@/components/PaginationComponent";
 import SkeletonTableComponent from "@/components/SeketonTable";
 import TableComponent, { TableColumn } from "@/components/TableComponent";
@@ -55,7 +54,7 @@ const JobLevelClient = () => {
   const columns: TableColumn<ContractType>[] = [
     {
       key: "name",
-      title: "Tên chức vụ",
+      title: "Tên cấp bậc",
       renderColumn: (row) => {
         return (
           <div className="flex justify-start items-start gap-2 w-full">
@@ -81,54 +80,45 @@ const JobLevelClient = () => {
     },
   ];
   return (
-    <>
-      <EmployerSidebaHeaderComponent>
-        <div className="flex w-full items-center ">
-          <p className="text-lg font-semibold text-secondaryColor">
-            Quản lý chức vụ
-          </p>
-        </div>
-      </EmployerSidebaHeaderComponent>
-      <div className="pt-14 pl-8 pr-8 w-full">
-        <div className="container  mx-auto p-4 space-y-4  bg-accent">
-          <div className=" grid grid-cols-4 gap-4"></div>
-          <div className="container w-full  mx-auto p-4 space-y-4 bg-white">
-            <div className="flex gap-4 items-center">
-              <div className="flex items-center rounded-3xl bg-white w-full ">
-                <Search className="h-4 w-4 text-muted-foreground " />
-                <Input
-                  placeholder="Tên chức vụ"
-                  defaultValue={searchParams.get("search")?.toString() || ""}
-                  onChange={(e) => handleSearch(e.target.value)}
-                  className="border-none h-11 focus-visible:ring-0 placeholder:font-medium rounded-3xl placeholder:overflow-hidden placeholder:text-ellipsis"
-                />
-              </div>
-              <DialogAddJobLevel refetch={refetch} />
-            </div>
-            {isLoading || isFetching ? (
-              <SkeletonTableComponent columnsCount={3} />
-            ) : (
-              <TableComponent
-                columns={columns}
-                rowKey={"id"}
-                rows={jobTypes?.items || []}
-                rowClassName="group  hover:bg-fourthColor"
-                content="Không có tin tuyển dụng nào"
+    <div className="pt-14 pl-8 pr-8 w-full">
+      <div className="container  mx-auto p-4 space-y-4  bg-accent">
+        <div className=" grid grid-cols-4 gap-4"></div>
+        <div className="container w-full  mx-auto p-4 space-y-4 bg-white">
+          <div className="flex gap-4 items-center">
+            <div className="flex items-center rounded-3xl bg-white w-full ">
+              <Search className="h-4 w-4 text-muted-foreground " />
+              <Input
+                placeholder="Tên chức vụ"
+                defaultValue={searchParams.get("search")?.toString() || ""}
+                onChange={(e) => handleSearch(e.target.value)}
+                className="border-none h-11 focus-visible:ring-0 placeholder:font-medium rounded-3xl placeholder:overflow-hidden placeholder:text-ellipsis"
               />
-            )}
-            {!!jobTypes && jobTypes?.totalPages > 1 && (
-              <div className="flex justify-end w-full">
-                <PaginationComponent
-                  currentPage={jobTypes.pageNumber}
-                  totalPages={jobTypes.totalPages}
-                  className={"flex justify-end"}
-                />
-              </div>
-            )}
+            </div>
+            <DialogAddJobLevel refetch={refetch} />
           </div>
+          {isLoading || isFetching ? (
+            <SkeletonTableComponent columnsCount={3} />
+          ) : (
+            <TableComponent
+              columns={columns}
+              rowKey={"id"}
+              rows={jobTypes?.items || []}
+              rowClassName="group  hover:bg-fourthColor"
+              content="Không có tìm thấy cấp bậc nào"
+            />
+          )}
+          {!!jobTypes && jobTypes?.totalPages > 1 && (
+            <div className="flex justify-end w-full">
+              <PaginationComponent
+                currentPage={jobTypes.pageNumber}
+                totalPages={jobTypes.totalPages}
+                className={"flex justify-end"}
+              />
+            </div>
+          )}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

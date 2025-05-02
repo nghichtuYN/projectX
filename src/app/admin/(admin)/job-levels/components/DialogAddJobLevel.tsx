@@ -18,8 +18,8 @@ type Props = {
   ) => Promise<QueryObserverResult<ListJobLevel, Error>>;
 };
 export const formSchema = z.object({
-  name: z.string().nonempty("Tên chức vụ không được để trống").min(2, {
-    message: "Tên chức vụ tối thiểu 2 ký tự",
+  name: z.string().nonempty("Tên cấp bậc không được để trống").min(2, {
+    message: "Tên cấp bậc tối thiểu 2 ký tự",
   }),
 });
 export type FormJobLevelValues = z.infer<typeof formSchema>;
@@ -36,14 +36,14 @@ const DialogAddJobLevel = ({ refetch }: Props) => {
   const mutationCreateJobLevel = useMutationHook(
     (data: { name: string }) => createLevel(data),
     (data) => {
-      toast.success("Tạo chức vụ công việc thành công");
+      toast.success("Tạo cấp bậc công việc thành công");
       setOpen(false);
       form.reset();
       setIsLoading(false);
       refetch();
     },
     (error) => {
-      toast.error("Tạo chức vụ công việc thất bại");
+      toast.error("Tạo cấp bậc công việc thất bại");
       setIsLoading(false);
     }
   );
@@ -70,9 +70,9 @@ const DialogAddJobLevel = ({ refetch }: Props) => {
       form={form}
       onSubmit={onSubmit}
       isLoading={isLoading}
-      title="Tạo chức vụ"
-      description="Tạo chức vụ mới để sử dụng trong hệ thống"
-      contentTrigger="Tạo chức vụ"
+      title="Tạo cấp bậc"
+      description="Tạo cấp bậc mới để sử dụng trong hệ thống"
+      contentTrigger="Tạo cấp bậc"
       IconTrigger={PlusCircle}
       contentButton="Tạo"
       contentLoading="Đang tiến hành"

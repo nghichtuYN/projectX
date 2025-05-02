@@ -27,9 +27,9 @@ const ListJobComponent = () => {
   };
 
   return (
-    <Card className="w-full mx-auto">
+    <Card className="w-full h-[290px] mx-auto">
       <CardContent className="pt-2 w-full">
-        <div className="">
+        <div className="h-[230px]">
           {Majors?.items.map((major) => (
             <Link
               href={`find-jobs?majors=${major?.id}`}
@@ -38,7 +38,7 @@ const ListJobComponent = () => {
             >
               <p
                 title={major?.name}
-                className="w-4/5 overflow-hidden text-ellipsis"
+                className="max-w-[200px] truncate "
               >
                 {major?.name}
               </p>

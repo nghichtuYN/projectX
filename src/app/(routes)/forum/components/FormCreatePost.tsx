@@ -38,9 +38,12 @@ const FormCreatePost = ({
     },
     (data) => {
       toast.success("Tạo bài thành công");
-      setIsLoading(false);
       setOpen(false);
       refetch();
+    },
+    (error) => {
+      toast.error("Bình luận thất bại");
+      setIsLoading(false);
     }
   );
   const mutationComment = useMutationHook(
@@ -90,8 +93,8 @@ const FormCreatePost = ({
   };
   const triggerFileInput = (e: React.MouseEvent) => {
     e.stopPropagation();
-    e.preventDefault(); 
-    
+    e.preventDefault();
+
     setTimeout(() => {
       fileInputRef.current?.click();
     }, 0);
@@ -102,7 +105,11 @@ const FormCreatePost = ({
         <div className="flex gap-3 ml-2">
           <Avatar className="h-10 w-10">
             <AvatarImage
-              src={`${process.env.NEXT_PUBLIC_API_URL_IMAGE}${user?.profilePicture}`}
+              src={
+                user?.provider === "Google"
+                  ? user?.profilePicture
+                  : `${process.env.NEXT_PUBLIC_API_URL_IMAGE}${user?.profilePicture}`
+              }
               alt={user?.fullName}
             />
             <AvatarFallback>LC</AvatarFallback>

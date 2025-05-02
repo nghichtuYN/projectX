@@ -41,7 +41,7 @@ const DialogEditJobType = ({ id, refetch }: Props) => {
       return updateJobType(id, rest);
     },
     (data) => {
-      toast.success("Cập nhật hình thức công việc thành công");
+      toast.success("Cập nhật loại hình công việc thành công");
       setOpen(false);
       form.reset({
         name: "",
@@ -49,7 +49,7 @@ const DialogEditJobType = ({ id, refetch }: Props) => {
       refetch();
     },
     (error) => {
-      toast.error("Cập nhật hình thức công việc thất bại");
+      toast.error("Cập nhật loại hình công việc thất bại");
     }
   );
   const onSubmit = (values: FormJobTypeValues) => {
@@ -75,8 +75,8 @@ const DialogEditJobType = ({ id, refetch }: Props) => {
       form={form}
       onSubmit={onSubmit}
       isLoading={isLoading}
-      title="Cập nhật hình thức công việc"
-      description="Cập nhật hình thức công việc để sử dụng trong hệ thống"
+      title="Cập nhật loại hình công việc"
+      description="Cập nhật loại hình công việc để sử dụng trong hệ thống"
       IconTrigger={Pencil}
       contentButton="Cập nhật"
       contentLoading="Đang tiến hành"

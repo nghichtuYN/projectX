@@ -27,26 +27,32 @@ export const formSchema = z
     }),
     email: z.string().email({
       message: "Vui lòng nhập một địa chỉ email hợp lệ.",
-    }),
-    password: z.string().min(8, {
-      message: "Mật khẩu phải có ít nhất 8 ký tự.",
-    }),
+    }).nonempty("Email không được để trống"),
+    password: z
+      .string()
+      .min(8, {
+        message: "Mật khẩu phải có ít nhất 8 ký tự.",
+      })
+      .regex(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/,
+        {
+          message:
+            "Mật khẩu phải có ít nhất 1 chữ cái viết hoa, 1 chữ cái viết thường, 1 chữ số và 1 ký tự đặc biệt.",
+        }
+      ),
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Mật khẩu không khớp.",
     path: ["confirmPassword"],
-  });
-
-export function EmployerRegistrationForm({
-  className,
-  ...props
-}: React.ComponentPropsWithoutRef<"div">) {
+  }); 
+type Props={
+  roleName:string
+}
+export function EmployerRegistrationForm({ roleName }: Props) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isShowPassword, setIsShowPasswod] = useState<boolean>(false);
   const router = useRouter();
-  const [isDialogOpen, setIsDialogOpen] = useState(true);
-  const [roleName, setRoleName] = useState<string>("Business");
 
   const [isShowConfirmPassword, setIsShowConfirmPasswod] =
     useState<boolean>(false);
@@ -68,7 +74,11 @@ export function EmployerRegistrationForm({
   const onError = (error: any) => {
     toast.error("Tạo tài khoản thất bại🚀");
     const errorMessage = error.response?.data?.message || "Có lỗi xảy ra";
-    if (error.response?.status === 400 || error.response?.status === 401) {
+    if (
+      error.response?.status === 400 ||
+      error.response?.status === 401 ||
+      error.response?.status === 409
+    ) {
       if (errorMessage.toLowerCase().includes("email")) {
         form.setError("email", {
           type: "manual",
@@ -110,12 +120,9 @@ export function EmployerRegistrationForm({
       roleName: roleName,
     });
   };
-  const setRole = (role: string) => {
-    setRoleName(role);
-    setIsDialogOpen(false);
-  };
+
   return (
-    <div className={cn("flex flex-col gap-6 pl-3 ", className)} {...props}>
+    <div className={cn("flex flex-col gap-6 pl-3 mt-5 ")}>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <div className="space-y-4">
@@ -228,11 +235,7 @@ export function EmployerRegistrationForm({
           </div>
         </form>
       </Form>
-      <DialogSelectRole
-        isDialogOpen={isDialogOpen}
-        setIsDialogOpen={setIsDialogOpen}
-        setRole={setRole}
-      />
+
       <div className="text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 [&_a]:hover:text-primary">
         Bằng cách đăng ký, bạn đồng ý với <a href="#">Điều khoản dịch vụ</a> và{" "}
         <a href="#">Chính sách bảo mật</a> của chúng tôi.

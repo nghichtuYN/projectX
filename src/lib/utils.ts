@@ -117,3 +117,45 @@ export const getTimeSince = (created: string): string => {
   const months = Math.round(days / 30);
   return `${months} tháng trước`;
 };
+export function formatDateTime(isoString: string) {
+  // Parse chuỗi ISO thành Date object
+  const date = new Date(isoString);
+
+  // Thêm 7 giờ để chuyển sang UTC+7
+  date.setTime(date.getTime() + 7 * 60 * 60 * 1000);
+
+  // Lấy ngày, tháng, năm, giờ, phút theo thời gian đã điều chỉnh
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0"); // Tháng bắt đầu từ 0
+  const year = date.getFullYear();
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+
+  // Định dạng DD/MM/YYYY - HH:mm
+  return `${day}/${month}/${year} - ${hours}:${minutes}`;
+}
+export const chunkArray = <T,>(array: T[], size: number): T[][] => {
+  const result: T[][] = [];
+  for (let i = 0; i < array?.length; i += size) {
+    result.push(array.slice(i, i + size));
+  }
+  return result;
+};
+export const formatDateForInput = (date: Date | undefined) => {
+  return date ? date.toISOString().split("T")[0] : "";
+};
+export function formatDate(isoString: string) {
+  // Parse chuỗi ISO thành Date object
+  const date = new Date(isoString);
+
+  // Thêm 7 giờ để chuyển sang UTC+7
+  date.setTime(date.getTime() + 7 * 60 * 60 * 1000);
+
+  // Lấy ngày, tháng, năm, giờ, phút theo thời gian đã điều chỉnh
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0"); // Tháng bắt đầu từ 0
+  const year = date.getFullYear();
+
+  // Định dạng DD/MM/YYYY - HH:mm
+  return `${day}/${month}/${year}`;
+}

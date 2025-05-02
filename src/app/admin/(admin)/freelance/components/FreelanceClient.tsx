@@ -11,7 +11,7 @@ import FilterComponent from "@/app/(employer)/employer/recruitment-campaigns/(co
 import { Input } from "@/components/ui/input";
 import SkeletonTableComponent from "@/components/SeketonTable";
 import PaginationComponent from "@/components/PaginationComponent";
-import { CompanyOptions } from "@/data/Jobs";
+import {  FreelanceOptions } from "@/data/Jobs";
 import UserColumn from "./UserColumn";
 import StatusColumn from "./StatusColumn";
 import FrontIdCard from "./FrontIdCard";
@@ -125,7 +125,7 @@ export default function FreelanceClient() {
       <div className="container w-full mx-auto p-4 space-y-4 bg-accent">
         <div className="flex gap-4 items-center">
           <FilterComponent
-            dataOptions={CompanyOptions}
+            dataOptions={FreelanceOptions}
             filterBy={filterBy}
             onChangeFilterByValue={handleFilterBy}
             placeholder="Tất cả tin tuyển dụng"
@@ -133,7 +133,7 @@ export default function FreelanceClient() {
           <Input
             defaultValue={searchParams.get("search")?.toString() || ""}
             onChange={(e) => handleSearch(e.target.value)}
-            placeholder="Tên tin tuyển dụng"
+            placeholder="Tên nhà tuyển dụng"
           />
         </div>
         <div>
@@ -146,7 +146,7 @@ export default function FreelanceClient() {
                 rowKey="userId"
                 columns={columns}
                 rowClassName="group hover:bg-fourthColor"
-                content="Không có chiến dịch nào"
+                content="Không có nhà tuyển dụng nào"
               />
             )}
           </div>

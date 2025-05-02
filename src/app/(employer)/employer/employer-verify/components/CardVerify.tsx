@@ -10,11 +10,12 @@ const CardVerify = () => {
   const user = useAuthStore((state) => state.user);
   if (!user) return <Loader2 className="animate-spin w-5 h-5" />;
   const getValue = () => {
-    if (user && user?.emailConfirmed && user?.recruiterVerified) return 100;
-    if (user && user?.emailConfirmed && !user?.recruiterVerified) return 50;
-    if (user && !user?.emailConfirmed && user?.recruiterVerified) return 50;
+    if (user?.emailConfirmed && user?.recruiterVerified) return 100;
+    if (user?.emailConfirmed && !user?.recruiterVerified) return 50;
+    if (!user?.emailConfirmed && user?.recruiterVerified) return 50;
     return 0;
   };
+  console.log(user?.emailConfirmed && user?.recruiterVerified);
   return (
     <Card className="w-full mx-auto bg-white h-full p-6 border">
       <div className="mb-10">
@@ -24,9 +25,7 @@ const CardVerify = () => {
         <p className="text-gray-700 mb-2">
           Vui lòng thực hiện các bước xác thực dưới đây để bắt đầu đăng tin và
           nhận hồ sơ ứng tuyển cho tin tuyển dụng của bạn.
-          <span className="text-secondaryColor font-medium">
-            Tìm hiểu thêm
-          </span>
+          <span className="text-secondaryColor font-medium">Tìm hiểu thêm</span>
         </p>
       </div>
 
@@ -35,7 +34,9 @@ const CardVerify = () => {
           <h2 className="text-xl font-bold">Xác thực thông tin</h2>
           <div className="flex items-center">
             <span className="text-gray-500">Hoàn thành</span>
-            <span className="text-secondaryColor font-bold ml-1">50%</span>
+            <span className="text-secondaryColor font-bold ml-1">
+              {getValue()}%
+            </span>
           </div>
         </div>
         <Progress value={getValue()} className="h-2 bg-gray-200" />

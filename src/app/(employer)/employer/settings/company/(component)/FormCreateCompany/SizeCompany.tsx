@@ -22,9 +22,10 @@ const SizeCompany = ({ form }: Props) => {
       icon={null}
     >
       {(field) => (
-        <Select required onValueChange={field.onChange} defaultValue={field.value}>
+        
+        <Select required onValueChange={field.onChange} value={field.value}>
           <SelectTrigger>
-            <SelectValue placeholder="Chọn quy mô công ty" />
+            <SelectValue placeholder={`Chọn quy mô công ty${field?.value}`} />
           </SelectTrigger>
           <SelectContent>
             {listSizeCompany?.map((size) => (

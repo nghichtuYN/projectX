@@ -9,6 +9,7 @@ const JobInfoColumn = ({ row,id }: Props) => {
     <div className="flex justify-start items-start gap-2 w-full">
       <div className="flex flex-col w-full">
         <span className="font-medium text-xs">#{row.id}</span>
+        <span className="font-medium text-xs">#{Date()}</span>
         <Link
           className="hover:underline w-2/3"
           href={`/employer/recruitment-campaigns/${id}/edit_job/${row?.id}`}

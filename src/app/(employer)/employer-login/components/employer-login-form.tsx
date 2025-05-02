@@ -24,6 +24,8 @@ import IsShowPasswordComponent from "@/app/(auth)/(components)/IsShowPasswordCom
 import { toast } from "sonner";
 import { useMutationHook } from "@/hooks/useMutationHook";
 import { signIn } from "@/services/user";
+import DialogSelectRole from "../../employer-register/components/DialogSelectRole";
+import Link from "next/link";
 
 const formSchema = z.object({
   email: z.string().email({
@@ -38,6 +40,8 @@ export function EmployerLoginForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [roleName, setRoleName] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -46,7 +50,7 @@ export function EmployerLoginForm({
       password: "",
     },
   });
-  const [isShowPassword, setIsShowPasswod] = useState<boolean>(false);
+  const [isShowPassword, setIsShowPasswod] = useState<boolean>(true);
   const loadUser = useAuthStore((state) => state.loadUser);
   const router = useRouter();
   const errors = form.formState.errors;
@@ -90,7 +94,10 @@ export function EmployerLoginForm({
     mutaionLogin.mutate(values);
     setIsLoading(false);
   };
-
+  const setRole = (role: string) => {
+    setRoleName(role);
+    setIsDialogOpen(false);
+  };
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
@@ -107,7 +114,10 @@ export function EmployerLoginForm({
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               <div className=" space-y-4 space-x-4">
-                <GoogleLoginButton />
+                <GoogleLoginButton
+                  roleName={roleName}
+                  setIsDialogOpen={setIsDialogOpen}
+                />
               </div>
               <div
                 className={cn(
@@ -164,6 +174,14 @@ export function EmployerLoginForm({
                     </div>
                   )}
                 </FormFieldComponent>
+                <div className="flex justify-end">
+                  <Link
+                    href="/reset-password"
+                    className="text-sm text-secondaryColor hover:underline"
+                  >
+                    Quên mật khẩu?
+                  </Link>
+                </div>
                 <Button
                   type="submit"
                   className="w-full font-semibold hover:bg-white hover:text-secondaryColor hover:outline-secondaryColor  text-white"
@@ -193,6 +211,11 @@ export function EmployerLoginForm({
           </Form>
         </CardContent>
       </Card>
+      <DialogSelectRole
+        isDialogOpen={isDialogOpen}
+        setIsDialogOpen={setIsDialogOpen}
+        setRole={setRole}
+      />
       <div className="text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 [&_a]:hover:text-primary">
         By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
         and <a href="#">Privacy Policy</a>.

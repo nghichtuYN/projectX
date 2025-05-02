@@ -18,6 +18,8 @@ import {
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 export function NavMain({
   items,
@@ -34,6 +36,7 @@ export function NavMain({
     }[];
   }[];
 }) {
+  const pathName = usePathname();
   return (
     <SidebarGroup>
       {/* <SidebarGroupLabel>Platform</SidebarGroupLabel> */}
@@ -61,7 +64,7 @@ export function NavMain({
                   {item.items?.map((subItem) => (
                     <SidebarMenuSubItem key={subItem.title}>
                       <SidebarMenuSubButton
-                        className="hover:text-secondaryColor"
+                        className={cn("hover:text-secondaryColor",pathName===subItem?.url && "text-secondaryColor bg-sidebar-accent")}
                         asChild
                       >
                         <Link

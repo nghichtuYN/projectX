@@ -65,7 +65,11 @@ const PostComponent = ({ post, refetch }: Props) => {
           <div className="flex flex-col items-center gap-3">
             <Avatar className="h-10 w-10 border border-gray-700">
               <AvatarImage
-                src={`${process.env.NEXT_PUBLIC_API_URL_IMAGE}${post?.user?.profilePicture}`}
+                src={
+                  user?.provider === "Google"
+                    ? user?.profilePicture
+                    : `${process.env.NEXT_PUBLIC_API_URL_IMAGE}${user?.profilePicture}`
+                }
                 alt="Profile picture"
               />
               <AvatarFallback>LC</AvatarFallback>

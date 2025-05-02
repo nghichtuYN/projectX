@@ -21,9 +21,9 @@ type Props = {
 export const formSchema = z.object({
   name: z
     .string()
-    .nonempty("Tên hình thức làm việc không được để trống")
+    .nonempty("Tên loại hình làm việc không được để trống")
     .min(2, {
-      message: "Tên hình thức làm việc tối thiểu 2 ký tự",
+      message: "Tên loại hình làm việc tối thiểu 2 ký tự",
     }),
 });
 export type FormJobTypeValues = z.infer<typeof formSchema>;
@@ -39,14 +39,14 @@ const DialogAddJobType = ({ refetch }: Props) => {
   const mutationCreateJobType = useMutationHook(
     (data: { name: string }) => createJobType(data),
     (data) => {
-      toast.success("Tạo hình thức công việc thành công");
+      toast.success("Tạo loại hình công việc thành công");
       setOpen(false);
       form.reset();
       setIsLoading(false);
       refetch();
     },
     (error) => {
-      toast.error("Tạo hình thức công việc thất bại");
+      toast.error("Tạo loại hình công việc thất bại");
       setIsLoading(false);
     }
   );
@@ -73,9 +73,9 @@ const DialogAddJobType = ({ refetch }: Props) => {
       form={form}
       onSubmit={onSubmit}
       isLoading={isLoading}
-      title="Tạo hình thức công việc"
-      description="Tạo hình thức công việc mới để sử dụng trong hệ thống"
-      contentTrigger="Tạo hình thức công việc"
+      title="Tạo loại hình công việc"
+      description="Tạo loại hình công việc mới để sử dụng trong hệ thống"
+      contentTrigger="Tạo loại hình công việc"
       IconTrigger={PlusCircle}
       contentButton="Tạo"
       contentLoading="Đang tiến hành"

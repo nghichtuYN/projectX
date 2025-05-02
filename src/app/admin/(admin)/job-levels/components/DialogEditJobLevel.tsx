@@ -43,7 +43,7 @@ const DialogEditJobLevel = ({ id, refetch }: Props) => {
       return updateLevel(id, rest);
     },
     (data) => {
-      toast.success("Cập nhật hợp đồng thành công");
+      toast.success("Cập nhật cấp bậc thành công");
       setOpen(false);
       form.reset({
         name: "",
@@ -51,7 +51,7 @@ const DialogEditJobLevel = ({ id, refetch }: Props) => {
       refetch();
     },
     (error) => {
-      toast.error("Cập nhật hợp đồng thất bại");
+      toast.error("Cập nhật cấp bậc thất bại");
     }
   );
   const onSubmit = (values: FormContractTypeValues) => {
@@ -77,8 +77,8 @@ const DialogEditJobLevel = ({ id, refetch }: Props) => {
       form={form}
       onSubmit={onSubmit}
       isLoading={isLoading}
-      title="Cập nhật chức vụ"
-      description="Cập nhật chức vụ để sử dụng trong hệ thống"
+      title="Cập nhật cấp bậc"
+      description="Cập nhật cấp bậc để sử dụng trong hệ thống"
       IconTrigger={Pencil}
       contentButton="Cập nhật"
       contentLoading="Đang tiến hành"

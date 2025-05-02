@@ -165,7 +165,7 @@ const CompanyClient = () => {
             <Input
               defaultValue={searchParams.get("search")?.toString() || ""}
               onChange={(e) => handleSearch(e.target.value)}
-              placeholder="Tên tin tuyển dụng"
+              placeholder="Tên công ty"
             />
           </div>
 
@@ -180,7 +180,7 @@ const CompanyClient = () => {
                   rowKey="companyId"
                   columns={columns}
                   rowClassName="group h-28 hover:bg-fourthColor"
-                  content="Không có chiến dịch nào"
+                  content="Không có công ty nào"
                 />
               )}
             </div>

@@ -1,5 +1,3 @@
-
-
 type campaignOptionsType = {
   value: string;
   label: string;
@@ -31,32 +29,17 @@ export const tabLists: TabLists[] = [
   },
   {
     href: (pathname, keyWord, quickFilter, label) =>
-      `${pathname}?active_tab=apply_cv&keyword=${encodeURIComponent(
-        keyWord || ""
-      )}&quick_filter=${quickFilter || ""}&label=${label || ""}`,
+      `${pathname}?active_tab=apply_cv`,
     value: "apply_cv",
     label: "CV ứng tuyển",
   },
-  // {
-  //   href: (pathname) => `${pathname}?active_tab=viewed_job`,
-  //   value: "viewed_job",
-  //   label: "Ứng viên đã xem tin",
-  // },
+
   {
     href: (pathname) => `${pathname}?active_tab=cv_recommendation`,
     value: "cv_recommendation",
     label: "CV đề xuất",
   },
-  // {
-  //   href: (pathname) => `${pathname}?active_tab=paid_cv`,
-  //   value: "paid_cv",
-  //   label: "CV tìm kiếm",
-  // },
-  // {
-  //   href: (pathname) => `${pathname}?active_tab=followed_cv`,
-  //   value: "followed_cv",
-  //   label: "CV đang theo dõi",
-  // },
+
   {
     href: (pathname) => `${pathname}?active_tab=service`,
     value: "service",

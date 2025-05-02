@@ -20,9 +20,7 @@ const TabsComponent = () => {
           <Link
             key={tab.value}
             href={
-              tab.value === "apply_cv"
-                ? tab.href(pathname, "", "all", "")
-                : tab.href(pathname)
+              tab.href(pathname)
             }
           >
             <TabsTrigger

@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import * as z from "zod";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -26,18 +25,31 @@ import Password from "./Password";
 import ConfirmPassWord from "./ConfirmPassWord";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
+import { z } from "zod";
 
 const formSchema = z
   .object({
     fullName: z.string().min(2, {
       message: "Tên phải có ít nhất 2 ký tự.",
     }),
-    email: z.string().email({
-      message: "Vui lòng nhập một địa chỉ email hợp lệ.",
-    }),
-    password: z.string().min(8, {
-      message: "Mật khẩu phải có ít nhất 8 ký tự.",
-    }),
+    email: z
+      .string()
+      .email({
+        message: "Vui lòng nhập một địa chỉ email hợp lệ.",
+      })
+      .nonempty("Email không được để trống"),
+    password: z
+      .string()
+      .min(8, {
+        message: "Mật khẩu phải có ít nhất 8 ký tự.",
+      })
+      .regex(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/,
+        {
+          message:
+            "Mật khẩu phải có ít nhất 1 chữ cái viết hoa, 1 chữ cái viết thường, 1 chữ số và 1 ký tự đặc biệt.",
+        }
+      ),
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
@@ -78,16 +90,27 @@ export function RegistrationForm({
     (data) => {
       setIsLoading(false);
       toast.success("Đăng ký thành công");
-      router.push("/verify-account");
+      if (data) router.push("/verify-account");
     },
-    (errors) => {
-      toast.error("Đăng ký thất bại"+errors);
+    (errors: any) => {
+      const errorMessage = errors.response?.data?.message || "Có lỗi xảy ra";
+
+      console.log(errors);
+      toast.error("Đăng ký thất bại");
+      if (errorMessage.toLowerCase().includes("email")) {
+        form.setError("email", {
+          type: "manual",
+          message: "Tài khoản đã được sử dụng",
+        });
+      }
       setIsLoading(false);
     }
   );
-  const onSubmit = (values: RegisterFormValues) => {
+  const onSubmit = async (values: RegisterFormValues) => {
     setIsLoading(true);
-    mutation.mutate(values);
+    await mutation.mutateAsync(values);
+    if (mutation?.isSuccess) {
+    }
   };
 
   return (
@@ -95,7 +118,7 @@ export function RegistrationForm({
       <Card>
         <CardHeader className="text-start">
           <CardTitle className="text-xl text-secondaryColor">
-            Chào mừng bạn đến với Project X1
+            Chào mừng bạn đến với Project X
           </CardTitle>
           <CardDescription>
             Tạo tài khoản để trải nghiệm công nghệ tuyển dụng tiên tiến
@@ -143,7 +166,7 @@ export function RegistrationForm({
                 </span>
               </div>
               <div className="ml- space-y-4 pl-90">
-                <GoogleLoginButton />
+                <GoogleLoginButton roleName="Candidate" />
               </div>
 
               <div className="text-center text-sm">

@@ -1,12 +1,21 @@
+'use client'
 import { EmployerRegistrationForm } from "@/app/(employer)/employer-register/components/employer-registration-form";
-import React from "react";
+import { useState } from "react";
 import Image from "next/image";
 import banner from "../../../../public/banner.png";
 import RuleRegisterComponent from "@/app/(employer)/employer-register/components/RuleRegisterComponent";
 import { cn } from "@/lib/utils";
 import GoogleLoginButton from "@/components/GoogleLoginButton";
+import DialogSelectRole from "./components/DialogSelectRole";
 
 const EmployerRegisterPage = () => {
+  const [isDialogOpen, setIsDialogOpen] = useState(true);
+  const [roleName, setRoleName] = useState<string>("Business");
+
+  const setRole = (role: string) => {
+    setRoleName(role);
+    setIsDialogOpen(false);
+  };
   return (
     <div className="grid min-h-svh lg:grid-cols-3 overflow-hidden">
       <div className="flex flex-col w-full lg:col-span-2 overflow-y-auto h-svh">
@@ -29,13 +38,12 @@ const EmployerRegisterPage = () => {
               Tài khoản:
             </p>
           </div>
-            <div className="pt-2 ">
-              <GoogleLoginButton />
-            </div>
+          <div className="pt-2 ">
+            <GoogleLoginButton roleName={roleName}  />
+          </div>
         </div>
         <div className="flex-1 flex items-center justify-center w-full ">
           <div className="w-2/3">
-            <div className="flex w-full items-center "></div>
             <div
               className={cn(
                 "relative text-center text-sm after:absolute after:inset-0 after:top-1/2",
@@ -46,7 +54,12 @@ const EmployerRegisterPage = () => {
                 Hoặc bằng email
               </span>
             </div>
-            <EmployerRegistrationForm className="mt-5" />
+            <EmployerRegistrationForm roleName={roleName} />
+            <DialogSelectRole
+              isDialogOpen={isDialogOpen}
+              setIsDialogOpen={setIsDialogOpen}
+              setRole={setRole}
+            />
           </div>
         </div>
       </div>

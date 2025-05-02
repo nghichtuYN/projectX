@@ -71,9 +71,9 @@ const FormContractType = ({
               name="name"
               icon={null}
               requrie={true}
-              label="Tên hợp đồng"
+              label="Tên hình thức"
             >
-              {(field) => <Input placeholder="Nhập tên hợp đồng" {...field} />}
+              {(field) => <Input placeholder="Nhập tên hình thức" {...field} />}
             </FormFieldComponent>
 
             <DialogFooter>

@@ -1,3 +1,4 @@
+import { User } from "./Conversation";
 import { Job, JobPublic } from "./Jobs";
 
 export type Resume = {
@@ -18,7 +19,9 @@ export type Apllication = {
   submitted: string;
   applied: string;
   resume: Resume;
-  modified:string
+  jobId:string
+  modified: string;
+  appointment: Appointment | null;
 };
 export type ApllicationList = {
   items: Apllication[];
@@ -40,4 +43,12 @@ export type AplliedJobList = {
   last: boolean;
   pageNumber: number;
   pageSize: number;
+};
+export type Appointment = {
+  id: string;
+  startTime: string;
+  endTime: string;
+  participant: User;
+  note: string;
+  created: string;
 };

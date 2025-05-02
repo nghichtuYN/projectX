@@ -12,6 +12,7 @@ import { Menu } from "../../../data/Menu";
 import ListItemMobile from "./listItemMobile";
 import Link from "next/link";
 import { useAuthStore } from "@/store/UserStore";
+import { Button } from "@/components/ui/button";
 type Props = {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -23,16 +24,16 @@ export const NavMobbileComponent = ({ open, setOpen }: Props) => {
       <Collapsible
         open={open}
         onOpenChange={setOpen}
-        className={cn("w-full", open ? "pt-2" : "")}
+        className={cn("w-full", open ? "pt-2" : "h-fit")}
       >
         <CollapsibleContent
           className={cn(
-            " rounded-md bg-white overflow-hidden border-t-2 transition-all ml-3 mr-3 mb-3 shadow-md",
+            " rounded-md bg-white overflow-hidden h-fit border-t-2 transition-all ml-3 mr-3 mb-3 shadow-md",
             " data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down"
           )}
         >
           <Accordion type="single" collapsible className="w-full">
-            <AccordionAccount user={user} />
+            {user && <AccordionAccount user={user} />}
             {Menu?.map((menu, index) => (
               <AccordionItem key={index} value={`item ${index + 2}`}>
                 <AccordionTrigger
@@ -56,6 +57,18 @@ export const NavMobbileComponent = ({ open, setOpen }: Props) => {
               </AccordionItem>
             ))}
           </Accordion>
+          <div className=" items-center justify-between gap-3 flex mt-1 p-1">
+            <Link href={"/login"}>
+              <Button className="border-2 border-primaryColor hover:bg-gray-50 rounded-sm text-sm leading-[22px] font-semibold bg-white text-secondaryColor">
+                Đăng nhập
+              </Button>
+            </Link>
+            <Link href={"/employer-login"}>
+              <Button className="rounded-sm text-sm leading-[22px] font-semibold text-white bg-primaryColor">
+                Đăng tuyển & tìm hồ sơ
+              </Button>
+            </Link>
+          </div>
         </CollapsibleContent>
       </Collapsible>
     </>

@@ -6,20 +6,14 @@ import { getUser, googleSignIn } from "@/services/user";
 import { useAuthStore } from "@/store/UserStore";
 import { GoogleLogin } from "@react-oauth/google";
 import { usePathname, useRouter } from "next/navigation";
+import { Dispatch, SetStateAction } from "react";
 import { toast } from "sonner";
 
-function getUserRole(pathname: string) {
-  const roleKey =
-    pathname.split("/").filter(Boolean).pop()?.toLowerCase() ?? "";
-
-  if (roleKey && roles[roleKey]) {
-    return roles[roleKey];
-  }
-
-  return roles[roleKey];
-}
-
-export default function GoogleLoginButton() {
+type Props = {
+  roleName: string;
+  setIsDialogOpen?: Dispatch<SetStateAction<boolean>>
+};
+export default function GoogleLoginButton({ roleName,setIsDialogOpen }: Props) {
   const pathname = usePathname();
   console.log(pathname);
   const router = useRouter();
@@ -39,18 +33,25 @@ export default function GoogleLoginButton() {
     }
   };
   const onError = (error: any) => {
-    toast.error("Đăng nhập thất bại🚀");
+    toast.error("Đăng nhập thất bại");
+    // console.log(error?.response?.status)
+    if (error?.response?.status === 400 ) {
+      if(setIsDialogOpen)
+      setIsDialogOpen(true)
+    console.log(error?.response?.status)
+
+    }
   };
 
   const ggLoginMutation = useMutationHook(
-    (data: { idToken: string; roleName: string }) => googleSignIn(data),
+    (data: { idToken: string; roleName: string }) =>googleSignIn(data),
     (data) => onSuccessLogin(data),
     (error) => onError(error)
   );
   const onSuccess = async (credentialResponse: any) => {
     await ggLoginMutation.mutateAsync({
       idToken: credentialResponse.credential,
-      roleName: getUserRole(pathname),
+      roleName: roleName,
     });
   };
   return (
