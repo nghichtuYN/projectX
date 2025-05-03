@@ -159,3 +159,9 @@ export function formatDate(isoString: string) {
   // Định dạng DD/MM/YYYY - HH:mm
   return `${day}/${month}/${year}`;
 }
+export function formatDateForInputTime(date:Date| undefined) {
+  if (!date || isNaN(new Date(date).getTime())) {
+    return ""; // Trả về chuỗi rỗng nếu date không hợp lệ hoặc undefined
+  }
+  return new Date(date).toISOString().slice(11, 16); // Định dạng HH:mm cho input type="time"
+}

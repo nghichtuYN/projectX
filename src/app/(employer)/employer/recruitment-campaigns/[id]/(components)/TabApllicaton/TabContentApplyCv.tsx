@@ -27,7 +27,11 @@ import {
 } from "@/services/application";
 import { X } from "lucide-react";
 import DialogAddAppointment from "./DialogAddAppointment";
-import { formatDate } from "@/lib/utils";
+import {
+  formatDate,
+  formatDateForInput,
+  formatDateForInputTime,
+} from "@/lib/utils";
 // import * as XLSX from "xlsx";
 
 const processActionMap: { [key: string]: (id: string) => Promise<any> } = {
@@ -133,6 +137,10 @@ const TabContentApplyCv = () => {
   //   XLSX.writeFile(workbook, "CV_List.xlsx");
   // };
   // const;
+  const parseTime = (time: string) => {
+    const [hours, minutes] = time.split(":").map(Number);
+    return hours * 60 + minutes;
+  };
   const columns: TableColumn<Apllication>[] = [
     {
       key: "id",
@@ -180,14 +188,39 @@ const TabContentApplyCv = () => {
       key: "appoitment",
       title: "Lịch hẹn",
       renderColumn: (row) => {
+        const formattedStartTime = new Date(
+          row?.appointment?.startTime!
+        ).toLocaleTimeString("vi-VN", {
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+
+        const formattedEndTime = new Date(
+          row?.appointment?.endTime!
+        ).toLocaleTimeString("vi-VN", {
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+
         return (
           <div className="flex justify-center">
             {row?.appointment ? (
               <div className="flex flex-col">
-                <p className="flex items-center gap-2">
-                  Bắt đầu: {formatDate(row?.appointment?.startTime)}
+                <p>
+                  {" "}
+                  Ngày:{" "}
+                  {formatDateForInput(new Date(row?.appointment?.startTime))}
                 </p>
-                <p>Kết thúc: {formatDate(row?.appointment?.endTime)}</p>
+                <p className="flex items-center gap-2">
+                  Bắt đầu: {/* {new Date(row.appointment?.startTime)} */}
+                  {formattedStartTime}
+                  {/* {row.appointment?.startTime} */}
+                </p>
+                <p>
+                  Kết thúc:
+                  {formattedEndTime}
+                  {/* {parseTime(row?.appointment?.endTime)} */}
+                </p>
                 <p>Ghi chú: {row.appointment?.note}</p>
               </div>
             ) : (

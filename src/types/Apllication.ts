@@ -1,5 +1,5 @@
 import { User } from "./Conversation";
-import { Job, JobPublic } from "./Jobs";
+import {  JobPublic } from "./Jobs";
 
 export type Resume = {
   id: string;

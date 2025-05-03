@@ -5,6 +5,7 @@ import {
 import { useQueryHook } from "@/hooks/useQueryHook";
 import { getBusiness, getFreelance } from "@/services/admin";
 import { getApplicationByJobId, getAppliedJobs } from "@/services/application";
+import { getAppointmentById, getAppointments } from "@/services/appointment";
 import { getBusinessInfo } from "@/services/business";
 import {
   getAllCampaigns,
@@ -27,7 +28,12 @@ import { getMajor, getMajorById } from "@/services/majors";
 import { getPost, getPostById } from "@/services/posts";
 import { getSkillById, getSkills } from "@/services/skills";
 import { getUserCon } from "@/services/user";
-import { ApllicationList, AplliedJobList } from "@/types/Apllication";
+import {
+  ApllicationList,
+  AplliedJobList,
+  AppliedJob,
+} from "@/types/Apllication";
+import { AppointmentDetail, ListAppointment } from "@/types/Appointment";
 import {
   BusinessVerification,
   ListBusinessVerification,
@@ -399,16 +405,21 @@ export const getCompany = () => {
   return useQueryHook<CompanyVerifed>(["company"], () => getSelf());
 };
 //
-// export const getAppointments = (
-//   search: string,
-//   page: number,
-//   thisWeek: string,
-//   pageSize: number
-// ) => {
-//   return useQueryHook<AppointmentList>(
-//     ["appointments", search, page, thisWeek, pageSize],
-//     () => {
-//       return getBusiness(search, page, thisWeek, pageSize);
-//     }
-//   );
-// };
+export const getAppointment = (
+  search: string,
+  page: number,
+  thisWeek: string,
+  pageSize: number
+) => {
+  return useQueryHook<ListAppointment>(
+    ["appointments", search, page, thisWeek, pageSize],
+    () => {
+      return getAppointments(search, page, thisWeek, pageSize);
+    }
+  );
+};
+export const getDetailAppointment = (id: string) => {
+  return useQueryHook<AppointmentDetail>(["appointment", id], () =>
+    getAppointmentById(id)
+  );
+};

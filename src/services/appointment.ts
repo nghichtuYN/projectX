@@ -10,14 +10,14 @@ export const createAppointment = async (data: any) => {
 };
 export const getAppointments = async (
   search: string = "",
-  page: string = "1",
+  page: number,
   thisWeek: string = "all",
   pageSize: number = 10
 ) => {
   try {
     const params = new URLSearchParams();
     params.append("search", search);
-    params.append("page", page);
+    params.append("page", page.toString());
     params.append("pageSize", pageSize.toString());
     if (thisWeek !== "all") {
       params.append("thisWeek", thisWeek);

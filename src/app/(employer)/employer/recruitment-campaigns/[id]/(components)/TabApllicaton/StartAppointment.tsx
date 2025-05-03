@@ -1,6 +1,6 @@
 import FormFieldComponent from "@/app/(auth)/(components)/FormFieldComponent";
 import { Input } from "@/components/ui/input";
-import { formatDateForInput } from "@/lib/utils";
+import { formatDateForInput, formatDateForInputTime } from "@/lib/utils";
 type Props = {
   form: any;
 };
@@ -15,13 +15,9 @@ const StartAppointment = ({ form }: Props) => {
     >
       {(field) => (
         <Input
-          type="date"
-          value={formatDateForInput(field.value)}
-          onChange={(e) =>
-            field.onChange(
-              e.target.value ? new Date(e.target.value) : undefined
-            )
-          }
+          type="time"
+          value={field.value}
+          onChange={(e) => field.onChange(e.target.value)}
         />
       )}
     </FormFieldComponent>

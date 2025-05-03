@@ -53,3 +53,7 @@ export const SortOptions: JobOptionsType[] = [
   { value: "point_asc", label: "Từ thấp đến cao" },
   { value: "point_desc", label: "Từ cao đến thấp" },
 ];
+export const AppointmentOptions: JobOptionsType[] = [
+  { value: "all", label: "Tất cả" },
+  { value: "true", label: "Trong tuần này" },
+];

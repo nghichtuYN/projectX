@@ -4,6 +4,7 @@ import {
   AppWindow,
   AudioWaveform,
   BadgeInfo,
+  BadgePoundSterling,
   BriefcaseBusiness,
   CalendarCheck2,
   CalendarClock,
@@ -12,6 +13,7 @@ import {
   FileClock,
   FileUser,
   FolderClock,
+  Gem,
   Heart,
   LayoutDashboard,
   Megaphone,
@@ -31,7 +33,7 @@ export const MenuEmployer = {
   teams: [
     {
       name: "ProjectX",
-      logo: AppWindow ,
+      logo: AppWindow,
       plan: "Dành cho nhà tuyển dụng",
     },
     {
@@ -87,7 +89,7 @@ export const MenuEmployer = {
       items: [
         {
           title: "Danh sách lịch hẹn",
-          url: "#",
+          url: "/employer/appointments",
           icon: FileClock,
         },
       ],
@@ -100,46 +102,22 @@ export const MenuEmployer = {
 
       items: [
         {
-          title: "Mua dịch vụ",
+          title: "Nâng cấp tài khoản",
           url: "/employer/services",
-          icon: ShoppingCart,
+          icon: Gem,
         },
         {
-          title: "Lịch sử mua hàng",
+          title: "Nạp tiền",
           url: "#",
-          icon: CalendarClock,
+          icon: BadgePoundSterling,
         },
         {
-          title: "Lịch sử kích hoạt",
+          title: "Lịch sử giao dịch",
           url: "#",
           icon: CalendarCheck2,
         },
-        {
-          title: "Lịch sử đã lưu",
-          url: "#",
-          icon: FileClock,
-        },
-        {
-          title: "Thông tin thanh toán",
-          url: "#",
-          icon: BadgeInfo,
-        },
       ],
     },
-    // {
-    //   title: "Quảng bá thương hiệu",
-    //   url: "#",
-    //   icon: Megaphone,
-    //   isActive: true,
-
-    //   items: [
-    //     {
-    //       title: "Giới thiệu về công ty",
-    //       url: "#",
-    //       icon: AlignJustify,
-    //     },
-    //   ],
-    // },
   ],
   projects: [
     {

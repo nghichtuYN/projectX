@@ -21,34 +21,51 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { useMutationHook } from "@/hooks/useMutationHook";
 import { createAppointment } from "@/services/appointment";
+import { Input } from "@/components/ui/input";
+import FormFieldComponent from "@/app/(auth)/(components)/FormFieldComponent";
+import { formatDateForInput } from "@/lib/utils";
 
 type Props = {
   row: Apllication;
 };
 export const formSchema = z
   .object({
+    date: z.date({
+      required_error: "Ngày không được để trống",
+      invalid_type_error: "Ngày không hợp lệ",
+    }),
     start: z
-      .date({
-        required_error: "Ngày bắt đầu không được để trống",
-        invalid_type_error: "Ngày bắt đầu không hợp lệ",
-      })
-      .refine((val) => val !== undefined, {
-        message: "Ngày bắt đầu không được để trống",
-      }),
+      .string()
+      .regex(/^([01]\d|2[0-3]):([0-5]\d)$/, "Giờ bắt đầu không hợp lệ"),
     end: z
-      .date({
-        required_error: "Ngày kết thúc không được để trống",
-        invalid_type_error: "Ngày kết thúc không hợp lệ",
-      })
-      .refine((val) => val !== undefined, {
-        message: "Ngày kết thúc không được để trống",
-      }),
+      .string()
+      .regex(/^([01]\d|2[0-3]):([0-5]\d)$/, "Giờ kết thúc không hợp lệ"),
     note: z.string().nonempty("Ghi chú không được để trống"),
   })
-  .refine((data) => data.start && data.end && data.start <= data.end, {
-    message: "Ngày kết thúc phải sau ngày bắt đầu",
-    path: ["end"],
-  });
+  .refine(
+    (data) => {
+      const startDateTime = new Date(
+        `${data.date.toISOString().split("T")[0]}T${data.start}`
+      );
+      const endDateTime = new Date(
+        `${data.date.toISOString().split("T")[0]}T${data.end}`
+      );
+      return startDateTime < endDateTime;
+    },
+    {
+      message: "Giờ kết thúc phải sau giờ bắt đầu",
+      path: ["end"],
+    }
+  );
+const parseTime = (time: string) => {
+  const [hours, minutes] = time.split(":").map(Number);
+  return hours * 60 + minutes;
+};
+
+const formatDateTime = (date: Date, time: string): Date => {
+  const dateStr = date.toISOString().split("T")[0]; // "yyyy-mm-dd"
+  return new Date(`${dateStr}T${time}Z`);
+};
 export type FormValues = z.infer<typeof formSchema>;
 const DialogAddAppointment = ({ row }: Props) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -57,8 +74,9 @@ const DialogAddAppointment = ({ row }: Props) => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       note: "",
-      start: undefined,
-      end: undefined,
+      date: new Date(),
+      start: "08:00",
+      end: "17:00",
     },
   });
   const onSuccess = (data: any) => {
@@ -77,11 +95,18 @@ const DialogAddAppointment = ({ row }: Props) => {
   );
   const onSubmit = (values: FormValues) => {
     setIsLoading(true);
+
+    // Lấy ngày từ values.date
+    const startTime = formatDateTime(values.date, values.start);
+    const endTime = formatDateTime(values.date, values.end);
+
+    console.log({ startTime, endTime, note: values.note });
+
     mutation.mutate({
       applicationId: row.id,
-      startTime: values?.start,
-      endTime: values?.end,
-      note: values?.note,
+      startTime: startTime,
+      endTime: endTime,
+      note: values.note,
     });
   };
   return (
@@ -103,6 +128,25 @@ const DialogAddAppointment = ({ row }: Props) => {
             onSubmit={form.handleSubmit(onSubmit)}
             className="space-y-4 py-4"
           >
+            <FormFieldComponent
+              control={form.control}
+              icon={null}
+              name="date"
+              label="Ngày "
+              requrie={true}
+            >
+              {(field) => (
+                <Input
+                  type="date"
+                  value={formatDateForInput(field.value)}
+                  onChange={(e) =>
+                    field.onChange(
+                      e.target.value ? new Date(e.target.value) : undefined
+                    )
+                  }
+                />
+              )}
+            </FormFieldComponent>
             <StartAppointment form={form} />
             <EndAppointment form={form} />
             <NoteAppointment form={form} />
