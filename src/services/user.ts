@@ -2,7 +2,9 @@ import axiosInstance from "@/lib/axios";
 import axios from "axios";
 
 export const axiosJwt = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  baseURL:
+    process.env.NEXT_PUBLIC_API_URL ||
+    "https://0830-42-116-206-84.ngrok-free.app/capablanca/api/v0/",
   timeout: 10000,
   withCredentials: true,
   headers: {

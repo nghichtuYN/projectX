@@ -3,24 +3,25 @@ import { JobFormValues } from "../FormCreateJobComponent";
 import { Skills } from "@/types/skills";
 import { X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { ServiceJobs } from "@/services/services";
 type Props = {
   field: any;
   removeItem: (field: keyof JobFormValues, value: string) => void;
-  skills: Skills[] | undefined;
+  labels: ServiceJobs[] | undefined;
 };
-
-const SelectedSkillsComponent = ({ field, skills, removeItem }: Props) => {
+const SelectedLabel = ({ field, labels, removeItem }: Props) => {
+  console.log(field.value)
   const selectedSkills =
-    skills?.filter((skill) => field?.value?.includes(skill.id)) || [];
+  labels?.filter((label) => field?.value?.includes(label.id)) || [];
   return (
     <div className="w-full flex flex-wrap gap-2 mt-2">
-      {selectedSkills?.map((skill) => (
-        <Badge key={skill.id} variant="secondary">
-          {skill.name}
+      {selectedSkills?.map((label) => (
+        <Badge key={label.id} variant="secondary">
+          {label.name}
           <X
             size={14}
             className="ml-1 cursor-pointer"
-            onClick={() => removeItem("skills", skill.id)}
+            onClick={() => removeItem("labels", label.id)}
           />
         </Badge>
       ))}
@@ -28,4 +29,4 @@ const SelectedSkillsComponent = ({ field, skills, removeItem }: Props) => {
   );
 };
 
-export default SelectedSkillsComponent;
+export default SelectedLabel;

@@ -9,6 +9,9 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormUpdate from "./FormUpdate";
+import { useMutationHook } from "@/hooks/useMutationHook";
+import { updateCompany } from "@/services/company";
+import { toast } from "sonner";
 export const companySchema = z.object({
   companyName: z.string().min(1, "Tên công ty không được để trống"),
   taxCode: z.string().min(1, "Mã số thuế không được để trống"),
@@ -31,7 +34,7 @@ export const companySchema = z.object({
 });
 export type CompanyFormUpdateValues = z.infer<typeof companySchema>;
 const CompanyInfo = () => {
-  const { data: bussinesInfo } = getCompany();
+  const { data: bussinesInfo, refetch } = getCompany();
   const [cover, setCover] = useState<File[]>([]);
   const [preCover, setPreCover] = useState("");
   const [logoImage, setLogoImage] = useState<File[]>([]);
@@ -76,6 +79,13 @@ const CompanyInfo = () => {
       );
     }
   }, [bussinesInfo, form]);
+  const onSuccess = (data: any) => {
+    toast.success("Cập nhật tin thành công");
+    setCover([]);
+    setPreCover("");
+    setLogoImage([]);
+    refetch();
+  };
   const removeItem = (field: keyof CompanyFormUpdateValues, value: string) => {
     const current = form.getValues(field) as string[];
 
@@ -84,7 +94,27 @@ const CompanyInfo = () => {
       current.filter((item) => item !== value)
     );
   };
-  const onSubmit = (values: CompanyFormUpdateValues) => {};
+  const mutation = useMutationHook((data: any) => {
+    const { id, formData } = data;
+    return updateCompany(id, formData);
+  }, onSuccess);
+  const onSubmit = (values: CompanyFormUpdateValues) => {
+    const formData = new FormData();
+    formData.append("headQuarterAddress", values.headQuarterAddress);
+    formData.append("contactEmail", values.contactEmail);
+    formData.append("contactPhone", values.contactPhone);
+    formData.append("website", values.website);
+    formData.append("introduction", values.introduction);
+    formData.append("LocationId", values.LocationId);
+    values.major.forEach((major) => formData.append("majorIds[]", major));
+    if (logoImage && logoImage.length > 0) {
+      formData.append("logo", logoImage[0]);
+    }
+    if (cover && cover.length > 0) {
+      formData.append("cover", cover[0]);
+    }
+    mutation.mutate({ id: bussinesInfo?.id, formData });
+  };
   return (
     <Card className="grid grid-cols-2 gap-2 p-2 rounded-none">
       <div className="col-span-2 justify-between">

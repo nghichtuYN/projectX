@@ -30,22 +30,24 @@ export const jobSchema = z.object({
     .array(z.string())
     .min(1, "Phải có ít nhất một loại hợp đồng"),
   quantity: z.number().min(1, "Số lượng không được để trống"),
-  // start: z
-  //   .date({
-  //     required_error: "Ngày bắt đầu không được để trống",
-  //     invalid_type_error: "Ngày bắt đầu không hợp lệ",
-  //   })
-  //   .refine((val) => val !== undefined, {
-  //     message: "Ngày bắt đầu không được để trống",
-  //   }),
-  // end: z
-  //   .date({
-  //     required_error: "Ngày kết thúc không được để trống",
-  //     invalid_type_error: "Ngày kết thúc không hợp lệ",
-  //   })
-  //   .refine((val) => val !== undefined, {
-  //     message: "Ngày kết thúc không được để trống",
-  //   }),
+  start: z
+    .date({
+      required_error: "Ngày bắt đầu không được để trống",
+      invalid_type_error: "Ngày bắt đầu không hợp lệ",
+    })
+    .refine((val) => val !== undefined, {
+      message: "Ngày bắt đầu không được để trống",
+    }),
+  end: z
+    .date({
+      required_error: "Ngày kết thúc không được để trống",
+      invalid_type_error: "Ngày kết thúc không hợp lệ",
+    })
+    .refine((val) => val !== undefined, {
+      message: "Ngày kết thúc không được để trống",
+    }),
+  labels: z.array(z.string()).optional(),
+  paymentMethod: z.string().nonempty(""),
 });
 
 export type JobFormValues = z.infer<typeof jobSchema>;
@@ -74,6 +76,8 @@ const FormCreateJobComponent = () => {
       jobLevels: [],
       contractTypes: [],
       quantity: 0,
+      labels: [],
+      paymentMethod: "",
     },
   });
   const onSucces = (data: any) => {
@@ -109,6 +113,11 @@ const FormCreateJobComponent = () => {
     values.contractTypes.forEach((contractType) =>
       formData.append("contractTypes[]", contractType)
     );
+    if (values.labels) {
+      values.labels.forEach((label) => formData.append("labels[]", label));
+    }
+    formData.append("start", values.start.toISOString());
+    formData.append("end", values.end.toISOString());
     mutationPost.mutate(formData);
   };
 

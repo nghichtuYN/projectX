@@ -89,3 +89,15 @@ export const getSelf = async () => {
     throw error;
   }
 };
+export const updateCompany = async (id: string, data: FormData) => {
+  try {
+    const res = await axiosJwt.patch(`companies/${id}`, data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+};

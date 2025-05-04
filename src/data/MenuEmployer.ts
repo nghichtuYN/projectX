@@ -108,7 +108,7 @@ export const MenuEmployer = {
         },
         {
           title: "Nạp tiền",
-          url: "#",
+          url: "/employer/top-up",
           icon: BadgePoundSterling,
         },
         {
