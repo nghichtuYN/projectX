@@ -1,5 +1,6 @@
-import { formatDistanceToNow } from "date-fns";
-import { vi } from "date-fns/locale";
+'use client'
+// import { formatDistanceToNow } from "date-fns";
+// import { vi } from "date-fns/locale";
 import { ArrowLeft, Calendar, CreditCard, Clock } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -53,10 +54,10 @@ const OrderClient = () => {
     minute: "2-digit",
   });
 
-  const timeAgo = formatDistanceToNow(createdDate, {
-    addSuffix: true,
-    locale: vi,
-  });
+  // const timeAgo = formatDistanceToNow(createdDate, {
+  //   addSuffix: true,
+  //   locale: vi,
+  // });
 
   // Format currency
   const formatCurrency = (amount: number) => {
@@ -128,7 +129,7 @@ const OrderClient = () => {
                     <p className="text-muted-foreground">
                       {formattedCreatedDate}
                     </p>
-                    <p className="text-xs text-muted-foreground">{timeAgo}</p>
+                    {/* <p className="text-xs text-muted-foreground">{timeAgo}</p> */}
                   </div>
                 </div>
 
