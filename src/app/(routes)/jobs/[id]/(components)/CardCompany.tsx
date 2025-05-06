@@ -8,8 +8,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import company from "../../../../../../public/images/company.png";
-import { Job, JobPublic } from "@/types/Jobs";
+import company from "../../../../../../public/images/company.png"
+import { JobPublic } from "@/types/Jobs";
 import { Box, MapPin, SquareArrowOutUpRight, Users } from "lucide-react";
 import { listSizeCompany } from "@/data/SizeCompany";
 import Link from "next/link";
@@ -17,6 +17,7 @@ type Props = {
   job: JobPublic;
 };
 const CardCompany = ({ job }: Props) => {
+  console.log(`${process.env.NEXT_PUBLIC_API_URL_IMAGE}${job?.companyRecruiter?.logo}`)
   return (
     <Card className="w-full">
       <CardHeader>
@@ -26,7 +27,7 @@ const CardCompany = ({ job }: Props) => {
               <Image
                 src={
                   job?.companyRecruiter?.id
-                    ? `${process.env.NEXT_PUBLIC_API_URL_IMAGE}${job?.companyRecruiter?.logo}`
+                    ? `${process.env.NEXT_PUBLIC_API_URL_IMAGE}/${job?.companyRecruiter?.logo}`
                     : company
                 }
                 alt="Company logo"

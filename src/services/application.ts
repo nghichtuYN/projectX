@@ -104,3 +104,11 @@ export const getApplicationByJobId = async (
     throw error;
   }
 };
+export const getApplicationById = async (id: string) => {
+  try {
+    const res = await axiosJwt.get(`applications/${id}`);
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+};

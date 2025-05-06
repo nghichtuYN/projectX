@@ -14,8 +14,8 @@ import { useParams, useRouter } from "next/navigation";
 import { getDetailCampaigns } from "@/queries/queries";
 
 const CampaignDetailPage = () => {
-  const param = useParams();
   const router = useRouter();
+  const param = useParams();
   const id = param.id as string | undefined;
   if (!id) {
     return <div>Campaign ID không hợp lệ</div>;

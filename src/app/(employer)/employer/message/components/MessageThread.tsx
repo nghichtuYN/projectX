@@ -450,12 +450,6 @@ export function MessageThread({
                   className="hidden"
                   onChange={handleFileUpload}
                 />
-                <Button type="button" variant="ghost" size="icon">
-                  <ImageIcon className="h-5 w-5" />
-                </Button>
-                <Button type="button" variant="ghost" size="icon">
-                  <Smile className="h-5 w-5" />
-                </Button>
               </div>
               <FormField
                 control={form.control}

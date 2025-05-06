@@ -66,7 +66,7 @@ const TopUpClient = () => {
   const handleMakeOrder = () => {
     mutaion.mutate({
       amountCash: amount,
-      gateway: paymentMethod,
+      gateway: Number(paymentMethod),
     });
   };
   return (
@@ -176,9 +176,9 @@ const TopUpClient = () => {
                 </div>
 
                 <div className="flex items-center space-x-2 border rounded-lg p-4 hover:bg-violet-50 dark:hover:bg-violet-950/30 transition-colors cursor-pointer [&:has(:checked)]:bg-violet-50 dark:[&:has(:checked)]:bg-violet-950/30 [&:has(:checked)]:border-violet-300 dark:[&:has(:checked)]:border-violet-700">
-                  <RadioGroupItem value="VnPay" id="VnPay" />
+                  <RadioGroupItem value="0" id="0" />
                   <Label
-                    htmlFor="VnPay"
+                    htmlFor="0"
                     className="flex items-center cursor-pointer flex-1"
                   >
                     <Wallet className="h-5 w-5 mr-3 text-violet-600 dark:text-violet-400" />

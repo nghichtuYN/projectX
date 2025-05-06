@@ -47,16 +47,8 @@ export const Menu: Menu[] = [
         href: "/docs/primitives/progress",
         icon: LaptopMinimalCheck,
       },
-      {
-        title: "Việc làm IT",
-        href: "/docs/primitives/scroll-area",
-        icon: SquareTerminal,
-      },
-      {
-        title: "Việc làm Senior",
-        href: "/docs/primitives/tabs",
-        icon: Medal,
-      },
+     
+     
       {
         title: "Danh sách công ty",
         href: "/company",
@@ -71,91 +63,12 @@ export const Menu: Menu[] = [
     // icon: SquarePen
   },
   {
-    title: "Hồ sơ & CV",
-    href: "/manageCv",
-    subMenu: [
-      {
-        title: "Tạo CV",
-        href: "/create-cv",
-        icon: FileUser,
-      },
-      {
-        title: "Tải CV lên",
-        href: "/uploadCv",
-        icon: FileUp,
-      },
-      {
-        title: "Quản lý CV",
-        href: "/manageCv",
-        icon: FileUser,
-      },
-      {
-        title: "TopCV",
-        href: "/docs/primitives/tooltip",
-        icon: SquareUserRound,
-      },
-    ],
-    // icon:CircleArrowUp
+    title: "Tạo CV",
+    href: "/create-cv",
   },
-  {
-    title: "Công cụ",
-    href: "/cong-cu",
-    subMenu: [
-      {
-        title: "Tạo CV",
-        href: "/docs/primitives/tooltip",
-        icon: FileUser,
-      },
-      {
-        title: "Tải CV lên",
-        href: "/docs/primitives/tooltip",
-        icon: FileUp,
-      },
-      {
-        title: "Quản lý CV",
-        href: "/docs/primitives/tooltip",
-        icon: FileUser,
-      },
-      {
-        title: "TopCV",
-        href: "/docs/primitives/tooltip",
-        icon: SquareUserRound,
-      },
-    ],
-    // icon: Eye
-  },
-  // {
-  //   title: "Cẩm nang nghề nghiệp",
-  //   href: "/docs/primitives/tooltip",
-  //   subMenu: [
-  //     {
-  //       title: "Tạo CV",
-  //       href: "/docs/primitives/tooltip",
-  //       icon: FileUser,
-  //     },
-  //     {
-  //       title: "Tải CV lên",
-  //       href: "/docs/primitives/tooltip",
-  //       icon: FileUp,
-  //     },
-  //     {
-  //       title: "Quản lý CV",
-  //       href: "/docs/primitives/tooltip",
-  //       icon: FileUser,
-  //     },
-  //     {
-  //       title: "TopCV",
-  //       href: "/docs/primitives/tooltip",
-  //       icon: SquareUserRound,
-  //     },
-  //   ],
-  //   // icon: Lock
-  // },
+
   {
     title: "Diễn đàn",
     href: "/forum",
-
-    // href="javascript:void(0)",
-    // icon: LogOut
   },
 ];

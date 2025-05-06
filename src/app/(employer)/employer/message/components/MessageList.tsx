@@ -37,7 +37,7 @@ export function MessageList({
       <div className="relative px-4 pb-2">
         <Search className="absolute left-7 top-3 h-4 w-4 text-muted-foreground" />
         <Input
-          placeholder="Tìm kiếm tin nhắn..."
+          placeholder="Tìm kiếm cuộc hội thoại..."
           className="pl-9"
           defaultValue={searchValue}
           onChange={(e) => handleSearch(e.target.value)}
@@ -75,7 +75,7 @@ export function MessageList({
                 <div className="flex-1 overflow-hidden">
                   <div className="flex items-center justify-between">
                     <p
-                      className={`font-medium ${
+                      className={`font-medium truncate  w-3/5 ${
                         !conversation?.latestMessageDetails?.isRead &&
                         conversation?.latestMessageDetails?.sender?.id ===
                           conversation?.participant?.id
@@ -88,7 +88,7 @@ export function MessageList({
                     </p>
                     <div className="flex items-center gap-2">
                       <span className="text-xs text-muted-foreground">
-                        {getTimeSince(conversation?.latestMessage!)}
+                        {conversation?.latestMessage && getTimeSince(conversation?.latestMessage!)}
                       </span>
                       {!conversation?.latestMessageDetails?.isRead &&
                         conversation?.latestMessageDetails?.sender?.id ===

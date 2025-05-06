@@ -1,4 +1,4 @@
-'use client'
+"use client";
 // import { formatDistanceToNow } from "date-fns";
 // import { vi } from "date-fns/locale";
 import { ArrowLeft, Calendar, CreditCard, Clock } from "lucide-react";
@@ -15,8 +15,15 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import React from "react";
-import { useParams } from "next/navigation";
-import { useRouter } from "next/router";
+import { useParams, useRouter } from "next/navigation";
+import { getTimeSince } from "@/lib/utils";
+import { useQuery } from "@tanstack/react-query";
+import { useQueryHook } from "@/hooks/useQueryHook";
+import { getOrderById } from "@/services/order";
+import { OrderTopUp } from "@/types/Order";
+import { PaymentMethod } from "@/data/PaymentMethod";
+import { useMutationHook } from "@/hooks/useMutationHook";
+import { createPaymentURl } from "@/services/payment";
 
 const OrderClient = () => {
   const param = useParams();
@@ -25,18 +32,23 @@ const OrderClient = () => {
   if (!id) {
     return <div>ID không hợp lệ</div>;
   }
-  const orderData = {
-    id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    amountCash: 500000.0,
-    gateway: "VnPay",
-    amountToken: 1000,
-    created: "2025-05-04T10:00:00Z",
-    modified: "2025-05-04T10:05:00Z",
-  };
+  const { data: orderData } = useQueryHook<OrderTopUp>(["order", id], () =>
+    getOrderById(id)
+  );
+  // const
+  // const {data:orderData}=
+  // const orderData = {
+  //   id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  //   amountCash: 500000.0,
+  //   gateway: "VnPay",
+  //   amountToken: 1000,
+  //   created: "2025-05-04T10:00:00Z",
+  //   modified: "2025-05-04T10:05:00Z",
+  // };
 
   // Format the dates
-  const createdDate = new Date(orderData.created);
-  const modifiedDate = new Date(orderData.modified);
+  const createdDate = new Date(orderData?.created);
+  const modifiedDate = new Date(orderData?.modified);
 
   const formattedCreatedDate = createdDate.toLocaleDateString("vi-VN", {
     year: "numeric",
@@ -54,19 +66,25 @@ const OrderClient = () => {
     minute: "2-digit",
   });
 
-  // const timeAgo = formatDistanceToNow(createdDate, {
-  //   addSuffix: true,
-  //   locale: vi,
-  // });
-
-  // Format currency
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat("vi-VN", {
       style: "currency",
       currency: "VND",
     }).format(amount);
   };
-
+  const onSucces = (data: any) => {
+    console.log(data);
+    window.open(data.paymentUrl, '_blank');
+  };
+  const mutation = useMutationHook(
+    (data: { orderId: string }) => createPaymentURl(data),
+    onSucces
+  );
+  const handlePayment = () => {
+    mutation.mutate({
+      orderId: orderData?.id,
+    });
+  };
   return (
     <div className="container mx-auto py-8 px-4">
       <div className="mb-6">
@@ -90,7 +108,7 @@ const OrderClient = () => {
                 </Badge>
               </div>
               <CardDescription>
-                Mã đơn hàng: {orderData.id.substring(0, 8)}...
+                Mã đơn hàng: {orderData?.id.substring(0, 8)}...
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -98,7 +116,7 @@ const OrderClient = () => {
                 <div className="space-y-1">
                   <p className="text-sm text-muted-foreground">Số tiền</p>
                   <p className="text-xl font-semibold">
-                    {formatCurrency(orderData.amountCash)}
+                    {formatCurrency(orderData?.amountCash)}
                   </p>
                 </div>
                 <div className="space-y-1">
@@ -106,7 +124,7 @@ const OrderClient = () => {
                     Token nhận được
                   </p>
                   <p className="text-xl font-semibold">
-                    {orderData.amountToken.toLocaleString()} token
+                    {orderData?.amountToken.toLocaleString()} token
                   </p>
                 </div>
               </div>
@@ -118,7 +136,13 @@ const OrderClient = () => {
                   <CreditCard className="h-5 w-5 text-muted-foreground mt-0.5" />
                   <div>
                     <p className="font-medium">Phương thức thanh toán</p>
-                    <p className="text-muted-foreground">{orderData.gateway}</p>
+                    <p className="text-muted-foreground">
+                      {
+                        PaymentMethod.find(
+                          (payment) => payment.value === orderData?.gateway
+                        )?.labels
+                      }
+                    </p>
                   </div>
                 </div>
 
@@ -129,7 +153,9 @@ const OrderClient = () => {
                     <p className="text-muted-foreground">
                       {formattedCreatedDate}
                     </p>
-                    {/* <p className="text-xs text-muted-foreground">{timeAgo}</p> */}
+                    <p className="text-xs text-muted-foreground">
+                      {getTimeSince(orderData?.created)}
+                    </p>
                   </div>
                 </div>
 
@@ -146,7 +172,7 @@ const OrderClient = () => {
             </CardContent>
             <CardFooter className="flex justify-end gap-2">
               <Button variant="outline">In hóa đơn</Button>
-              <Button>Xem lịch sử giao dịch</Button>
+              <Button onClick={handlePayment}>Tiếp tục thanh toán</Button>
             </CardFooter>
           </Card>
         </div>
@@ -161,7 +187,7 @@ const OrderClient = () => {
                 <span className="text-muted-foreground">
                   Số tiền thanh toán
                 </span>
-                <span>{formatCurrency(orderData.amountCash)}</span>
+                <span>{formatCurrency(orderData?.amountCash)}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Phí giao dịch</span>
@@ -169,12 +195,12 @@ const OrderClient = () => {
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Token nhận được</span>
-                <span>{orderData.amountToken.toLocaleString()}</span>
+                <span>{orderData?.amountToken.toLocaleString()}</span>
               </div>
               <Separator />
               <div className="flex justify-between font-medium">
                 <span>Tổng cộng</span>
-                <span>{formatCurrency(orderData.amountCash)}</span>
+                <span>{formatCurrency(orderData?.amountCash)}</span>
               </div>
             </CardContent>
           </Card>

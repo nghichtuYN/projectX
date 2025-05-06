@@ -15,14 +15,14 @@ const ScheduleInterview = ({ interviewData }: Props) => {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
           <div className="bg-indigo-50 rounded-lg p-4 flex flex-col items-center justify-center">
             <Calendar className="h-8 w-8 text-indigo-600 mb-2" />
-            <p className="text-sm text-muted-foreground">Date</p>
+            <p className="text-sm text-muted-foreground">Ngày</p>
             <p className="font-semibold text-lg">
               {formatDate(interviewData?.startTime)}
             </p>
           </div>
           <div className="bg-purple-50 rounded-lg p-4 flex flex-col items-center justify-center">
             <Clock className="h-8 w-8 text-purple-600 mb-2" />
-            <p className="text-sm text-muted-foreground">Time</p>
+            <p className="text-sm text-muted-foreground">Thời gian</p>
             <p className="font-semibold text-lg">
               {new Date(interviewData?.startTime!).toLocaleTimeString("vi-VN", {
                 hour: "2-digit",

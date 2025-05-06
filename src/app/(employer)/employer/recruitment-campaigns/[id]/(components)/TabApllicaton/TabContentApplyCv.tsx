@@ -32,6 +32,7 @@ import {
   formatDateForInput,
   formatDateForInputTime,
 } from "@/lib/utils";
+import Link from "next/link";
 // import * as XLSX from "xlsx";
 
 const processActionMap: { [key: string]: (id: string) => Promise<any> } = {
@@ -147,10 +148,16 @@ const TabContentApplyCv = () => {
       title: "Ứng viên",
       renderColumn: (row) => {
         return (
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 max-h-fit">
             <p>Họ và tên: {row.fullName}</p>
             <p>SĐT: {row.phoneNumber}</p>
             <p>Email: {row.email}</p>
+            <Link
+              href={`/employer/applications/${row.id}`}
+              className="hover:underline group-hover:block hidden"
+            >
+              Xem chi tiết
+            </Link>
           </div>
         );
       },

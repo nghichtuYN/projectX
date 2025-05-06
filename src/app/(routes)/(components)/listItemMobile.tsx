@@ -4,12 +4,17 @@ import React from "react";
 
 const ListItemMobile = React.forwardRef<
   React.ElementRef<"a">,
-  React.ComponentPropsWithoutRef<"a"> & { icon?: React.ElementType; title: string }
->(({ className, title, icon: Icon, ...props }, ref) => {
+  React.ComponentPropsWithoutRef<"a"> & {
+    icon?: React.ElementType;
+    title: string;
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  }
+>(({ className, title, icon: Icon, setOpen, ...props }, ref) => {
   return (
     <li>
       <Link
         href={props.href || "#"}
+        onClick={() => setOpen(false)}
         className={cn(
           "hover:text-secondaryColor select-none w-full space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors bg-accent gap-3 hover:text-accent-foreground flex items-center content-center",
           className

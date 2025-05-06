@@ -1,3 +1,4 @@
+'use client'
 import {
   Accordion,
   AccordionContent,
@@ -33,14 +34,14 @@ export const NavMobbileComponent = ({ open, setOpen }: Props) => {
           )}
         >
           <Accordion type="single" collapsible className="w-full">
-            {user && <AccordionAccount user={user} />}
+            {user && <AccordionAccount setOpen={setOpen} user={user} />}
             {Menu?.map((menu, index) => (
               <AccordionItem key={index} value={`item ${index + 2}`}>
                 <AccordionTrigger
                   showIcon={!menu?.subMenu ? false : true}
                   className="font-semibold text-secondaryColor pl-4"
                 >
-                  <Link href={menu?.href}>{menu?.title}</Link>
+                  <Link onClick={()=>setOpen(false)} href={menu?.href}>{menu?.title}</Link>
                 </AccordionTrigger>
                 <AccordionContent>
                   <ul className="grid list-none  w-full gap-3 pl-2 pr-2">
@@ -50,6 +51,7 @@ export const NavMobbileComponent = ({ open, setOpen }: Props) => {
                         title={options.title}
                         href={options.href}
                         icon={options.icon}
+                        setOpen={setOpen}
                       />
                     ))}
                   </ul>

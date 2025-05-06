@@ -11,6 +11,17 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
+        hostname: "localhost",
+        port: "8443",
+        pathname: "/**",
+      },
+      {
+        protocol: 'https',
+        hostname: 'associate-surprise-executive-liked.trycloudflare.com',
+        pathname: '/**',
+      },
+      {
+        protocol: "https",
         hostname: "**.googleusercontent.com", // Allow Google domains (images on Google Drive, Google Photos)
       },
       {

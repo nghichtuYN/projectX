@@ -30,7 +30,7 @@ const InterviewCard = ({ interviewData }: Props) => {
           </Avatar>
           <div>
             <p className="font-medium">{interviewData?.participant?.name}</p>
-            <p className="text-sm text-muted-foreground">HR Manager</p>
+            <p className="text-sm text-muted-foreground">HR Manager     </p>
           </div>
         </div>
       </CardContent>

@@ -10,7 +10,10 @@ import {
 import { useAuthStore } from "@/store/UserStore";
 import { getUser } from "@/services/user";
 import { notFound, usePathname } from "next/navigation";
-import { getSignalRConnection } from "@/lib/signalrConnection";
+import {
+  getSignalNotifationRConnection,
+  getSignalRConnection,
+} from "@/lib/signalrConnection";
 import { Message } from "@/types/Conversation";
 import { toast } from "sonner";
 
@@ -48,7 +51,7 @@ export default function AuthWrapper({
   const needsAuth = protectedRoutes.some((protectedPath) =>
     pathname.startsWith(protectedPath)
   );
- 
+
   useEffect(() => {
     const fetchUserAndInitSignalR = async () => {
       if (
@@ -64,8 +67,10 @@ export default function AuthWrapper({
         const res = await getUser();
         setUser(res);
         const conn = getSignalRConnection();
+        const connNotification = getSignalNotifationRConnection();
         setConnection(conn);
         await conn.start();
+        await connNotification.start();
         console.log("✅ Đã kết nối SignalR");
         conn.on("ReceiveMessage", (data: Message) => {
           console.log("💬 Tin nhắn mới:", data);
@@ -73,9 +78,10 @@ export default function AuthWrapper({
             toast.success("Bạn có tin nhắn mới");
           }
         });
-        conn.on("ReceiveNotification", (data) => {
+        connNotification.on("ReceiveNotification", (data) => {
           console.log("🔔 Thông báo mới:", data);
           setNotifications((prev: any[]) => [...prev, data]);
+          toast.info("")
         });
       } catch (error: any) {
         if (error.status === 401) {

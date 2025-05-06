@@ -151,7 +151,7 @@ const FormJob = ({
                 <AccordionContent>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <LabelComponent form={form} removeItem={removeItem} />
-                    {form.getValues("labels").length >0 && (
+                    {form.getValues("labels")?.length >0 && (
                       <PaymentMethod form={form} />
                     )}
                   </div>

@@ -11,6 +11,7 @@ import PaginationComponent from "@/components/PaginationComponent";
 import { AppointmentOptions } from "@/data/Jobs";
 import ParticipantColumn from "./ParticipantColumn";
 import AppointmentColumn from "./AppointmentColumn";
+import { cn } from "@/lib/utils";
 
 const AppointmentClient = () => {
   const pathname = usePathname();
@@ -47,7 +48,7 @@ const AppointmentClient = () => {
   const columns: TableColumn<Appointment>[] = [
     {
       key: "id",
-      title: "Ứng viên",
+      title: pathname.includes("employer") ? "Ứng viên" : "Nhà tuyển dụng",
       renderColumn: (row) => <ParticipantColumn row={row} />,
     },
     {
@@ -64,8 +65,13 @@ const AppointmentClient = () => {
     },
   ];
   return (
-    <div className="pt-14 pl-8 pr-8 w-full">
-      <div className="container w-full mx-auto p-4 space-y-4 bg-accent">
+    <div
+      className={cn(
+        pathname.includes("employer") && "pt-14 pl-8 pr-8",
+        " w-full"
+      )}
+    >
+      <div className={cn("container w-full mx-auto p-4 space-y-4 bg-accent")}>
         <div className="flex gap-4 items-center">
           <FilterComponent
             dataOptions={AppointmentOptions}
@@ -76,7 +82,12 @@ const AppointmentClient = () => {
           <Input
             defaultValue={searchParams.get("search")?.toString() || ""}
             onChange={(e) => handleSearch(e.target.value)}
-            placeholder="Tên ứng viên"
+            className="bg-white"
+            placeholder={
+              pathname.includes("employer")
+                ? "Tên ứng viên"
+                : "Tên nhà tuyển dụng"
+            }
           />
         </div>
         <div>
@@ -89,7 +100,7 @@ const AppointmentClient = () => {
                 rowKey="id"
                 columns={columns}
                 rowClassName="group hover:bg-fourthColor"
-                content="Không có nhà tuyển dụng nào"
+                content="Không có lịch hẹn nào"
               />
             )}
           </div>

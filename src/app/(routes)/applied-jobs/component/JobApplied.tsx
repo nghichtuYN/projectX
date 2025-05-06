@@ -32,7 +32,7 @@ const JobApplied = ({ appliedJob }: Props) => {
           </div>
           <div className="flex-grow space-y-2">
             <Link
-              href={`/jobs/${appliedJob?.job?.id}`}
+              href={`/applied-jobs/${appliedJob?.id}`}
               className="text-[16px] font-semibold text-gray-800"
             >
               {appliedJob?.job?.title}

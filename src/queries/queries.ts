@@ -4,7 +4,11 @@ import {
 } from "./../services/conversation";
 import { useQueryHook } from "@/hooks/useQueryHook";
 import { getBusiness, getFreelance } from "@/services/admin";
-import { getApplicationByJobId, getAppliedJobs } from "@/services/application";
+import {
+  getApplicationById,
+  getApplicationByJobId,
+  getAppliedJobs,
+} from "@/services/application";
 import { getAppointmentById, getAppointments } from "@/services/appointment";
 import { getBusinessInfo } from "@/services/business";
 import {
@@ -363,6 +367,11 @@ export const getApllicatinByJobID = (
   return useQueryHook<AplliedJobList>(
     ["appliedJobs", id, search, page, seen, process],
     () => getApplicationByJobId(id, search, page, seen, process)
+  );
+};
+export const getApllicatinByID = (id: string) => {
+  return useQueryHook<AppliedJob>(["appliedJob", id], () =>
+    getApplicationById(id)
   );
 };
 export const getAFreelance = () => {

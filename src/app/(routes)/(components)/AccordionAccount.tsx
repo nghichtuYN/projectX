@@ -12,8 +12,9 @@ import { User } from "@/store/UserStore";
 
 type Props = {
   user: User | null;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
-const AccordionAccount = ({ user }: Props) => {
+const AccordionAccount = ({ user,setOpen }: Props) => {
   return (
     <AccordionItem value="item-1">
       <AccordionTrigger className="pl-2">
@@ -51,6 +52,7 @@ const AccordionAccount = ({ user }: Props) => {
               title={options.title}
               href={options.href}
               icon={options.icon}
+              setOpen={setOpen}
             />
           ))}
         </ul>

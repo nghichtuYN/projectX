@@ -1,4 +1,3 @@
-"use client";
 import React from "react";
 
 import {
@@ -45,15 +44,20 @@ const NavMenuComponent = () => {
                         title={submenu.title}
                         href={submenu.href}
                         icon={submenu.icon}
-                      ></ListItem>
+                      />
                     ))}
                   </ul>
                 </NavigationMenuContent>
               </NavigationMenuItem>
             ) : (
-              <NavigationMenuItem key={index}>
-                <Link href="/forum" legacyBehavior passHref>
-                  <NavigationMenuLink className={cn(styleNav)}>
+              <NavigationMenuItem className="px-3 py-4" key={index}>
+                <Link  href={menu?.href} legacyBehavior passHref>
+                  <NavigationMenuLink
+                    className={cn(
+                      styleNav,
+                      pathname === menu?.href && "text-hoverColor"
+                    )}
+                  >
                     {menu.title}
                   </NavigationMenuLink>
                 </Link>

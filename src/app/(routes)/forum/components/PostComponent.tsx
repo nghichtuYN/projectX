@@ -66,9 +66,9 @@ const PostComponent = ({ post, refetch }: Props) => {
             <Avatar className="h-10 w-10 border border-gray-700">
               <AvatarImage
                 src={
-                  user?.provider === "Google"
-                    ? user?.profilePicture
-                    : `${process.env.NEXT_PUBLIC_API_URL_IMAGE}${user?.profilePicture}`
+                  post.user?.profilePicture.includes("http")
+                    ? post?.user?.profilePicture
+                    : `${process.env.NEXT_PUBLIC_API_URL_IMAGE}${post?.user?.profilePicture}`
                 }
                 alt="Profile picture"
               />

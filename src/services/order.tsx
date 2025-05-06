@@ -8,3 +8,11 @@ export const createOrder = async (data: any) => {
     throw error;
   }
 };
+export const getOrderById = async (id: string) => {
+  try {
+    const res = await axiosJwt.get(`/orders/top-up/${id}`);
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+};
