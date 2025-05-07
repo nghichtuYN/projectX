@@ -1,16 +1,14 @@
 import React from "react";
 import { JobFormValues } from "../FormCreateJobComponent";
-import { Skills } from "@/types/skills";
 import { X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { ServiceJobs } from "@/services/services";
+import { Service } from "@/types/Services";
 type Props = {
   field: any;
   removeItem: (field: keyof JobFormValues, value: string) => void;
-  labels: ServiceJobs[] | undefined;
+  labels: Service[] | undefined;
 };
 const SelectedLabel = ({ field, labels, removeItem }: Props) => {
-  console.log(field.value)
   const selectedSkills =
   labels?.filter((label) => field?.value?.includes(label.id)) || [];
   return (
@@ -21,7 +19,7 @@ const SelectedLabel = ({ field, labels, removeItem }: Props) => {
           <X
             size={14}
             className="ml-1 cursor-pointer"
-            onClick={() => removeItem("labels", label.id)}
+            onClick={() => removeItem("serviceIds", label.id)}
           />
         </Badge>
       ))}

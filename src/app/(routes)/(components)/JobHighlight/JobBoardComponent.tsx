@@ -99,7 +99,7 @@ const JobBoardComponent = () => {
                     <div className="lg:h-16 lg:w-16 w-10 h-10 flex-shrink-0">
                       <div className="relative h-full w-full overflow-hidden rounded-lg bg-gray-100">
                         <Image
-                          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-XQiivDBn4lbLgDbeMky8ZCoMG61VS3.png"
+                          src="https://img.vietqr.io/image/bidv-96247020720003-compact.png?amount=50000.00&addInfo=PAY064d096059ea4b569932e21fe8ce16d3&accountName=ProjectX"
                           alt="Company logo"
                           fill
                           className="object-cover"

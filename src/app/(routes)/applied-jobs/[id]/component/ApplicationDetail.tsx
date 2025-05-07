@@ -19,7 +19,7 @@ const ApplicationDetail = () => {
   }
   const { data: application } = getApllicatinByID(id);
   return (
-    <div className="w-full bg-accent flex justify-center">
+    <div className="w-3/4 bg-accent flex justify-center">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-3 ">
         <div className="col-span-1">
           <Application application={application} />

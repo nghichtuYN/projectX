@@ -130,3 +130,11 @@ export const getJobSaved = async (
     throw error;
   }
 };
+export const getDetailJobByCampaignId = async (id: string, jobId: string) => {
+  try {
+    const response = await axiosJwt.get(`/campaigns/${id}/jobs/${jobId}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

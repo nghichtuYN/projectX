@@ -24,6 +24,11 @@ export const AccountMenu: {
     icon: FileClock,
   },
   {
+    title: "Nạp X Token",
+    href: "/top-up",
+    icon: FileClock,
+  },
+  {
     title: "Đổi mật khẩu",
     href: "/change-password",
     icon: Lock,

@@ -3,14 +3,14 @@ import {
   getConversationById,
 } from "./../services/conversation";
 import { useQueryHook } from "@/hooks/useQueryHook";
-import { getBusiness, getFreelance } from "@/services/admin";
+import { getAdminJobs, getBusiness, getFreelance } from "@/services/admin";
 import {
   getApplicationById,
   getApplicationByJobId,
   getAppliedJobs,
 } from "@/services/application";
 import { getAppointmentById, getAppointments } from "@/services/appointment";
-import { getBusinessInfo } from "@/services/business";
+import { getBusinessInfo, getBussinesPackage } from "@/services/business";
 import {
   getAllCampaigns,
   getAppLicationByCampaignId,
@@ -26,7 +26,12 @@ import {
 import { getContractType, getContractTypeById } from "@/services/contractType";
 import { getFreelanceRecruitment } from "@/services/freelance";
 import { getLevelById, getLevels } from "@/services/jobLevels";
-import { getJobById, getJobs, getJobSaved } from "@/services/jobs";
+import {
+  getDetailJobByCampaignId,
+  getJobById,
+  getJobs,
+  getJobSaved,
+} from "@/services/jobs";
 import { getJobTypeById, getJobTypes } from "@/services/jobTypes";
 import { getMajor, getMajorById } from "@/services/majors";
 import { getPost, getPostById } from "@/services/posts";
@@ -42,6 +47,7 @@ import {
   BusinessVerification,
   ListBusinessVerification,
 } from "@/types/BusinessVerification";
+import { BussinessPackage } from "@/types/BussinessPackage";
 import { campaignType, ListCampaign } from "@/types/campaign";
 import {
   CompanyPublic,
@@ -53,19 +59,14 @@ import { ContractType, ListContractTypes } from "@/types/ContractType";
 import { Conversation, ListConversations, User } from "@/types/Conversation";
 import { FreelanceUser, ListFreeLaneRecruiter } from "@/types/Freelance";
 import { JobLevel } from "@/types/JobLevelType";
-import {
-  FreelanceRecruiter,
-  Job,
-  JobPublic,
-  ListJob,
-  ListJobPublic,
-} from "@/types/Jobs";
+import { Job, JobPublic, ListJob, ListJobPublic } from "@/types/Jobs";
 import { JobType, ListJobType } from "@/types/JobType";
 import { ListMajors, Major } from "@/types/majors";
 import { ListPosts, Post, PostById } from "@/types/Post";
 import { ListJobSaved } from "@/types/SavedJob";
 import { ListSkills, Skills } from "@/types/skills";
 import { QueryKey } from "@tanstack/react-query";
+import { use } from "react";
 //JobTypes
 export const getAllJobTypes = (
   search: string,
@@ -222,6 +223,11 @@ export const getApplyByCampain = (
     () => getAppLicationByCampaignId(id, search, page, seen, process)
   );
 };
+export const getJobDetailByCampaign = (id: string, jobId: string) => {
+  return useQueryHook<Job>(["job", id, jobId], () =>
+    getDetailJobByCampaignId(id, jobId)
+  );
+};
 // Jobs
 export const getJobsByCampaignId = (
   id: string,
@@ -319,9 +325,21 @@ export const getFreelanceVerified = (
     () => getFreelance(search, page, verified === "all" ? undefined : verified)
   );
 };
+export const getAdminJob = (search: string, page: number, pageSize: number) => {
+  return useQueryHook<ListJob>(["job", search, page, pageSize], () =>
+    getAdminJobs(search, page, pageSize)
+  );
+};
+
 // Bussiness
 export const getBusinessInfomation = () => {
   return useQueryHook<BusinessVerification>(["businessInfo"], getBusinessInfo);
+};
+export const getAllBusinessPackage = () => {
+  return useQueryHook<BussinessPackage[]>(
+    ["businessPackages"],
+    getBussinesPackage
+  );
 };
 // conversation
 export const getAllConversation = (search: string, page: number) => {
@@ -334,6 +352,7 @@ export const getAConversation = (id: string) => {
     getConversationById(id)
   );
 };
+
 // user
 export const getAllConversationUser = (search: string, open: boolean) => {
   return useQueryHook<User[]>(
@@ -413,7 +432,7 @@ export const getRatings = (
 export const getCompany = () => {
   return useQueryHook<CompanyVerifed>(["company"], () => getSelf());
 };
-//
+//appointments
 export const getAppointment = (
   search: string,
   page: number,

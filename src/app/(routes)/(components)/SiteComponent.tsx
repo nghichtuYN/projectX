@@ -90,7 +90,9 @@ const SiteComponent = () => {
                           {user?.fullName}
                         </div>
                         <div className="truncate ">
-                          Mã ứng viên: {user?.id.replace(/-/g, "")}
+                          <p className="font-semibold">
+                            Số dư: {user?.xTokenBalance} X-TOKEN
+                          </p>
                         </div>
                         <div>{user?.email}</div>
                       </div>

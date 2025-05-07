@@ -27,6 +27,7 @@ import { formatDateForInput } from "@/lib/utils";
 
 type Props = {
   row: Apllication;
+  refetch: any;
 };
 export const formSchema = z
   .object({
@@ -57,17 +58,13 @@ export const formSchema = z
       path: ["end"],
     }
   );
-const parseTime = (time: string) => {
-  const [hours, minutes] = time.split(":").map(Number);
-  return hours * 60 + minutes;
-};
 
 const formatDateTime = (date: Date, time: string): Date => {
   const dateStr = date.toISOString().split("T")[0]; // "yyyy-mm-dd"
   return new Date(`${dateStr}T${time}Z`);
 };
 export type FormValues = z.infer<typeof formSchema>;
-const DialogAddAppointment = ({ row }: Props) => {
+const DialogAddAppointment = ({ row, refetch }: Props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
@@ -82,6 +79,8 @@ const DialogAddAppointment = ({ row }: Props) => {
   const onSuccess = (data: any) => {
     toast.success(`Tao lịch hẹn thành công!`);
     setIsLoading(false);
+    setOpen(false);
+    refetch();
   };
   const onError = (err: any) => {
     toast.error(`Tạo lịch hẹn thất bại!`);
@@ -95,8 +94,6 @@ const DialogAddAppointment = ({ row }: Props) => {
   );
   const onSubmit = (values: FormValues) => {
     setIsLoading(true);
-
-    // Lấy ngày từ values.date
     const startTime = formatDateTime(values.date, values.start);
     const endTime = formatDateTime(values.date, values.end);
 

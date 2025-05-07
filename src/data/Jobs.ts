@@ -17,6 +17,12 @@ export const CompanyOptions: JobOptionsType[] = [
   { value: "1", label: "Công ty đã xác thực" },
   { value: "2", label: "Công ty bị từ chối" },
 ];
+export const JobAdminOptions: JobOptionsType[] = [
+  { value: "all", label: "Tất cả tin tuyển dụng" },
+  { value: "0", label: "Tin tuyển dụng chờ duyệt" },
+  { value: "1", label: "Tin tuyển dụng đã xác thực" },
+  { value: "2", label: "Tin tuyển dụng bị từ chối" },
+];
 export const FreelanceOptions: JobOptionsType[] = [
   { value: "all", label: "Tất cả" },
   { value: "0", label: "NTD chờ duyệt" },

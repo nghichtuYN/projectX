@@ -7,9 +7,9 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import React from "react";
 import Label from "./Label";
-import { ServiceJobs } from "@/services/services";
+import { Service } from "@/types/Services";
 type Props = {
-  labels: ServiceJobs[] | undefined;
+  labels: Service[] | undefined;
   isLoading?: boolean;
   isFetching?: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -18,7 +18,7 @@ type Props = {
 const ListLabel = ({ labels, isLoading, isFetching, field }: Props) => {
   return (
     <CommandList>
-      {/* {isLoading || isFetching ? (
+      {isLoading || isFetching ? (
         <CommandGroup>
           <CommandItem>
             <Skeleton className="w-full" />
@@ -33,16 +33,16 @@ const ListLabel = ({ labels, isLoading, isFetching, field }: Props) => {
             <Skeleton className="w-full" />
           </CommandItem>
         </CommandGroup>
-      ) : !skills || skills.length === 0 ? (
+      ) : !labels || labels.length === 0 ? (
         <CommandEmpty>Không tìm thấy loại công việc</CommandEmpty>
-      ) : ( */}
-      <CommandGroup>
-        {labels &&
-          labels.map((label) => (
-            <Label key={label.id} label={label} field={field} />
-          ))}
-      </CommandGroup>
-      {/* )} */}
+      ) : (
+        <CommandGroup>
+          {labels &&
+            labels.map((label) => (
+              <Label key={label.id} label={label} field={field} />
+            ))}
+        </CommandGroup>
+      )}
     </CommandList>
   );
 };

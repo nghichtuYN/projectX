@@ -89,3 +89,40 @@ export const rejectFreelance = async (
     throw error;
   }
 };
+export const getAdminJobs = async (
+  search: string,
+  page: number,
+  pageSize: number
+) => {
+  try {
+    const res = await axiosJwt.get("admin/jobs", {
+      params: {
+        search: search,
+        page: page,
+        pageSize: pageSize,
+      },
+    });
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+};
+export const acceptJobs = async (id: string) => {
+  try {
+    const res = await axiosJwt.patch(`admin/jobs/${id}/accept`);
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+};
+export const rejectJobs = async (
+  id: string,
+  data: { rejectReason: string }
+) => {
+  try {
+    const res = await axiosJwt.patch(`admin/jobs/${id}/reject`, data);
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+};

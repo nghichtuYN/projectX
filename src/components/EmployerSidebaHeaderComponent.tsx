@@ -14,7 +14,6 @@ const EmployerSidebaHeaderComponent = ({
         <Separator orientation="vertical" className="mr-2 h-4" />
         <div className="flex items-center w-fit justify-between">
           {children}
-          {/* <p>Số dư:</p> */}
         </div>
       </div>
     </header>

@@ -1,28 +1,19 @@
 import {
-  AlarmClock,
-  AlignJustify,
   AppWindow,
   AudioWaveform,
-  BadgeInfo,
   BadgePoundSterling,
   BriefcaseBusiness,
   CalendarCheck2,
-  CalendarClock,
   ClipboardList,
   Command,
   FileClock,
-  FileUser,
   FolderClock,
   Gem,
-  Heart,
   LayoutDashboard,
-  Megaphone,
   MessageCircle,
   Package,
   PanelsTopLeft,
   Settings,
-  ShoppingCart,
-  Users,
 } from "lucide-react";
 export const MenuEmployer = {
   user: {

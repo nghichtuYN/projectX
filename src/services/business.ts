@@ -25,3 +25,22 @@ export const getBusinessInfo = async () => {
     throw error;
   }
 };
+export const getBussinesPackage = async () => {
+  try {
+    const res = await axiosJwt.get("business/packages");
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+};
+export const bussinesUpgrade = async (data: {
+  packageId: string;
+  gateway: number;
+}) => {
+  try {
+    const res = await axiosJwt.post("business/upgrade", data);
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+};

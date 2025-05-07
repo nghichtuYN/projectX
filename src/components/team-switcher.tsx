@@ -1,23 +1,12 @@
 "use client";
 
-import * as React from "react";
-import { ChevronsUpDown, Plus } from "lucide-react";
-
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import {
   SidebarMenu,
-  SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { useAuthStore } from "@/store/UserStore";
+import React from "react";
 
 export function TeamSwitcher({
   teams,
@@ -30,7 +19,6 @@ export function TeamSwitcher({
 }) {
   const { isMobile } = useSidebar();
   const [activeTeam, setActiveTeam] = React.useState(teams[0]);
-
   return (
     <SidebarMenu>
       <SidebarMenuItem className="flex items-center gap-4">
@@ -38,7 +26,9 @@ export function TeamSwitcher({
           <activeTeam.logo className="size-4" />
         </div>
         <div className="grid flex-1 text-left text-sm leading-tight">
-          <span className="truncate text-2xl font-bold ml-2 italic bg-gradient-to-r from-hoverColor to-fourthColor text-transparent bg-clip-text">{activeTeam.name}</span>
+          <span className="truncate text-2xl font-bold ml-2 italic bg-gradient-to-r from-hoverColor to-fourthColor text-transparent bg-clip-text">
+            {activeTeam.name}
+          </span>
           <span className="truncate text-xs">{activeTeam.plan}</span>
         </div>
       </SidebarMenuItem>

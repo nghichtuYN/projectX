@@ -66,14 +66,14 @@ export const MenuAdmin = {
     },
     {
       title: "Tin tuyển dụng",
-      url: "#",
+      url: "/admin/jobs",
       icon: FileText,
       isActive: true,
 
       items: [
         {
           title: "Danh sách tin tuyển dụng",
-          url: "#",
+          url: "/admin/jobs",
           icon: Files,
         },
       ],

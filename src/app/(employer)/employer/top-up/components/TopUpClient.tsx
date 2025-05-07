@@ -19,32 +19,11 @@ import { useMutationHook } from "@/hooks/useMutationHook";
 import { createOrder } from "@/services/order";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-type CardValue = {
-  amount: number;
-  descriptions: string;
-  title: string;
-};
-const cardValue: CardValue[] = [
-  {
-    amount: 10000,
-    descriptions:
-      "Với mức độ sử dụng thấp, bạn có thể nhận được mức giá thấp nhất",
-    title: "Mức giá thấp nhất",
-  },
-  {
-    amount: 50000,
-    descriptions: "Mức giá thấp hơn mức giá bình thường",
-    title: "Mức giá bình thường",
-  },
-  {
-    amount: 1000000,
-    descriptions: "Mức giá cao hơn mức giá bình thường",
-    title: "Mức giá cao nhất",
-  },
-];
+
+
 const TopUpClient = () => {
   const [amount, setAmount] = useState("");
-  const [paymentMethod, setPaymentMethod] = useState("SePay");
+  const [paymentMethod, setPaymentMethod] = useState("1");
   const router = useRouter();
   const formatCurrency = (value: string) => {
     if (!value) return "0 ₫";
@@ -60,7 +39,7 @@ const TopUpClient = () => {
   };
   const onSuccess = (data: any) => {
     toast.success(`Thành công! Đơn hàng đã được tạo thành công!`);
-    router.push(`/employer/order/${data.id}`);
+    router.push(`/employer/order/${data.id}?type=top-up`);
   };
   const mutaion = useMutationHook((data) => createOrder(data), onSuccess);
   const handleMakeOrder = () => {
@@ -160,9 +139,9 @@ const TopUpClient = () => {
                 className="space-y-4"
               >
                 <div className="flex items-center space-x-2 border rounded-lg p-4 hover:bg-violet-50 dark:hover:bg-violet-950/30 transition-colors cursor-pointer [&:has(:checked)]:bg-violet-50 dark:[&:has(:checked)]:bg-violet-950/30 [&:has(:checked)]:border-violet-300 dark:[&:has(:checked)]:border-violet-700">
-                  <RadioGroupItem value="SePay" id="SePay" />
+                  <RadioGroupItem value="1" id="1" />
                   <Label
-                    htmlFor="SePay"
+                    htmlFor="1"
                     className="flex items-center cursor-pointer flex-1"
                   >
                     <Landmark className="h-5 w-5 mr-3 text-violet-600 dark:text-violet-400" />

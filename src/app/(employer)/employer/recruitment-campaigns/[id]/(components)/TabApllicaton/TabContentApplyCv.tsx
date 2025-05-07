@@ -152,12 +152,12 @@ const TabContentApplyCv = () => {
             <p>Họ và tên: {row.fullName}</p>
             <p>SĐT: {row.phoneNumber}</p>
             <p>Email: {row.email}</p>
-            <Link
+            {/* <Link
               href={`/employer/applications/${row.id}`}
               className="hover:underline group-hover:block hidden"
             >
               Xem chi tiết
-            </Link>
+            </Link> */}
           </div>
         );
       },
@@ -214,24 +214,17 @@ const TabContentApplyCv = () => {
             {row?.appointment ? (
               <div className="flex flex-col">
                 <p>
-                  {" "}
                   Ngày:{" "}
                   {formatDateForInput(new Date(row?.appointment?.startTime))}
                 </p>
                 <p className="flex items-center gap-2">
-                  Bắt đầu: {/* {new Date(row.appointment?.startTime)} */}
-                  {formattedStartTime}
-                  {/* {row.appointment?.startTime} */}
+                  Bắt đầu: {formattedStartTime}
                 </p>
-                <p>
-                  Kết thúc:
-                  {formattedEndTime}
-                  {/* {parseTime(row?.appointment?.endTime)} */}
-                </p>
+                <p>Kết thúc: {formattedEndTime}</p>
                 <p>Ghi chú: {row.appointment?.note}</p>
               </div>
             ) : (
-              <DialogAddAppointment row={row} />
+              <DialogAddAppointment refetch={refetch} row={row} />
             )}
           </div>
         );

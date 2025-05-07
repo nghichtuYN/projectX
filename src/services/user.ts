@@ -104,6 +104,7 @@ axiosJwt.interceptors.response.use(
 // Các hàm API
 export const signIn = async (data: { email: string; password: string }) => {
   try {
+    console.log(data)
     const res = await axiosInstance.post("/auth/sign-in", data);
     return res.data;
   } catch (error) {

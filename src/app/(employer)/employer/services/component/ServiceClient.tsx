@@ -1,15 +1,36 @@
 "use client";
-import { Info, ShoppingCart } from "lucide-react";
+import {
+  CalendarDays,
+  CreditCard,
+  Gift,
+  Info,
+  ShoppingCart,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
+  CardDescription,
   CardFooter,
   CardHeader,
+  CardTitle,
 } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { getAllBusinessPackage } from "@/queries/queries";
+import { formatCurrency } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge";
+import { useState } from "react";
+import DialogSelectGateway from "./DialogSelectGateway";
 
 const ServiceClient = () => {
+  const { data: businessPackages } = getAllBusinessPackage();
+  const [gateway, setGateway] = useState("0");
+  const [selected, selectedPackage] = useState("");
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const handlePurchase = (id: string) => {
+    setIsDialogOpen(true);
+    selectedPackage(id);
+  };
   return (
     <div className="pt-14 pl-8 pr-8 w-full">
       <div className="container mx-auto px-4 py-6">
@@ -38,100 +59,88 @@ const ServiceClient = () => {
             Trải nghiệm công hưởng sức mạnh công nghệ tạo ra hiệu quả đột phá
             cho tin tuyển dụng của Doanh nghiệp với chi phí tối ưu
           </p>
-          {/* <p className="text-red-500">
-            Nhà tuyển dụng sẽ chỉ được mua và kích hoạt duy nhất 1 gói Top Job
-            Trial
-          </p> */}
         </div>
 
-        {/* Pricing Cards */}
         <div className="grid md:grid-cols-3 gap-6 mb-8">
-          {/* TOP MAX TRIAL */}
-          <Card className="bg-white">
-            <CardHeader className="pb-2">
-              <h3 className="text-lg font-bold text-gray-800">X MAX TRIAL</h3>
-              <p className="text-2xl font-bold text-secondaryColor">
-                2.887.500 VND<span className="text-red-500">*</span>
-              </p>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-700 text-sm font-medium">
-                Trải nghiệm đăng tin tuyển dụng hiệu quả với vị trí nổi bật
-                trong Việc làm tốt nhất kết hợp cùng các dịch vụ cao cấp, giá
-                đúng thứ hạng dẫn.
-              </p>
-            </CardContent>
-            <CardFooter className="flex gap-2">
-              <Button className="flex-1 bg-secondaryColor hover:bg-secontext-secondaryColor text-white">
-                Mua ngay
-              </Button>
-            </CardFooter>
-          </Card>
+          {businessPackages?.map((bp) => (
+            <Card
+              key={bp?.id}
+              className="w-full max-w-md border-2 hover:shadow-lg transition-shadow"
+            >
+              <CardHeader className="pb-2">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <CardTitle className="text-xl font-bold">
+                      {bp?.name}
+                    </CardTitle>
+                    <CardDescription className="mt-1">
+                      {bp?.description}
+                    </CardDescription>
+                  </div>
+                  {bp?.level === 0 && (
+                    <Badge
+                      variant="outline"
+                      className="bg-green-50 text-green-700 border-green-200"
+                    >
+                      Cơ bản
+                    </Badge>
+                  )}
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-4 pt-4">
+                <div className="flex items-center gap-2 text-sm">
+                  <CreditCard className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-muted-foreground">Giá:</span>
+                  <span className="font-semibold text-lg ml-auto">
+                    {formatCurrency(bp?.cashPrice)} đ
+                  </span>
+                </div>
 
-          {/* TOP PRO TRIAL */}
-        </div>
+                <div className="flex items-center gap-2 text-sm">
+                  <CalendarDays className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-muted-foreground">Thời hạn:</span>
+                  <span className="font-medium ml-auto">
+                    {bp?.durationInDays} ngày ({bp?.durationInDays / 30} tháng)
+                  </span>
+                </div>
 
-        {/* Bottom Section */}
-        <div>
-          <h2 className="text-xl font-medium">
-            <span className="text-secondaryColor text-xl font-normal">
-              X ADD - ON
-            </span>{" "}
-            |{" "}
-            <span className="text-gray-800 text-xl font-medium">
-              DỊCH VỤ CỘNG THÊM
-            </span>
-          </h2>
-          <p className="text-gray-700 mt-1 text-sm font-medium leading-5">
-            Thêm tuỳ chọn giúp tin tuyển dụng nổi bật hơn với ứng viên. Dịch vụ
-            chỉ được áp dụng cho tin đang chạy dịch vụ X Jobs
-          </p>
-        </div>
-        <div className="grid md:grid-cols-3 gap-6 mb-8">
-          <Card className="bg-white">
-            <CardHeader className="pb-2">
-              <h3 className="text-lg font-bold text-[18px] text-gray-800">
-                ADD-ON LABEL: GẤP
-              </h3>
-              <p className="text-2xl font-bold text-secondaryColor">
-                1.000.000 VND<span className="text-red-500">*</span>
-              </p>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-700 text-sm font-medium">
-                Tin tuyển dụng được gán nhán
-                <span className="text-red-500 leading-6"> GẤP </span>
-                lên tiêu đề tin
-              </p>
-            </CardContent>
-            <CardFooter className="flex gap-2">
-              <Button className="flex-1 bg-secondaryColor hover:bg-secontext-secondaryColor text-white">
-                Mua ngay
-              </Button>
-            </CardFooter>
-          </Card>
-          <Card className="bg-white">
-            <CardHeader className="pb-2">
-              <h3 className="text-lg font-bold text-gray-800">
-                ADD-ON LABEL: HOT
-              </h3>
-              <p className="text-2xl font-bold text-secondaryColor">
-                1.000.000 VND<span className="text-red-500">*</span>
-              </p>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-700 text-sm font-medium">
-                Tin tuyển dụng được gán nhán
-                <span className="text-orange-500 leading-6"> HOT </span>
-                lên tiêu đề tin
-              </p>
-            </CardContent>
-            <CardFooter className="flex gap-2">
-              <Button className="flex-1 bg-secondaryColor hover:bg-secontext-secondaryColor text-white">
-                Mua ngay
-              </Button>
-            </CardFooter>
-          </Card>
+                <div className="flex items-center gap-2 text-sm">
+                  <Gift className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-muted-foreground">
+                    Phần thưởng hàng tháng:
+                  </span>
+                  <span className="font-medium ml-auto">
+                    {bp?.monthlyXTokenRewards} X Token
+                  </span>
+                </div>
+
+                <div className="mt-4 pt-4 border-t">
+                  <div className="flex justify-between text-sm text-muted-foreground">
+                    <span>Mã gói:</span>
+                    <span className="font-mono text-xs">
+                      {bp?.id.substring(0, 8)}...
+                    </span>
+                  </div>
+                </div>
+              </CardContent>
+              <CardFooter className="pt-2">
+                <Button
+                  className="w-full"
+                  onClick={() => handlePurchase(bp?.id)}
+                  size="lg"
+                >
+                  Mua ngay
+                </Button>
+              </CardFooter>
+            </Card>
+          ))}
+          <DialogSelectGateway
+            id={selected}
+            gateway={gateway}
+            onOpenChange={setIsDialogOpen}
+            setGateway={setGateway}
+            open={isDialogOpen}
+          />
         </div>
       </div>
     </div>

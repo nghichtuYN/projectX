@@ -57,10 +57,13 @@ const FormJob = ({
   title,
 }: Props) => {
   const pathName = usePathname();
-  console.log(form.getValues("labels"))
+  console.log(form.getValues("labels"));
+  const OnError = (error: any) => {
+    console.log(error);
+  };
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form onSubmit={form.handleSubmit(onSubmit, OnError)}>
         <Card className="w-full shadow-sm">
           <CardHeader>
             <CardTitle className="text-2xl font-bold flex justify-between">
@@ -97,7 +100,7 @@ const FormJob = ({
                     <div className="space-y-4">
                       <TittleComponent form={form} />
                       <AddressComponent form={form} />
-                      <div className="flex items-center gap-2 w-full">
+                      <div className="flex items-start gap-2 w-full">
                         <HighLightStart form={form} />
                         <HighLightEnd form={form} />
                       </div>
@@ -142,21 +145,21 @@ const FormJob = ({
                   </div>
                 </AccordionContent>
               </AccordionItem>
-              <AccordionItem value="item-4">
-                <AccordionTrigger>
-                  <h3 className="text-lg font-medium">
-                    Nâng cấp tin tuyển dụng
-                  </h3>
-                </AccordionTrigger>
-                <AccordionContent>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <LabelComponent form={form} removeItem={removeItem} />
-                    {form.getValues("labels")?.length >0 && (
+              {!pathName.includes("edit_job") && (
+                <AccordionItem value="item-4">
+                  <AccordionTrigger>
+                    <h3 className="text-lg font-medium">
+                      Nâng cấp tin tuyển dụng
+                    </h3>
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <div className="grid grid-cols-1 md:grid-cols-2 items-start gap-6">
+                      <LabelComponent form={form} removeItem={removeItem} />
                       <PaymentMethod form={form} />
-                    )}
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              )}
               {pathName.includes("edit_job") && (
                 <AccordionItem value="item-3">
                   <AccordionTrigger>

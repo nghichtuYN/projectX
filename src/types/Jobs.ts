@@ -30,6 +30,11 @@ export type Job = {
   jobLevels: JobLevel[];
   jobTypes: JobType[];
   created: string;
+  isUrgent:boolean
+  isHot:boolean
+  startDate:string
+  endDate:string
+  rejectReason:string
 };
 export type ListJob = {
   totalItems: number;

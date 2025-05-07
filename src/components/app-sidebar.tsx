@@ -14,10 +14,13 @@ import {
 import { MenuEmployer } from "@/data/MenuEmployer";
 import { usePathname } from "next/navigation";
 import { MenuAdmin } from "@/data/MenuAdmin";
+import { useAuthStore } from "@/store/UserStore";
+import { MenuFreelance } from "@/data/MenuFreeLance";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname();
   const isEmployer = pathname.startsWith("/employer");
+  const user = useAuthStore((state) => state.user);
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -26,12 +29,27 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         />
       </SidebarHeader>
       <SidebarContent>
-        <NavMain
+        {isEmployer && user?.roles[0].includes("Business") && (
+          <NavMain items={MenuEmployer.navMain} />
+        )}
+        {isEmployer && !user?.roles[0].includes("Business") && (
+          <NavMain items={MenuFreelance.navMain} />
+        )}
+        {!isEmployer && !user?.roles[0].includes("Business") && (
+          <NavMain items={MenuAdmin.navMain} />
+        )}
+        {/* <NavMain
           items={isEmployer ? MenuEmployer.navMain : MenuAdmin.navMain}
-        />
-        <NavProjects
-          projects={isEmployer ? MenuEmployer.projects : MenuAdmin.projects}
-        />
+        /> */}
+        {isEmployer && user?.roles[0].includes("Business") && (
+          <NavProjects projects={MenuEmployer.projects} />
+        )}
+        {isEmployer && !user?.roles[0].includes("Business") && (
+          <NavProjects projects={MenuFreelance.projects} />
+        )}
+        {!isEmployer && !user?.roles[0].includes("Business") && (
+          <NavProjects projects={MenuAdmin.projects} />
+        )}
       </SidebarContent>
       <SidebarFooter>
         <NavUser />

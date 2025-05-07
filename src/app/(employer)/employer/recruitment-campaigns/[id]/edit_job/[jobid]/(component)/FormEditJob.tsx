@@ -1,4 +1,4 @@
-import { getJobByID } from "@/queries/queries";
+import { getJobByID, getJobDetailByCampaign } from "@/queries/queries";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useParams } from "next/navigation";
 import React, { useEffect } from "react";
@@ -21,7 +21,7 @@ const FormEditJob = () => {
   if (!id || !jobId) {
     return <div>Missing id or jobId</div>;
   }
-  const { data } = getJobByID(jobId);
+  const { data } = getJobDetailByCampaign(id, jobId);
   const form = useForm<JobFormValues>({
     resolver: zodResolver(jobSchema),
     defaultValues: {
@@ -59,6 +59,8 @@ const FormEditJob = () => {
         contractTypes:
           data.contractTypes.map((contractType) => contractType.id) || [],
         quantity: data.quantity || 0,
+        start: data.startDate ? new Date(data.startDate) : undefined,
+        end: data.endDate ? new Date(data.endDate) : undefined,
       });
     }
   }, [data, form]);

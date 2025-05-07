@@ -11,7 +11,8 @@ export type User = {
   recruiterVerified: boolean;
   verificationSubmitted: boolean;
   emailConfirmed: boolean;
-  provider:string
+  provider: string;
+  xTokenBalance: number;
 };
 
 type AuthState = {

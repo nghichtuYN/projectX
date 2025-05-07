@@ -1,6 +1,5 @@
 "use client";
 import FilterComponent from "@/app/(employer)/employer/recruitment-campaigns/(components)/FilterJobComponent";
-import EmployerSidebaHeaderComponent from "@/components/EmployerSidebaHeaderComponent";
 import PaginationComponent from "@/components/PaginationComponent";
 import SkeletonTableComponent from "@/components/SeketonTable";
 import TableComponent, { TableColumn } from "@/components/TableComponent";
@@ -22,6 +21,7 @@ import MajorColumn from "./MajorColumn";
 import SizeColumn from "./SizeColumn";
 import ActionColumn from "./ActionColumn";
 import GPKDColumn from "./GPKDColumn";
+import { useDebouncedCallback } from "use-debounce";
 const CompanyClient = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -36,7 +36,7 @@ const CompanyClient = () => {
     isFetching,
     refetch,
   } = getBusinessVerified(searchValue, currentPage, filterBy);
-  const handleSearch = (term: string) => {
+  const handleSearch = useDebouncedCallback((term: string) => {
     const params = new URLSearchParams(searchParams);
     params.set("page", "1");
     if (term) {
@@ -45,7 +45,7 @@ const CompanyClient = () => {
       params.delete("search");
     }
     router.replace(`${pathname}?${params.toString()}`);
-  };
+  }, 200);
 
   const handleFilterBy = (filter_by: string) => {
     const params = new URLSearchParams(searchParams);
@@ -152,51 +152,50 @@ const CompanyClient = () => {
   ];
 
   return (
-   
-      <div className="pt-14 pl-8 pr-8 w-full">
-        <div className="container w-full  mx-auto p-4 space-y-4  bg-accent">
-          <div className=" flex gap-4 items-center">
-            <FilterComponent
-              dataOptions={CompanyOptions}
-              filterBy={filterBy}
-              onChangeFilterByValue={handleFilterBy}
-              placeholder="Tất cả tin tuyển dụng"
-            />
-            <Input
-              defaultValue={searchParams.get("search")?.toString() || ""}
-              onChange={(e) => handleSearch(e.target.value)}
-              placeholder="Tên công ty"
-            />
-          </div>
+    <div className="pt-14 pl-8 pr-8 w-full">
+      <div className="container w-full  mx-auto p-4 space-y-4  bg-accent">
+        <div className=" flex gap-4 items-center">
+          <FilterComponent
+            dataOptions={CompanyOptions}
+            filterBy={filterBy}
+            onChangeFilterByValue={handleFilterBy}
+            placeholder="Tất cả tin tuyển dụng"
+          />
+          <Input
+            defaultValue={searchParams.get("search")?.toString() || ""}
+            onChange={(e) => handleSearch(e.target.value)}
+            placeholder="Tên công ty"
+          />
+        </div>
 
-          {/* Table */}
-          <div>
-            <div className="border rounded-lg bg-white">
-              {isLoading || isFetching ? (
-                <SkeletonTableComponent columnsCount={7} />
-              ) : (
-                <TableComponent
-                  rows={business_verifications?.items || []}
-                  rowKey="companyId"
-                  columns={columns}
-                  rowClassName="group h-28 hover:bg-fourthColor"
-                  content="Không có công ty nào"
-                />
-              )}
-            </div>
-            {!!business_verifications &&
-              business_verifications?.totalPages > 1 && (
-                <div className="flex justify-end w-full">
-                  <PaginationComponent
-                    currentPage={currentPage}
-                    totalPages={business_verifications?.totalPages}
-                    className={"flex justify-end"}
-                  />
-                </div>
-              )}
+        {/* Table */}
+        <div>
+          <div className="border rounded-lg bg-white">
+            {isLoading || isFetching ? (
+              <SkeletonTableComponent columnsCount={7} />
+            ) : (
+              <TableComponent
+                rows={business_verifications?.items || []}
+                rowKey="companyId"
+                columns={columns}
+                rowClassName="group h-28 hover:bg-fourthColor"
+                content="Không có công ty nào"
+              />
+            )}
           </div>
+          {!!business_verifications &&
+            business_verifications?.totalPages > 1 && (
+              <div className="flex justify-end w-full">
+                <PaginationComponent
+                  currentPage={currentPage}
+                  totalPages={business_verifications?.totalPages}
+                  className={"flex justify-end"}
+                />
+              </div>
+            )}
         </div>
       </div>
+    </div>
   );
 };
 

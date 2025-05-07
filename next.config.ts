@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
       {
         protocol: "http",
         hostname: "localhost",
-        port: "5064",
+        port: "8080",
         pathname: "/**",
       },
       {
@@ -43,6 +43,10 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "**.incnow.com", // Add other domains if needed
+      },
+      {
+        protocol: "https",
+        hostname: "**.vietqr.io", // Add other domains if needed
       },
       {
         protocol: "https",
